@@ -24,6 +24,26 @@ Python 3.10.12:
 conda activate dipl
 ```
 
+## Application (GUI)
+
+The functionality is packaged into an application that runs **locally on the user's own machine**, while its GUI is served **in the browser** (via Streamlit). The application doesn't add capabilities of its own — it's a thin layer over the core logic (`analysis.py` + `compress.py`) that simply makes the tool easier to use: you pick a model and settings through the interface, launch the work, and along the way get plenty of useful information and analyses (network overview, per-layer breakdowns, live progress, and results).
+
+Run it with:
+
+```bash
+conda activate dipl
+cd morphology
+streamlit run gui.py
+```
+
+It opens in the browser (by default `http://localhost:8501`). Use the sidebar to switch between pages and choose the model:
+
+- **Overview** — deep analysis of the loaded network with highlights.
+- **Compress** — settings, dead / near-dead channel removal, fine-tune recovery, and a live view of the process.
+- **About solution** — a dynamic list of what's supported (capabilities).
+
+> Note: model weights are not included in this repository, so a fresh clone needs the models to be generated or supplied first before the application can load them.
+
 ## Note on weights and data
 
 This repository contains **code only**. Model weights (`.pt`, `.onnx`, `.engine`), datasets, and caches are intentionally excluded (see `.gitignore`) — GitHub rejects large files anyway, and the data is generated/downloaded via the scripts.
