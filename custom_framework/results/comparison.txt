@@ -1,0 +1,36 @@
+========================================================================
+HEAD-TO-HEAD USPOREDBA:  SkipNet  vs  NoSkipNet
+Dataset: Fashion-MNIST  |  train/val/test split  |  isti trening pipeline
+GPU: NVIDIA GeForce RTX 4070 Laptop GPU
+Split (train/val/test): (0.6, 0.2, 0.2) od ukupno 70 000 slika -> 42000/14000/14000
+Hiperparametri: batch=128, lr=0.001, seed=42
+Trening: bez fiksnog broja epoha, early stop kad val loss ne napreduje 3 uzastopne epohe (max kapica 500)
+Inference benchmark: batch=256, warmup=2, mjerenih=3 (prosjek)
+========================================================================
+
+METRIKA                                    SkipNet         NoSkipNet
+------------------------------------------------------------------------
+Test accuracy                               0.8109            0.7588
+Test loss                                   0.5450            0.6770
+Best val accuracy                           0.8145            0.7631
+Best val loss                               0.5367            0.6725
+Epoha (odabrana)                                35                47
+Epoha (ukupno)                                  38                50
+Parametri (total)                              615               255
+Parametri (train.)                             615               255
+Velicina (KB)                                2.402             0.996
+GPU ms/batch                                 0.451             0.494
+GPU ms/slika                               0.00176           0.00193
+GPU img/s                                   567954            517793
+CPU ms/batch                                 0.398             0.318
+CPU ms/slika                               0.00155           0.00124
+CPU img/s                                   643335            804277
+------------------------------------------------------------------------
+
+ZAKLJUCAK (pobjednik po metrici):
+  - Najveca test accuracy : SkipNet
+  - Najmanje parametara   : NoSkipNet
+  - Najbrza GPU inferencija: SkipNet
+  - Najbrza CPU inferencija: NoSkipNet
+
+Klase Fashion-MNIST (0-9): T-shirt/top, Trouser, Pullover, Dress, Coat, Sandal, Shirt, Sneaker, Bag, Ankle boot

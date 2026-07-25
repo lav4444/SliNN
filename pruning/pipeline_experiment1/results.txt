@@ -1,0 +1,104 @@
+================================================================================
+PRUNING pipeline_experiment1 — A-PARADIGMA, PURE-KD (BEZ GT) | pure logit vs pure feat+logit
+Model: fasterrcnn_mobilenet_v3_large_320_fpn | sub10k_open_images_v7 (6 kl)
+================================================================================
+Device: cuda (NVIDIA GeForce RTX 4070 Laptop GPU)
+Rez: izbaci 30% GFLOPs, ~3%/ep kroz 10 ep (budzet u GFLOPs), konsolidacija do 20 ep | SGD lr=0.005+cosine | kriterij=gradient |d(KD)/dgate| | logit T=1.0 box_w=1.0 w_feat=1.0
+Varijante (pure-KD, bez GT): featlogit, logit
+
+--------------------------------------------------------------------------------
+BASELINE (COCO-mapped, nepruned): params=18,980,254 GFLOPs=1.212
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.3149   0.5162   0.3289   0.4233
+  test      0.3290   0.5354   0.3458   0.4407
+
+================================================================================
+KD VARIJANTA: FEATLOGIT  (pure-KD: feature+logit, BEZ GT | kriterij=gradient |d(KD)/dgate|)
+  START params=18,980,254 val mAP=0.3196
+  [REZ ep 1] tp ratio=0.007 -> GFLOPs 1.146 (cilj 1.176, 97%) | params 18,959,974 (99.9%)
+  [ep 1/20 rez          ] feat=0.577 logit=0.229 | params=18.96M (99.9%) GFLOPs=1.146 | val_mAP=0.2998 | lr=5.00e-03 | 83s
+  [REZ ep 2] tp ratio=0.015 -> GFLOPs 1.080 (cilj 1.139, 94%) | params 18,872,782 (99.4%)
+  [ep 2/20 rez          ] feat=0.278 logit=0.157 | params=18.87M (99.4%) GFLOPs=1.080 | val_mAP=0.2872 | lr=4.97e-03 | 55s
+  [REZ ep 3] tp ratio=0.007 -> GFLOPs 1.035 (cilj 1.103, 91%) | params 18,853,750 (99.3%)
+  [ep 3/20 rez          ] feat=0.450 logit=0.346 | params=18.85M (99.3%) GFLOPs=1.035 | val_mAP=0.2097 | lr=4.86e-03 | 57s
+  [REZ ep 4] tp ratio=0.007 -> GFLOPs 0.985 (cilj 1.067, 88%) | params 18,828,982 (99.2%)
+  [ep 4/20 rez          ] feat=0.386 logit=0.275 | params=18.83M (99.2%) GFLOPs=0.985 | val_mAP=0.2231 | lr=4.70e-03 | 57s
+  [REZ ep 5] tp ratio=0.007 -> GFLOPs 0.947 (cilj 1.030, 85%) | params 18,809,846 (99.1%)
+  [ep 5/20 rez          ] feat=0.434 logit=0.331 | params=18.81M (99.1%) GFLOPs=0.947 | val_mAP=0.1963 | lr=4.47e-03 | 53s
+  [REZ ep 6] tp ratio=0.007 -> GFLOPs 0.924 (cilj 0.994, 82%) | params 18,771,726 (98.9%)
+  [ep 6/20 rez          ] feat=0.374 logit=0.250 | params=18.77M (98.9%) GFLOPs=0.924 | val_mAP=0.2076 | lr=4.19e-03 | 54s
+  [REZ ep 7] tp ratio=0.007 -> GFLOPs 0.897 (cilj 0.957, 79%) | params 18,714,254 (98.6%)
+  [ep 7/20 rez          ] feat=0.357 logit=0.226 | params=18.71M (98.6%) GFLOPs=0.897 | val_mAP=0.2140 | lr=3.87e-03 | 54s
+  [REZ ep 8] tp ratio=0.007 -> GFLOPs 0.887 (cilj 0.921, 76%) | params 18,676,318 (98.4%)
+  [ep 8/20 rez          ] feat=0.340 logit=0.203 | params=18.68M (98.4%) GFLOPs=0.887 | val_mAP=0.2212 | lr=3.50e-03 | 54s
+  [REZ ep 9] tp ratio=0.007 -> GFLOPs 0.869 (cilj 0.885, 73%) | params 18,620,790 (98.1%)
+  [ep 9/20 rez          ] feat=0.334 logit=0.192 | params=18.62M (98.1%) GFLOPs=0.869 | val_mAP=0.2236 | lr=3.11e-03 | 54s
+  [REZ ep10] tp ratio=0.007 -> GFLOPs 0.849 (cilj 0.848, 70%) | params 18,576,686 (97.9%)
+  [ep10/20 rez          ] feat=0.341 logit=0.199 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2246 | lr=2.71e-03 | 53s  *best
+  [ep11/20 konsolidacija] feat=0.321 logit=0.171 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2338 | lr=2.29e-03 | 52s  *best
+  [ep12/20 konsolidacija] feat=0.314 logit=0.159 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2319 | lr=1.89e-03 | 53s
+  [ep13/20 konsolidacija] feat=0.310 logit=0.151 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2321 | lr=1.50e-03 | 52s
+  [ep14/20 konsolidacija] feat=0.306 logit=0.145 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2326 | lr=1.13e-03 | 53s
+  [ep15/20 konsolidacija] feat=0.303 logit=0.141 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2344 | lr=8.07e-04 | 55s  *best
+  [ep16/20 konsolidacija] feat=0.302 logit=0.138 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2360 | lr=5.27e-04 | 56s  *best
+  [ep17/20 konsolidacija] feat=0.300 logit=0.135 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2358 | lr=3.01e-04 | 56s
+  [ep18/20 konsolidacija] feat=0.299 logit=0.133 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2350 | lr=1.35e-04 | 56s
+  [ep19/20 konsolidacija] feat=0.299 logit=0.132 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2359 | lr=3.41e-05 | 56s
+  [ep20/20 konsolidacija] feat=0.299 logit=0.132 | params=18.58M (97.9%) GFLOPs=0.849 | val_mAP=0.2351 | lr=0.00e+00 | 56s
+  --- FINALNO (featlogit) params=18,576,686 (97.9%) GFLOPs=0.849 ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2338   0.4100   0.2336   0.3380
+  test      0.2387   0.4112   0.2401   0.3492
+  GPU=13.00 ms/img CPU=45.79 ms/img mrtvi filteri=117/9968
+
+================================================================================
+KD VARIJANTA: LOGIT  (pure-KD: logit-only, BEZ GT | kriterij=gradient |d(KD)/dgate|)
+  START params=18,980,254 val mAP=0.3196
+  [REZ ep 1] tp ratio=0.007 -> GFLOPs 1.146 (cilj 1.176, 97%) | params 18,959,974 (99.9%)
+  [ep 1/20 rez          ] feat=0.000 logit=0.252 | params=18.96M (99.9%) GFLOPs=1.146 | val_mAP=0.2786 | lr=5.00e-03 | 81s
+  [REZ ep 2] tp ratio=0.015 -> GFLOPs 1.080 (cilj 1.139, 94%) | params 18,872,782 (99.4%)
+  [ep 2/20 rez          ] feat=0.000 logit=0.196 | params=18.87M (99.4%) GFLOPs=1.080 | val_mAP=0.2674 | lr=4.97e-03 | 53s
+  [REZ ep 3] tp ratio=0.007 -> GFLOPs 1.035 (cilj 1.103, 91%) | params 18,853,750 (99.3%)
+  [ep 3/20 rez          ] feat=0.000 logit=0.356 | params=18.85M (99.3%) GFLOPs=1.035 | val_mAP=0.2035 | lr=4.86e-03 | 53s
+  [REZ ep 4] tp ratio=0.007 -> GFLOPs 0.986 (cilj 1.067, 88%) | params 18,832,550 (99.2%)
+  [ep 4/20 rez          ] feat=0.000 logit=0.349 | params=18.83M (99.2%) GFLOPs=0.986 | val_mAP=0.1778 | lr=4.70e-03 | 54s
+  [REZ ep 5] tp ratio=0.007 -> GFLOPs 0.946 (cilj 1.030, 85%) | params 18,820,502 (99.2%)
+  [ep 5/20 rez          ] feat=0.000 logit=0.301 | params=18.82M (99.2%) GFLOPs=0.946 | val_mAP=0.1852 | lr=4.47e-03 | 53s
+  [REZ ep 6] tp ratio=0.007 -> GFLOPs 0.926 (cilj 0.994, 82%) | params 18,779,190 (98.9%)
+  [ep 6/20 rez          ] feat=0.000 logit=0.241 | params=18.78M (98.9%) GFLOPs=0.926 | val_mAP=0.2005 | lr=4.19e-03 | 51s
+  [REZ ep 7] tp ratio=0.007 -> GFLOPs 0.896 (cilj 0.957, 79%) | params 18,724,094 (98.7%)
+  [ep 7/20 rez          ] feat=0.000 logit=0.229 | params=18.72M (98.7%) GFLOPs=0.896 | val_mAP=0.2029 | lr=3.87e-03 | 51s
+  [REZ ep 8] tp ratio=0.007 -> GFLOPs 0.882 (cilj 0.921, 76%) | params 18,674,790 (98.4%)
+  [ep 8/20 rez          ] feat=0.000 logit=0.203 | params=18.67M (98.4%) GFLOPs=0.882 | val_mAP=0.2102 | lr=3.50e-03 | 51s
+  [REZ ep 9] tp ratio=0.007 -> GFLOPs 0.869 (cilj 0.885, 73%) | params 18,632,158 (98.2%)
+  [ep 9/20 rez          ] feat=0.000 logit=0.196 | params=18.63M (98.2%) GFLOPs=0.869 | val_mAP=0.2125 | lr=3.11e-03 | 51s
+  [REZ ep10] tp ratio=0.007 -> GFLOPs 0.851 (cilj 0.848, 70%) | params 18,576,014 (97.9%)
+  [ep10/20 rez          ] feat=0.000 logit=0.188 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2108 | lr=2.71e-03 | 51s  *best
+  [ep11/20 konsolidacija] feat=0.000 logit=0.169 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2113 | lr=2.29e-03 | 51s  *best
+  [ep12/20 konsolidacija] feat=0.000 logit=0.158 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2142 | lr=1.89e-03 | 51s  *best
+  [ep13/20 konsolidacija] feat=0.000 logit=0.150 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2157 | lr=1.50e-03 | 51s  *best
+  [ep14/20 konsolidacija] feat=0.000 logit=0.145 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2186 | lr=1.13e-03 | 51s  *best
+  [ep15/20 konsolidacija] feat=0.000 logit=0.140 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2186 | lr=8.07e-04 | 51s
+  [ep16/20 konsolidacija] feat=0.000 logit=0.137 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2210 | lr=5.27e-04 | 51s  *best
+  [ep17/20 konsolidacija] feat=0.000 logit=0.134 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2198 | lr=3.01e-04 | 51s
+  [ep18/20 konsolidacija] feat=0.000 logit=0.132 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2205 | lr=1.35e-04 | 51s
+  [ep19/20 konsolidacija] feat=0.000 logit=0.131 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2200 | lr=3.41e-05 | 51s
+  [ep20/20 konsolidacija] feat=0.000 logit=0.131 | params=18.58M (97.9%) GFLOPs=0.851 | val_mAP=0.2208 | lr=0.00e+00 | 51s
+  --- FINALNO (logit) params=18,576,014 (97.9%) GFLOPs=0.851 ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2170   0.3807   0.2193   0.3130
+  test      0.2188   0.3791   0.2239   0.3206
+  GPU=10.28 ms/img CPU=38.82 ms/img mrtvi filteri=99/9904
+
+================================================================================
+USPOREDBA — pure-KD: logit-only vs feature+logit
+================================================================================
+pristup                  params   GFLOPs  val mAP test mAP  GPUms     deadF
+--------------------------------------------------------------------------------
+baseline                 18.98M    1.212   0.3149   0.3290      -         -
+pure featlogit           18.58M    0.849   0.2338   0.2387  13.00 117/9968 
+pure logit               18.58M    0.851   0.2170   0.2188  10.28  99/9904 
+--------------------------------------------------------------------------------
+
+UKUPNO VRIJEME: 39.6 min
+Spremljeno: /home/tomi/code/dipl/pruning/pipeline_experiment1/results.txt | /home/tomi/code/dipl/pruning/pipeline_experiment1/summary.json | /home/tomi/code/dipl/pruning/pipeline_experiment1/pipeline.png

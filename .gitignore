@@ -1,0 +1,65 @@
+# ---- Datasets & raw data (never on GitHub) ----
+datasets/
+**/data/FashionMNIST/
+**/data/MNIST/
+**/data/cifar*/
+yolo_coco_data/
+*.idx1-ubyte
+*.idx3-ubyte
+*-ubyte
+
+# ---- Model weights & compiled engines ----
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.engine
+*.plan
+*.trt
+*.onnx
+*.tflite
+*.pb
+# OpenVINO IR
+*_openvino_model/
+*.bin
+*.xml
+
+# ---- Calibration / dataset caches ----
+*.cache
+
+# ---- Archives & media ----
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.7z
+*.mp4
+*.avi
+*.mov
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# ---- Tmp / scratch ----
+tmp/
+*.tmp
+*.log
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- Local tool state ----
+.claude/
+
+# ---- Private (personal email hardcoded) ----
+auto_run_mail.py

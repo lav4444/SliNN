@@ -1,0 +1,142 @@
+================================================================================
+PRUNING UGRADEN U LOSS (train-time, risk-reward) — L1 vs L0 + KD(FPN-MSE)
+Model: fasterrcnn_mobilenet_v3_large_320_fpn | dataset: sub10k_open_images_v7 (6 kl)
+================================================================================
+Device: cuda (NVIDIA GeForce RTX 4070 Laptop GPU)
+Cilj: zadrzi 70% total params | iterativno: (pre-FT) -> [REZ -> FT do platoa (patience 2)] x 6 -> finalni FT
+reward=cost (0.5*FLOPs+0.5*params), risk=gate grad | LAMBDA=0.1, KD_W=1.0
+LR_model=0.005, LR_gate=0.2 (warmup->const) | postFT max 8 ep | eval cap 1000/split
+
+--------------------------------------------------------------------------------
+BASELINE (COCO-mapped, nepruned, BEZ treninga)
+  params=18,980,254  bbGMACs=0.606
+  GPU=8.99 ms/img  CPU=36.08 ms/img
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.3149   0.5162   0.3289   0.4233
+  test      0.3290   0.5354   0.3458   0.4407
+
+================================================================================
+VARIJANTA: L1  (in-loss L1 |gate| + cost-weighted, KD=FPN-MSE)
+    [l1 pre ep 1] det=0.544 kd=0.525 pen=0.939 | eff=100.0% alive=14232/14232 | val_mAP=0.3121 (137s)
+    [l1 pre ep 2] det=0.549 kd=0.209 pen=0.693 | eff=100.0% alive=14232/14232 | val_mAP=0.3143 (112s)
+    [l1 pre ep 3] det=0.549 kd=0.211 pen=0.499 | eff=100.0% alive=14232/14232 | val_mAP=0.3017 (113s)
+    [l1] >>> REZ 1/6 -> eff=95.0% params; FT do platoa...
+    [l1 ft1 ep 4] det=0.551 kd=0.354 pen=0.357 | eff=95.0% alive=14078/14232 | val_mAP=0.2257 (117s)
+    [l1 ft1 ep 5] det=0.545 kd=0.333 pen=0.286 | eff=95.0% alive=14078/14232 | val_mAP=0.2277 (117s)
+    [l1 ft1 ep 6] det=0.544 kd=0.333 pen=0.245 | eff=95.0% alive=14078/14232 | val_mAP=0.2307 (118s)
+    [l1 ft1 ep 7] det=0.542 kd=0.333 pen=0.219 | eff=95.0% alive=14078/14232 | val_mAP=0.2288 (117s)
+    [l1 ft1 ep 8] det=0.540 kd=0.332 pen=0.203 | eff=95.0% alive=14078/14232 | val_mAP=0.2329 (118s)
+    [l1] >>> REZ 2/6 -> eff=90.0% params; FT do platoa...
+    [l1 ft2 ep 9] det=0.537 kd=0.330 pen=0.194 | eff=90.0% alive=13980/14232 | val_mAP=0.2305 (118s)
+    [l1 ft2 ep10] det=0.533 kd=0.328 pen=0.187 | eff=90.0% alive=13980/14232 | val_mAP=0.2299 (117s)
+    [l1 ft2 ep11] det=0.528 kd=0.327 pen=0.182 | eff=90.0% alive=13980/14232 | val_mAP=0.2365 (116s)
+    [l1 ft2 ep12] det=0.525 kd=0.327 pen=0.179 | eff=90.0% alive=13980/14232 | val_mAP=0.2352 (117s)
+    [l1 ft2 ep13] det=0.522 kd=0.326 pen=0.176 | eff=90.0% alive=13980/14232 | val_mAP=0.2305 (117s)
+    [l1] >>> REZ 3/6 -> eff=85.0% params; FT do platoa...
+    [l1 ft3 ep14] det=0.517 kd=0.325 pen=0.174 | eff=85.0% alive=13147/14232 | val_mAP=0.2321 (116s)
+    [l1 ft3 ep15] det=0.514 kd=0.325 pen=0.172 | eff=85.0% alive=13147/14232 | val_mAP=0.2338 (117s)
+    [l1 ft3 ep16] det=0.511 kd=0.325 pen=0.171 | eff=85.0% alive=13147/14232 | val_mAP=0.2301 (116s)
+    [l1 ft3 ep17] det=0.507 kd=0.325 pen=0.170 | eff=85.0% alive=13147/14232 | val_mAP=0.2370 (117s)
+    [l1 ft3 ep18] det=0.502 kd=0.325 pen=0.168 | eff=85.0% alive=13147/14232 | val_mAP=0.2357 (116s)
+    [l1] >>> REZ 4/6 -> eff=79.9% params; FT do platoa...
+    [l1 ft4 ep19] det=0.499 kd=0.325 pen=0.167 | eff=79.9% alive=12041/14232 | val_mAP=0.2348 (116s)
+    [l1 ft4 ep20] det=0.496 kd=0.325 pen=0.167 | eff=79.9% alive=12041/14232 | val_mAP=0.2412 (116s)
+    [l1 ft4 ep21] det=0.495 kd=0.325 pen=0.166 | eff=79.9% alive=12041/14232 | val_mAP=0.2334 (116s)
+    [l1 ft4 ep22] det=0.491 kd=0.325 pen=0.165 | eff=79.9% alive=12041/14232 | val_mAP=0.2339 (116s)
+    [l1] >>> REZ 5/6 -> eff=75.0% params; FT do platoa...
+    [l1 ft5 ep23] det=0.489 kd=0.325 pen=0.164 | eff=75.0% alive=11052/14232 | val_mAP=0.2368 (115s)
+    [l1 ft5 ep24] det=0.486 kd=0.325 pen=0.164 | eff=75.0% alive=11052/14232 | val_mAP=0.2301 (115s)
+    [l1 ft5 ep25] det=0.481 kd=0.325 pen=0.163 | eff=75.0% alive=11052/14232 | val_mAP=0.2299 (116s)
+    [l1] >>> REZ 6/6 -> eff=70.0% params; FT do platoa...
+    [l1 ft6 ep26] det=0.479 kd=0.325 pen=0.162 | eff=70.0% alive=10437/14232 | val_mAP=0.2322 (114s)
+    [l1 ft6 ep27] det=0.475 kd=0.325 pen=0.162 | eff=70.0% alive=10437/14232 | val_mAP=0.2268 (118s)
+    [l1 ft6 ep28] det=0.476 kd=0.326 pen=0.162 | eff=70.0% alive=10437/14232 | val_mAP=0.2279 (115s)
+    [l1 final ep29] det=0.471 kd=0.326 pen=0.161 | eff=70.0% alive=10437/14232 | val_mAP=0.2364 (115s)
+    [l1 final ep30] det=0.470 kd=0.327 pen=0.161 | eff=70.0% alive=10437/14232 | val_mAP=0.2286 (127s)
+    [l1 final ep31] det=0.467 kd=0.326 pen=0.160 | eff=70.0% alive=10437/14232 | val_mAP=0.2273 (127s)
+    [l1 final ep32] det=0.467 kd=0.327 pen=0.160 | eff=70.0% alive=10437/14232 | val_mAP=0.2293 (126s)
+    [l1] finalni best val mAP=0.2364 (ucitano za materijalizaciju)
+  [materijalizacija] tp ratio=0.837 | params 18,980,254 -> 13,145,366 (69.3%) | bbGMACs 0.606 -> 0.584
+  fc6: 12544->648 | fc7: 648->280
+  --- prije recovery FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2220   0.4003   0.2236   0.3342
+  test      0.2309   0.4053   0.2363   0.3411
+  --- nakon recovery FT (4 ep, early-stop) | best val mAP=0.2501 ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2420   0.4204   0.2423   0.3410
+  test      0.2524   0.4274   0.2571   0.3501
+  [brzina] GPU=12.36 ms/img  CPU=42.17 ms/img
+  [mrtve jedinice] filteri=3530/11480  neuroni=56/928
+  [vrijeme treninga varijante] 66.0 min
+
+================================================================================
+VARIJANTA: L0  (in-loss L0 hard-concrete + cost-weighted, KD=FPN-MSE)
+    [l0 pre ep 1] det=0.579 kd=0.761 pen=0.981 | eff=100.0% alive=14232/14232 | val_mAP=0.2649 (144s)
+    [l0 pre ep 2] det=0.563 kd=0.452 pen=0.966 | eff=100.0% alive=14232/14232 | val_mAP=0.2633 (123s)
+    [l0 pre ep 3] det=0.568 kd=0.469 pen=0.944 | eff=100.0% alive=14232/14232 | val_mAP=0.2579 (124s)
+    [l0] >>> REZ 1/6 -> eff=95.0% params; FT do platoa...
+    [l0 ft1 ep 4] det=0.573 kd=0.571 pen=0.849 | eff=95.0% alive=14060/14232 | val_mAP=0.1737 (129s)
+    [l0 ft1 ep 5] det=0.567 kd=0.560 pen=0.831 | eff=95.0% alive=14060/14232 | val_mAP=0.1643 (129s)
+    [l0 ft1 ep 6] det=0.569 kd=0.559 pen=0.815 | eff=95.0% alive=14060/14232 | val_mAP=0.1627 (129s)
+    [l0] >>> REZ 2/6 -> eff=89.9% params; FT do platoa...
+    [l0 ft2 ep 7] det=0.571 kd=0.555 pen=0.776 | eff=89.9% alive=13984/14232 | val_mAP=0.1573 (129s)
+    [l0 ft2 ep 8] det=0.570 kd=0.553 pen=0.767 | eff=89.9% alive=13984/14232 | val_mAP=0.1529 (130s)
+    [l0 ft2 ep 9] det=0.571 kd=0.550 pen=0.761 | eff=89.9% alive=13984/14232 | val_mAP=0.1490 (128s)
+    [l0] >>> REZ 3/6 -> eff=85.0% params; FT do platoa...
+    [l0 ft3 ep10] det=0.569 kd=0.548 pen=0.730 | eff=85.0% alive=13909/14232 | val_mAP=0.1511 (127s)
+    [l0 ft3 ep11] det=0.571 kd=0.544 pen=0.727 | eff=85.0% alive=13909/14232 | val_mAP=0.1519 (127s)
+    [l0 ft3 ep12] det=0.567 kd=0.541 pen=0.725 | eff=85.0% alive=13909/14232 | val_mAP=0.1536 (126s)
+    [l0 ft3 ep13] det=0.561 kd=0.538 pen=0.723 | eff=85.0% alive=13909/14232 | val_mAP=0.1549 (127s)
+    [l0 ft3 ep14] det=0.566 kd=0.532 pen=0.722 | eff=85.0% alive=13909/14232 | val_mAP=0.1567 (126s)
+    [l0] >>> REZ 4/6 -> eff=80.0% params; FT do platoa...
+    [l0 ft4 ep15] det=0.564 kd=0.531 pen=0.694 | eff=80.0% alive=13833/14232 | val_mAP=0.1553 (127s)
+    [l0 ft4 ep16] det=0.562 kd=0.528 pen=0.694 | eff=80.0% alive=13833/14232 | val_mAP=0.1566 (126s)
+    [l0 ft4 ep17] det=0.560 kd=0.526 pen=0.693 | eff=80.0% alive=13833/14232 | val_mAP=0.1534 (126s)
+    [l0 ft4 ep18] det=0.561 kd=0.524 pen=0.693 | eff=80.0% alive=13833/14232 | val_mAP=0.1533 (127s)
+    [l0] >>> REZ 5/6 -> eff=75.0% params; FT do platoa...
+    [l0 ft5 ep19] det=0.563 kd=0.522 pen=0.667 | eff=75.0% alive=13758/14232 | val_mAP=0.1547 (126s)
+    [l0 ft5 ep20] det=0.561 kd=0.520 pen=0.666 | eff=75.0% alive=13758/14232 | val_mAP=0.1541 (126s)
+    [l0 ft5 ep21] det=0.561 kd=0.519 pen=0.666 | eff=75.0% alive=13758/14232 | val_mAP=0.1550 (126s)
+    [l0 ft5 ep22] det=0.561 kd=0.517 pen=0.666 | eff=75.0% alive=13758/14232 | val_mAP=0.1536 (126s)
+    [l0 ft5 ep23] det=0.556 kd=0.517 pen=0.666 | eff=75.0% alive=13758/14232 | val_mAP=0.1508 (126s)
+    [l0] >>> REZ 6/6 -> eff=70.0% params; FT do platoa...
+    [l0 ft6 ep24] det=0.563 kd=0.514 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1511 (126s)
+    [l0 ft6 ep25] det=0.562 kd=0.510 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1541 (125s)
+    [l0 ft6 ep26] det=0.560 kd=0.510 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1563 (126s)
+    [l0 ft6 ep27] det=0.561 kd=0.509 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1587 (126s)
+    [l0 ft6 ep28] det=0.560 kd=0.507 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1577 (127s)
+    [l0 final ep29] det=0.563 kd=0.505 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1579 (125s)
+    [l0 final ep30] det=0.558 kd=0.504 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1604 (125s)
+    [l0 final ep31] det=0.561 kd=0.503 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1578 (125s)
+    [l0 final ep32] det=0.560 kd=0.503 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1587 (125s)
+    [l0 final ep33] det=0.557 kd=0.499 pen=0.639 | eff=70.0% alive=13682/14232 | val_mAP=0.1590 (126s)
+    [l0] finalni best val mAP=0.1604 (ucitano za materijalizaciju)
+  [materijalizacija] tp ratio=0.915 | params 18,980,254 -> 13,317,006 (70.2%) | bbGMACs 0.606 -> 0.606
+  fc6: 12544->656 | fc7: 656->56
+  --- prije recovery FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0422   0.1310   0.0100   0.2335
+  test      0.0407   0.1274   0.0077   0.2299
+  --- nakon recovery FT (8 ep, early-stop) | best val mAP=0.1362 ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.1286   0.2328   0.1276   0.2700
+  test      0.1326   0.2352   0.1390   0.2760
+  [brzina] GPU=11.53 ms/img  CPU=39.57 ms/img
+  [mrtve jedinice] filteri=741/12016  neuroni=86/712
+  [vrijeme treninga varijante] 73.2 min
+
+================================================================================
+USPOREDNA TABLICA — in-loss (L1/L0) vs post-hoc Taylor (exp3)
+================================================================================
+pristup              params  bbGMACs noFTval  FTval  FTtest  GPUms  CPUms     deadF
+--------------------------------------------------------------------------------------
+baseline             18.98M    0.606       -  0.315   0.329    9.0   36.1         -
+in-loss L1           13.15M    0.584   0.222  0.242   0.252   12.4   42.23530/11480
+in-loss L0           13.32M    0.606   0.042  0.129   0.133   11.5   39.6 741/12016
+post-hoc Taylor      13.02M    0.574   0.076  0.274   0.290   12.0   60.0 301/10848
+--------------------------------------------------------------------------------------
+Graf spremljen: /home/tomi/code/dipl/pruning/critereum_experiment3/inloss_pruning/params_vs_map.png
+
+UKUPNO VRIJEME SKRIPTE: 159.8 min
+Spremljeno: /home/tomi/code/dipl/pruning/critereum_experiment3/inloss_pruning/results.txt | /home/tomi/code/dipl/pruning/critereum_experiment3/inloss_pruning/summary.json

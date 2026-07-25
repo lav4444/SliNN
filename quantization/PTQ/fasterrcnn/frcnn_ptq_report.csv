@@ -1,0 +1,5 @@
+format,backend,cpu_ms,gpu_ms,size_mb,map,map_50,map_75,mar_100
+FP32,PyTorch,20.9845,8.1642,72.6041,0.31496,0.51739,0.32422,0.42326
+FP16,PyTorch,N/A (CPU FP16 bez koristi),N/A (RuntimeError),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—)
+INT8-PT-dynamic,PyTorch,24.1669,N/A (PyTorch quant je CPU-only),32.7546,0.31509,0.51681,0.3252,0.42298
+INT8-TRT,TensorRT,N/A (TRT GPU-only),N/A (frcnn ONNX->TRT netrivijalan (RPN/NMS/dyn)),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—)

@@ -1,0 +1,12 @@
+TODO:
+
+- za GROW testiraj one shot, post hoc, sve metode
+
+- Za GROW, jel moze samo obogatiti layer s vise filtera/neurona, ili moze i stvoriti novi layer?
+
+- Zašto i u PRUNE/GROW toliki pad u prvoj epohi? Zasto onda nije toliki pad u grow iz ep 2->3?
+
+
+! - u risk/reward za PRUNING/GROW, ne samo po GFLOPS nego i po PARAM, ali GFLOPS GLAVNI vecinski vote!
+
+- ponovi KD sa feat, pa KD feat+logit

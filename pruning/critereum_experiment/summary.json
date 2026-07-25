@@ -1,0 +1,62 @@
+{
+  "baseline": {
+    "params": 2071166,
+    "gflops": 11.55328,
+    "val_map": NaN,
+    "test_map": NaN,
+    "gpu_ms": NaN,
+    "cpu_ms": NaN
+  },
+  "magnitude": {
+    "params": 1034558,
+    "gflops": 9.8134384,
+    "imp_ms_per_img": 0.0,
+    "imp_peak_mb": 59.933696,
+    "noft_recalib_val_map": 0.0008589578792452812,
+    "ft_val_map": 0.056966256350278854,
+    "ft_test_map": 0.052911531180143356,
+    "ft_sec_per_epoch": 27.531384325027467,
+    "ft_epochs": 5,
+    "gpu_ms": 17.451077874738985,
+    "cpu_ms": 33.086587875004625
+  },
+  "gradient": {
+    "params": 1034572,
+    "gflops": 7.0084776,
+    "imp_ms_per_img": 7.988550144531814,
+    "imp_peak_mb": 2590.647808,
+    "noft_recalib_val_map": 9.461248555453494e-05,
+    "ft_val_map": 0.08030258864164352,
+    "ft_test_map": 0.08998829126358032,
+    "ft_sec_per_epoch": 25.928696823120116,
+    "ft_epochs": 5,
+    "gpu_ms": 14.843996749732469,
+    "cpu_ms": 26.64914312458677
+  },
+  "taylor": {
+    "params": 1035222,
+    "gflops": 6.3346752,
+    "imp_ms_per_img": 7.907600193359343,
+    "imp_peak_mb": 2589.458944,
+    "noft_recalib_val_map": 0.00030079137650318444,
+    "ft_val_map": 0.08609599620103836,
+    "ft_test_map": 0.08958501368761063,
+    "ft_sec_per_epoch": 27.077568006515502,
+    "ft_epochs": 5,
+    "gpu_ms": 13.493178000089756,
+    "cpu_ms": 27.290108125271217
+  },
+  "hessian": {
+    "params": 1033692,
+    "gflops": 6.682416,
+    "imp_ms_per_img": 7.270779326173482,
+    "imp_peak_mb": 2590.657024,
+    "noft_recalib_val_map": 5.413753024186008e-05,
+    "ft_val_map": 0.06759260594844818,
+    "ft_test_map": 0.06133400648832321,
+    "ft_sec_per_epoch": 24.99254412651062,
+    "ft_epochs": 5,
+    "gpu_ms": 14.131196749758601,
+    "cpu_ms": 26.51200300056189
+  }
+}

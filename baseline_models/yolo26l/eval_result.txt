@@ -1,0 +1,78 @@
+Model: yolo26l.pt
+Image size: 640
+Device: cuda
+Eval conf threshold: 0.001
+Hard pseudo-label threshold: 0.25
+
+=========== TRAIN (5860 images) ===========
+
+Speed:
+  Inference (model only):       18.78 ms/image  (53.2 FPS)
+  Total (preproc+inf+postproc): 26.79 ms/image  (37.3 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.4626
+  mAP@50    = 0.6711
+  mAP@75    = 0.5018
+  mAR@100   = 0.6593
+
+Per-class mAP@50:95:
+  Person       0.1870
+  Car          0.3751
+  Truck        0.5427
+  Bus          0.7271
+  Motorcycle   0.5250
+  Bicycle      0.4187
+
+=========== VAL (837 images) ===========
+
+Speed:
+  Inference (model only):       16.66 ms/image  (60.0 FPS)
+  Total (preproc+inf+postproc): 24.21 ms/image  (41.3 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.4736
+  mAP@50    = 0.6852
+  mAP@75    = 0.5237
+  mAR@100   = 0.6713
+
+Per-class mAP@50:95:
+  Person       0.2345
+  Car          0.4095
+  Truck        0.5921
+  Bus          0.7288
+  Motorcycle   0.4805
+  Bicycle      0.3963
+
+=========== TEST (1674 images) ===========
+
+Speed:
+  Inference (model only):       16.92 ms/image  (59.1 FPS)
+  Total (preproc+inf+postproc): 25.11 ms/image  (39.8 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.4682
+  mAP@50    = 0.6817
+  mAP@75    = 0.5073
+  mAR@100   = 0.6622
+
+Per-class mAP@50:95:
+  Person       0.2070
+  Car          0.3967
+  Truck        0.5240
+  Bus          0.7022
+  Motorcycle   0.5323
+  Bicycle      0.4473
+
+
+================================================================
+CPU vs GPU latency benchmark (10 random train images, seed=42)
+================================================================
+
+CPU per-image times (ms): [ 299.32,  255.80,  257.97,  259.31,  260.78,  262.01,  250.29,  282.56,  254.54,  270.23]
+GPU per-image times (ms): [ 146.35,  142.55,   14.64,   14.24,   15.03,   14.68,   13.60,   13.91,   14.17,   13.67]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    258.87 ms/image  (3.9 FPS)
+  GPU:     14.24 ms/image  (70.2 FPS)
+  Speedup (GPU vs CPU):  18.2x

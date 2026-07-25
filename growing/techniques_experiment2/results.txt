@@ -1,0 +1,141 @@
+==============================================================================
+NETWORK GROWING — usporedba 4 kriterija dodavanja jedinica (SchoolCNN)
+Polaziste: pruned taylor.pt (~5%) | dataset: sub10k_open_images_v7 | multi-label
+==============================================================================
+Device: cuda (NVIDIA GeForce RTX 4070 Laptop GPU)
+Kriteriji: magnitude, gradient, taylor, hessian | benefit/FLOP alokacija (per-layer cap), function-preserving grow
+3 simetrična ciklusa do 2.0x pocetnih GFLOPs (+100%)
+FT do platoa: Prodigy (auto LR), inner patience 4, max 30 ep | rani izlaz val mAP>=0.615 | outer stale 2
+eval cap 2000/split | benefit calib 16 batcheva | metrika: macro mAP
+
+------------------------------------------------------------------------------
+START (pruned taylor ~5%)
+  params=180,507  GFLOPs=0.3141  val mAP=0.5870  test mAP=0.5737
+  ciljevi po ciklusu (GFLOPs): 0.419, 0.524, 0.628
+  reference: unpruned SchoolCNN 2.661 GFLOPs / test mAP 0.6158
+
+==============================================================================
+TEHNIKA: Net2Net-magnitude
+  >>> CIKLUS 1: grow -> GFLOPs 0.4130 (cilj 0.4188) params 386,604 | dodano jedinica=82 u 5 slojeva | benefit overhead=0.00 ms/img
+      [dodano] conv3:+9  conv4:+26  conv5:+23  fc1:+14  fc2:+10
+      [Net2Net-magnitude c1 ep 1/30] loss=0.3733 | val_mAP=0.6067 | lr(d)=3.52e-05 | 14s  *best
+      [Net2Net-magnitude c1 ep 2/30] loss=0.3585 | val_mAP=0.6057 | lr(d)=3.52e-05 | 13s
+      [Net2Net-magnitude c1 ep 3/30] loss=0.3558 | val_mAP=0.6078 | lr(d)=9.73e-05 | 13s  *best
+      [Net2Net-magnitude c1 ep 4/30] loss=0.3528 | val_mAP=0.6080 | lr(d)=9.73e-05 | 12s  *best
+      [Net2Net-magnitude c1 ep 5/30] loss=0.3354 | val_mAP=0.6045 | lr(d)=9.73e-05 | 12s
+      [Net2Net-magnitude c1 ep 6/30] loss=0.3466 | val_mAP=0.4746 | lr(d)=2.47e-04 | 12s
+      [Net2Net-magnitude c1 ep 7/30] loss=0.3347 | val_mAP=0.5901 | lr(d)=2.47e-04 | 12s
+      [Net2Net-magnitude c1 ep 8/30] loss=0.3050 | val_mAP=0.5949 | lr(d)=2.47e-04 | 12s
+      ciklus 1 best val mAP=0.6080 (8 ep, 1.7 min)
+  >>> CIKLUS 2: grow -> GFLOPs 0.5141 (cilj 0.5235) params 794,707 | dodano jedinica=95 u 5 slojeva | benefit overhead=0.00 ms/img
+      [dodano] conv3:+6  conv4:+21  conv5:+34  fc1:+20  fc2:+14
+      [Net2Net-magnitude c2 ep 1/30] loss=0.3322 | val_mAP=0.6181 | lr(d)=2.43e-05 | 12s  *best
+      [Net2Net-magnitude c2 ep 2/30] loss=0.3194 | val_mAP=0.6130 | lr(d)=2.43e-05 | 12s
+      [Net2Net-magnitude c2 ep 3/30] loss=0.3118 | val_mAP=0.6166 | lr(d)=2.43e-05 | 13s
+      [Net2Net-magnitude c2 ep 4/30] loss=0.3184 | val_mAP=0.6217 | lr(d)=5.91e-05 | 13s  *best
+      [Net2Net-magnitude c2 ep 5/30] loss=0.3030 | val_mAP=0.6028 | lr(d)=5.91e-05 | 12s
+      [Net2Net-magnitude c2 ep 6/30] loss=0.3159 | val_mAP=0.5028 | lr(d)=1.55e-04 | 13s
+      [Net2Net-magnitude c2 ep 7/30] loss=0.3049 | val_mAP=0.6041 | lr(d)=1.55e-04 | 12s
+      [Net2Net-magnitude c2 ep 8/30] loss=0.2794 | val_mAP=0.5960 | lr(d)=1.55e-04 | 12s
+      ciklus 2 best val mAP=0.6217 (8 ep, 1.6 min)
+      >>> rani izlaz: val mAP 0.6217 >= 0.615
+  --- FINALNO (Net2Net-magnitude) ---
+    params=794,707  GFLOPs=0.5141  val mAP=0.6217  test mAP=0.6089  test F1=0.5217  test acc=0.8040
+    GPU=0.61 ms/img  CPU=3.65 ms/img  mrtve jedinice=0/398
+
+==============================================================================
+TEHNIKA: GradMax-gradient
+  >>> CIKLUS 1: grow -> GFLOPs 0.4129 (cilj 0.4188) params 299,610 | dodano jedinica=47 u 7 slojeva | benefit overhead=1.53 ms/img
+      [dodano] conv1:+3  conv2:+3  conv3:+3  conv4:+4  conv5:+10  fc1:+14  fc2:+10
+      [GradMax-gradient c1 ep 1/30] loss=0.3781 | val_mAP=0.5787 | lr(d)=7.07e-05 | 12s  *best
+      [GradMax-gradient c1 ep 2/30] loss=0.3585 | val_mAP=0.6058 | lr(d)=7.07e-05 | 12s  *best
+      [GradMax-gradient c1 ep 3/30] loss=0.3457 | val_mAP=0.6060 | lr(d)=7.07e-05 | 12s  *best
+      [GradMax-gradient c1 ep 4/30] loss=0.3530 | val_mAP=0.5389 | lr(d)=2.21e-04 | 12s
+      [GradMax-gradient c1 ep 5/30] loss=0.3510 | val_mAP=0.5332 | lr(d)=2.21e-04 | 13s
+      [GradMax-gradient c1 ep 6/30] loss=0.3242 | val_mAP=0.5992 | lr(d)=2.21e-04 | 12s
+      [GradMax-gradient c1 ep 7/30] loss=0.3076 | val_mAP=0.5745 | lr(d)=2.21e-04 | 12s
+      ciklus 1 best val mAP=0.6060 (7 ep, 1.4 min)
+  >>> CIKLUS 2: grow -> GFLOPs 0.5134 (cilj 0.5235) params 580,776 | dodano jedinica=74 u 7 slojeva | benefit overhead=1.44 ms/img
+      [dodano] conv1:+1  conv2:+3  conv3:+5  conv4:+8  conv5:+23  fc1:+20  fc2:+14
+      [GradMax-gradient c2 ep 1/30] loss=0.3338 | val_mAP=0.6191 | lr(d)=1.57e-05 | 13s  *best
+      [GradMax-gradient c2 ep 2/30] loss=0.3269 | val_mAP=0.6187 | lr(d)=1.57e-05 | 12s
+      [GradMax-gradient c2 ep 3/30] loss=0.3230 | val_mAP=0.6130 | lr(d)=5.48e-05 | 12s
+      [GradMax-gradient c2 ep 4/30] loss=0.3302 | val_mAP=0.6054 | lr(d)=5.48e-05 | 12s
+      [GradMax-gradient c2 ep 5/30] loss=0.3152 | val_mAP=0.6140 | lr(d)=5.48e-05 | 12s
+      ciklus 2 best val mAP=0.6191 (5 ep, 1.0 min)
+      >>> rani izlaz: val mAP 0.6191 >= 0.615
+  --- FINALNO (GradMax-gradient) ---
+    params=580,776  GFLOPs=0.5134  val mAP=0.6191  test mAP=0.6137  test F1=0.5257  test acc=0.8060
+    GPU=0.64 ms/img  CPU=4.40 ms/img  mrtve jedinice=0/342
+
+==============================================================================
+TEHNIKA: Taylor-taylor
+  >>> CIKLUS 1: grow -> GFLOPs 0.4119 (cilj 0.4188) params 263,427 | dodano jedinica=36 u 7 slojeva | benefit overhead=0.98 ms/img
+      [dodano] conv1:+4  fc1:+14  fc2:+10  conv2:+3  conv3:+1  conv4:+1  conv5:+3
+      [Taylor-taylor c1 ep 1/30] loss=0.3730 | val_mAP=0.6090 | lr(d)=3.93e-05 | 12s  *best
+      [Taylor-taylor c1 ep 2/30] loss=0.3582 | val_mAP=0.6099 | lr(d)=3.93e-05 | 12s  *best
+      [Taylor-taylor c1 ep 3/30] loss=0.3623 | val_mAP=0.5799 | lr(d)=1.58e-04 | 13s
+      [Taylor-taylor c1 ep 4/30] loss=0.3640 | val_mAP=0.5590 | lr(d)=1.58e-04 | 13s
+      [Taylor-taylor c1 ep 5/30] loss=0.3404 | val_mAP=0.6000 | lr(d)=1.58e-04 | 13s
+      [Taylor-taylor c1 ep 6/30] loss=0.3243 | val_mAP=0.5805 | lr(d)=1.58e-04 | 12s
+      ciklus 1 best val mAP=0.6099 (6 ep, 1.3 min)
+  >>> CIKLUS 2: grow -> GFLOPs 0.5174 (cilj 0.5235) params 390,165 | dodano jedinica=49 u 7 slojeva | benefit overhead=1.37 ms/img
+      [dodano] conv1:+3  conv2:+3  conv3:+3  conv4:+3  conv5:+3  fc1:+20  fc2:+14
+      [Taylor-taylor c2 ep 1/30] loss=0.3565 | val_mAP=0.6132 | lr(d)=3.73e-05 | 12s  *best
+      [Taylor-taylor c2 ep 2/30] loss=0.3438 | val_mAP=0.6044 | lr(d)=3.73e-05 | 13s
+      [Taylor-taylor c2 ep 3/30] loss=0.3365 | val_mAP=0.6218 | lr(d)=3.73e-05 | 12s  *best
+      [Taylor-taylor c2 ep 4/30] loss=0.3427 | val_mAP=0.5466 | lr(d)=1.20e-04 | 12s
+      [Taylor-taylor c2 ep 5/30] loss=0.3328 | val_mAP=0.6020 | lr(d)=1.20e-04 | 12s
+      [Taylor-taylor c2 ep 6/30] loss=0.3146 | val_mAP=0.6083 | lr(d)=1.20e-04 | 12s
+      [Taylor-taylor c2 ep 7/30] loss=0.3079 | val_mAP=0.5656 | lr(d)=2.50e-04 | 12s
+      ciklus 2 best val mAP=0.6218 (7 ep, 1.4 min)
+      >>> rani izlaz: val mAP 0.6218 >= 0.615
+  --- FINALNO (Taylor-taylor) ---
+    params=390,165  GFLOPs=0.5174  val mAP=0.6218  test mAP=0.6122  test F1=0.5405  test acc=0.8094
+    GPU=0.68 ms/img  CPU=4.15 ms/img  mrtve jedinice=0/306
+
+==============================================================================
+TEHNIKA: Hessian-split-hessian
+  >>> CIKLUS 1: grow -> GFLOPs 0.4160 (cilj 0.4188) params 197,741 | dodano jedinica=21 u 4 slojeva | benefit overhead=1.00 ms/img
+      [dodano] conv1:+4  fc2:+10  conv2:+4  fc1:+3
+      [Hessian-split-hessian c1 ep 1/30] loss=0.3715 | val_mAP=0.6041 | lr(d)=3.01e-05 | 12s  *best
+      [Hessian-split-hessian c1 ep 2/30] loss=0.3633 | val_mAP=0.6057 | lr(d)=3.01e-05 | 12s  *best
+      [Hessian-split-hessian c1 ep 3/30] loss=0.3625 | val_mAP=0.6007 | lr(d)=8.87e-05 | 13s
+      [Hessian-split-hessian c1 ep 4/30] loss=0.3527 | val_mAP=0.5785 | lr(d)=8.87e-05 | 13s
+      [Hessian-split-hessian c1 ep 5/30] loss=0.3420 | val_mAP=0.6078 | lr(d)=8.87e-05 | 12s  *best
+      [Hessian-split-hessian c1 ep 6/30] loss=0.3531 | val_mAP=0.5997 | lr(d)=2.09e-04 | 13s
+      [Hessian-split-hessian c1 ep 7/30] loss=0.3336 | val_mAP=0.5994 | lr(d)=2.09e-04 | 12s
+      [Hessian-split-hessian c1 ep 8/30] loss=0.3134 | val_mAP=0.5998 | lr(d)=2.09e-04 | 12s
+      [Hessian-split-hessian c1 ep 9/30] loss=0.3292 | val_mAP=0.5607 | lr(d)=4.77e-04 | 12s
+      ciklus 1 best val mAP=0.6078 (9 ep, 1.9 min)
+  >>> CIKLUS 2: grow -> GFLOPs 0.5129 (cilj 0.5235) params 269,335 | dodano jedinica=35 u 3 slojeva | benefit overhead=1.41 ms/img
+      [dodano] conv1:+6  fc2:+14  fc1:+15
+      [Hessian-split-hessian c2 ep 1/30] loss=0.3296 | val_mAP=0.6192 | lr(d)=2.70e-05 | 12s  *best
+      [Hessian-split-hessian c2 ep 2/30] loss=0.3199 | val_mAP=0.6218 | lr(d)=2.70e-05 | 12s  *best
+      [Hessian-split-hessian c2 ep 3/30] loss=0.3133 | val_mAP=0.6227 | lr(d)=2.70e-05 | 12s  *best
+      [Hessian-split-hessian c2 ep 4/30] loss=0.3145 | val_mAP=0.5975 | lr(d)=9.28e-05 | 12s
+      [Hessian-split-hessian c2 ep 5/30] loss=0.3195 | val_mAP=0.6131 | lr(d)=9.28e-05 | 12s
+      [Hessian-split-hessian c2 ep 6/30] loss=0.3059 | val_mAP=0.5930 | lr(d)=9.28e-05 | 12s
+      [Hessian-split-hessian c2 ep 7/30] loss=0.2927 | val_mAP=0.6107 | lr(d)=9.28e-05 | 13s
+      ciklus 2 best val mAP=0.6227 (7 ep, 1.4 min)
+      >>> rani izlaz: val mAP 0.6227 >= 0.615
+  --- FINALNO (Hessian-split-hessian) ---
+    params=269,335  GFLOPs=0.5129  val mAP=0.6227  test mAP=0.6141  test F1=0.5303  test acc=0.8089
+    GPU=0.75 ms/img  CPU=6.13 ms/img  mrtve jedinice=0/277
+
+==============================================================================
+USPOREDNA TABLICA (head-to-head)
+==============================================================================
+tehnika                   params  GFLOPs  val mAP test mAP  testF1  GPUms  CPUms     deadU
+------------------------------------------------------------------------------------------
+start(~5%)                0.181M   0.314   0.5870   0.5737       -      -      -         -
+unpruned                  3.700M   2.661   0.6165   0.6158       -      -      -         -
+Net2Net-magnitude         0.795M   0.514   0.6217   0.6089  0.5217   0.61   3.65   0/398  
+GradMax-gradient          0.581M   0.513   0.6191   0.6137  0.5257   0.64   4.40   0/342  
+Taylor-taylor             0.390M   0.517   0.6218   0.6122  0.5405   0.68   4.15   0/306  
+Hessian-split-hessian     0.269M   0.513   0.6227   0.6141  0.5303   0.75   6.13   0/277  
+------------------------------------------------------------------------------------------
+
+Graf: /home/tomi/code/dipl/growing/techniques_experiment2/gflops_vs_map.png
+UKUPNO VRIJEME: 12.4 min
+Spremljeno: /home/tomi/code/dipl/growing/techniques_experiment2/results.txt | /home/tomi/code/dipl/growing/techniques_experiment2/summary.json

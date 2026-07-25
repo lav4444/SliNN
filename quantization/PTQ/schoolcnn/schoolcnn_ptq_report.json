@@ -1,0 +1,245 @@
+{
+  "meta": {
+    "model": "SchoolCNN",
+    "task": "multilabel-classification",
+    "ckpt": "/home/tomi/code/dipl/pruning/critereum_experiment2/checkpoints/best.pt",
+    "num_classes": 6,
+    "img_size": 320,
+    "eval_images": "full val",
+    "calib_images": 512,
+    "quant_engine": "x86",
+    "conditions": {
+      "cpu_threads": 8,
+      "lat_batch": 1,
+      "lat_warmup": 15,
+      "lat_iters": 100,
+      "torch": "2.6.0+cu124",
+      "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+      "metric_note": "latencija = medijan; p90/min u 'lat_full'"
+    },
+    "lat_full": {
+      "FP32": {
+        "cpu": {
+          "median_ms": 14.008090511197224,
+          "p90_ms": 15.055277035571635,
+          "mean_ms": 13.943148361286148,
+          "min_ms": 11.072428023908287,
+          "n": 100
+        },
+        "gpu": {
+          "median_ms": 0.6743890116922557,
+          "p90_ms": 7.791401003487408,
+          "mean_ms": 1.9649903854588047,
+          "min_ms": 0.620985054410994,
+          "n": 100
+        }
+      },
+      "FP16": {
+        "cpu": {
+          "median_ms": 1407.7758729981724,
+          "p90_ms": 1427.3911889758892,
+          "mean_ms": 1410.0529355439357,
+          "min_ms": 1388.635526993312,
+          "n": 100
+        },
+        "gpu": {
+          "median_ms": 0.7208010065369308,
+          "p90_ms": 0.9303999831900001,
+          "mean_ms": 0.7618781930068508,
+          "min_ms": 0.6118580349721014,
+          "n": 100
+        }
+      },
+      "INT8-PT-static": {
+        "cpu": {
+          "median_ms": 2.392344002146274,
+          "p90_ms": 2.699149015825242,
+          "mean_ms": 2.4029166001128033,
+          "min_ms": 1.3376969727687538,
+          "n": 100
+        },
+        "gpu": "N/A (PyTorch quant je CPU-only)"
+      },
+      "INT8-PT-dynamic": {
+        "cpu": {
+          "median_ms": 13.751442515058443,
+          "p90_ms": 14.4971469999291,
+          "mean_ms": 13.699264238239266,
+          "min_ms": 11.541075946297497,
+          "n": 100
+        },
+        "gpu": "N/A (PyTorch quant je CPU-only)"
+      },
+      "FP16-TRT": {
+        "median_ms": 0.26747252559289336,
+        "p90_ms": 0.3065299824811518,
+        "mean_ms": 0.2760454354574904,
+        "min_ms": 0.2514580264687538,
+        "n": 100
+      },
+      "INT8-TRT": {
+        "median_ms": 0.2664350322447717,
+        "p90_ms": 0.30274299206212163,
+        "mean_ms": 0.2804938377812505,
+        "min_ms": 0.25290995836257935,
+        "n": 100
+      }
+    },
+    "tensorrt": {
+      "version": "10.16.1.11",
+      "calib_images": 256
+    }
+  },
+  "rows": [
+    {
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 14.1271,
+      "cpu_ms": 14.0081,
+      "gpu_ms": 0.6744,
+      "map_macro": 0.61649,
+      "map_micro": 0.59583,
+      "f1_macro": 0.51632,
+      "f1_micro": 0.51852,
+      "prec_macro": 0.63185,
+      "recall_macro": 0.45964,
+      "acc_macro": 0.79291,
+      "subset_acc": 0.26045,
+      "auroc_macro": 0.81681,
+      "bce": 0.44337,
+      "per_class_ap": {
+        "Person": 0.5782305002212524,
+        "Car": 0.5180761218070984,
+        "Truck": 0.6236377358436584,
+        "Bus": 0.6971832513809204,
+        "Motorcycle": 0.6460108757019043,
+        "Bicycle": 0.6357805132865906
+      }
+    },
+    {
+      "format": "FP16",
+      "backend": "PyTorch",
+      "size_mb": 7.0688,
+      "cpu_ms": 1407.7759,
+      "gpu_ms": 0.7208,
+      "map_macro": 0.61641,
+      "map_micro": 0.5957,
+      "f1_macro": 0.51582,
+      "f1_micro": 0.51807,
+      "prec_macro": 0.63273,
+      "recall_macro": 0.45855,
+      "acc_macro": 0.79291,
+      "subset_acc": 0.26045,
+      "auroc_macro": 0.81679,
+      "bce": 0.44344,
+      "per_class_ap": {
+        "Person": 0.5779185891151428,
+        "Car": 0.517980694770813,
+        "Truck": 0.6235587000846863,
+        "Bus": 0.6972028017044067,
+        "Motorcycle": 0.6459929347038269,
+        "Bicycle": 0.6357865929603577
+      }
+    },
+    {
+      "format": "INT8-PT-static",
+      "backend": "PyTorch x86",
+      "size_mb": 3.5576,
+      "cpu_ms": 2.3923,
+      "gpu_ms": "N/A (PyTorch quant je CPU-only)",
+      "map_macro": 0.60754,
+      "map_micro": 0.58614,
+      "f1_macro": 0.49906,
+      "f1_micro": 0.5031,
+      "prec_macro": 0.63703,
+      "recall_macro": 0.43449,
+      "acc_macro": 0.79231,
+      "subset_acc": 0.24612,
+      "auroc_macro": 0.81548,
+      "bce": 0.44591,
+      "per_class_ap": {
+        "Person": 0.5668641924858093,
+        "Car": 0.5098019242286682,
+        "Truck": 0.6178933382034302,
+        "Bus": 0.6935531497001648,
+        "Motorcycle": 0.6330083012580872,
+        "Bicycle": 0.6241422891616821
+      }
+    },
+    {
+      "format": "INT8-PT-dynamic",
+      "backend": "PyTorch x86",
+      "size_mb": 4.6583,
+      "cpu_ms": 13.7514,
+      "gpu_ms": "N/A (PyTorch quant je CPU-only)",
+      "map_macro": 0.61697,
+      "map_micro": 0.5962,
+      "f1_macro": 0.51634,
+      "f1_micro": 0.519,
+      "prec_macro": 0.63221,
+      "recall_macro": 0.45942,
+      "acc_macro": 0.79331,
+      "subset_acc": 0.26284,
+      "auroc_macro": 0.81689,
+      "bce": 0.44337,
+      "per_class_ap": {
+        "Person": 0.5782371759414673,
+        "Car": 0.5178622007369995,
+        "Truck": 0.6240002512931824,
+        "Bus": 0.6981430649757385,
+        "Motorcycle": 0.646946907043457,
+        "Bicycle": 0.6366387605667114
+      }
+    },
+    {
+      "format": "FP16-TRT",
+      "backend": "TensorRT",
+      "cpu_ms": "N/A (TensorRT je GPU-only)",
+      "gpu_ms": 0.2675,
+      "size_mb": 13.5359,
+      "map_macro": 0.61654,
+      "map_micro": 0.5959,
+      "f1_macro": 0.51582,
+      "f1_micro": 0.51807,
+      "prec_macro": 0.63273,
+      "recall_macro": 0.45855,
+      "acc_macro": 0.79291,
+      "subset_acc": 0.26045,
+      "auroc_macro": 0.81682,
+      "bce": 0.44337,
+      "per_class_ap": {
+        "Person": 0.5779508352279663,
+        "Car": 0.518149197101593,
+        "Truck": 0.6238051056861877,
+        "Bus": 0.6974866986274719,
+        "Motorcycle": 0.6459545493125916,
+        "Bicycle": 0.6358671188354492
+      }
+    },
+    {
+      "format": "INT8-TRT",
+      "backend": "TensorRT",
+      "cpu_ms": "N/A (TensorRT je GPU-only)",
+      "gpu_ms": 0.2664,
+      "size_mb": 13.339,
+      "map_macro": 0.61728,
+      "map_micro": 0.59692,
+      "f1_macro": 0.51604,
+      "f1_micro": 0.51855,
+      "prec_macro": 0.63297,
+      "recall_macro": 0.45928,
+      "acc_macro": 0.79331,
+      "subset_acc": 0.26284,
+      "auroc_macro": 0.81723,
+      "bce": 0.44236,
+      "per_class_ap": {
+        "Person": 0.5770789980888367,
+        "Car": 0.5208752155303955,
+        "Truck": 0.623253345489502,
+        "Bus": 0.6978889107704163,
+        "Motorcycle": 0.6478353142738342,
+        "Bicycle": 0.636752724647522
+      }
+    }
+  ]
+}

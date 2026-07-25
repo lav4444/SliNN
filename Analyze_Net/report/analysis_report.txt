@@ -1,0 +1,46 @@
+======================================================================
+ANALIZA MODELA: /home/tomi/code/dipl/growing/techniques_experiment/grown_models/GradMax-gradient.pt
+  format: eager full module | ulaz: 1x3x640x640 | device: cuda
+======================================================================
+Tip izlaza: lokalizacija + klasifikacija (detekcija raw) | izlaz (1, 10, 8400) ~ 8400 sidra x (10 = 4 box + 6 klasa)
+----------------------------------------------------------------------
+Parametri ukupno : 1,233,685  (~4.93 MB fp32)
+Slojevi (tezinski): 30  (conv=30, linear=0)
+Filteri (conv out): 2,004
+Neuroni (linear)  : 0
+GFLOPs ukupno     : 6.880  (@ 640px, batch 1; 2*MAC)
+CPU vrijeme       : 38.06 ms/img  (26.3 FPS)
+GPU vrijeme       : 2.74 ms/img  (364.7 FPS)
+----------------------------------------------------------------------
+  # sloj                      tip           tezine  filt  neur   GFLOPs
+  0 stem.conv                 Conv2d           702    26     0    0.144
+  1 dark2.0.conv              Conv2d        12,402    53     0    0.635
+  2 dark2.1.conv              Conv2d        24,327    51     0    1.246
+  3 dark3.0.conv              Conv2d        31,671    69     0    0.405
+  4 dark3.1.conv              Conv2d        51,543    83     0    0.660
+  5 dark3.2.conv              Conv2d        50,796    68     0    0.650
+  6 dark3.3.conv              Conv2d        43,452    71     0    0.556
+  7 dark4.0.conv              Conv2d        65,178   102     0    0.209
+  8 dark4.1.conv              Conv2d        93,636   102     0    0.300
+  9 dark4.2.conv              Conv2d        96,390   105     0    0.308
+ 10 dark4.3.conv              Conv2d        82,215    87     0    0.263
+ 11 dark5.0.conv              Conv2d       120,582   154     0    0.096
+ 12 dark5.1.conv              Conv2d       187,110   135     0    0.150
+ 13 sppf.conv1.conv           Conv2d        11,880    88     0    0.010
+ 14 sppf.conv2.conv           Conv2d        61,600   175     0    0.049
+ 15 lat_p3.conv               Conv2d         2,982    42     0    0.038
+ 16 lat_p4.conv               Conv2d         5,046    58     0    0.016
+ 17 lat_p5.conv               Conv2d         8,400    48     0    0.007
+ 18 fuse_td_p4.conv           Conv2d        46,746    49     0    0.150
+ 19 fuse_td_p3.conv           Conv2d        34,398    42     0    0.440
+ 20 down_p3.conv              Conv2d        16,632    44     0    0.053
+ 21 fuse_bu_p4.conv           Conv2d        34,317    41     0    0.110
+ 22 down_p4.conv              Conv2d        17,712    48     0    0.014
+ 23 fuse_bu_p5.conv           Conv2d        50,976    59     0    0.041
+ 24 head_p3.0.conv            Conv2d        18,144    48     0    0.232
+ 25 head_p3.1                 Conv2d           490    10     0    0.006
+ 26 head_p4.0.conv            Conv2d        17,712    48     0    0.057
+ 27 head_p4.1                 Conv2d           490    10     0    0.002
+ 28 head_p5.0.conv            Conv2d        41,418    78     0    0.033
+ 29 head_p5.1                 Conv2d           790    10     0    0.001
+======================================================================

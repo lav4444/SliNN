@@ -1,0 +1,80 @@
+Model: StudentYOLO (467,758 params)
+Checkpoint: /home/tomi/code/dipl/custom_models/student_0_5_m/pure_KD/checkpoints/best.pt
+Trained epoch: 16 (val_kd_loss=1.1122, val_mAP@50:95=0.0742)
+Image size: 640
+Device: cuda
+Eval conf threshold: 0.001
+NMS IoU threshold: 0.6
+
+=========== TRAIN (5860 images) ===========
+
+Speed:
+  Inference (model only):       7.42 ms/image  (134.8 FPS)
+  Total (preproc+inf+postproc): 60.26 ms/image  (16.6 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.1110
+  mAP@50    = 0.3004
+  mAP@75    = 0.0461
+  mAR@100   = 0.3329
+
+Per-class mAP@50:95:
+  Person       0.0597
+  Car          0.0878
+  Truck        0.1402
+  Bus          0.1680
+  Motorcycle   0.1166
+  Bicycle      0.0937
+
+=========== VAL (837 images) ===========
+
+Speed:
+  Inference (model only):       7.70 ms/image  (129.8 FPS)
+  Total (preproc+inf+postproc): 62.24 ms/image  (16.1 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.0742
+  mAP@50    = 0.2179
+  mAP@75    = 0.0258
+  mAR@100   = 0.2851
+
+Per-class mAP@50:95:
+  Person       0.0404
+  Car          0.0574
+  Truck        0.0876
+  Bus          0.1069
+  Motorcycle   0.0747
+  Bicycle      0.0781
+
+=========== TEST (1674 images) ===========
+
+Speed:
+  Inference (model only):       7.61 ms/image  (131.4 FPS)
+  Total (preproc+inf+postproc): 61.71 ms/image  (16.2 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.0669
+  mAP@50    = 0.1990
+  mAP@75    = 0.0224
+  mAR@100   = 0.2789
+
+Per-class mAP@50:95:
+  Person       0.0443
+  Car          0.0569
+  Truck        0.0668
+  Bus          0.0980
+  Motorcycle   0.0712
+  Bicycle      0.0640
+
+
+================================================================
+CPU vs GPU latency benchmark (10 random train images, seed=42)
+================================================================
+
+CPU per-image times (ms): [  39.03,   16.56,   16.01,   16.72,   16.99,   16.28,   16.70,   16.19,   15.29,   15.28]
+GPU per-image times (ms): [   6.29,    7.25,    7.27,    6.97,    7.39,    7.13,    6.92,    7.29,    6.93,    7.06]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:     16.13 ms/image  (62.0 FPS)
+  GPU:      6.98 ms/image  (143.3 FPS)
+  Speedup (GPU vs CPU):  2.3x

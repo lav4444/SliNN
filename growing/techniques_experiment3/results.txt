@@ -1,0 +1,90 @@
+==============================================================================
+NETWORK GROWING exp3 — GradMax vs Hessian-split, ONE-SHOT (StudentYOLO)
+Polaziste: pruned taylor.pt (50%) | dataset: sub10k_open_images_v7
+==============================================================================
+Device: cuda (NVIDIA GeForce RTX 4070 Laptop GPU)
+Kriteriji: gradient, hessian | benefit/FLOP alokacija, function-preserving grow
+1 ciklus ONE-SHOT grow do 1.3x pocetnih GFLOPs (+30%, bez iterativnog re-mjerenja)
+FT do platoa: Prodigy (auto LR), inner patience 5, max 35 ep | rani izlaz val mAP>=0.17 | outer stale 2
+eval cap 400/split | benefit calib 16 batcheva
+
+------------------------------------------------------------------------------
+START (pruned taylor 50%)
+  params=1,035,222  GFLOPs=6.335  val mAP=0.0819  test mAP=0.0975
+  ciljevi po ciklusu (GFLOPs): 8.24
+
+==============================================================================
+TEHNIKA: GradMax-gradient
+  >>> CIKLUS 1: grow -> GFLOPs 8.543 (cilj 8.235) params 1,944,798 | dodano filtera=878 u 27 slojeva | benefit overhead=9.27 ms/img
+      [GradMax-gradient c1 ep 1/35] loss=0.7837 (cls=0.2690 box=0.3802) | val_mAP=0.0459 | lr(d)=1.28e-04 | 76s  *best
+      [GradMax-gradient c1 ep 2/35] loss=0.6236 (cls=0.2227 box=0.2895) | val_mAP=0.0547 | lr(d)=1.85e-04 | 75s  *best
+      [GradMax-gradient c1 ep 3/35] loss=0.5257 (cls=0.1924 box=0.2371) | val_mAP=0.0575 | lr(d)=2.30e-04 | 79s  *best
+      [GradMax-gradient c1 ep 4/35] loss=0.5071 (cls=0.1862 box=0.2278) | val_mAP=0.0619 | lr(d)=2.88e-04 | 79s  *best
+      [GradMax-gradient c1 ep 5/35] loss=0.4522 (cls=0.1671 box=0.2015) | val_mAP=0.0767 | lr(d)=2.88e-04 | 80s  *best
+      [GradMax-gradient c1 ep 6/35] loss=0.4104 (cls=0.1528 box=0.1812) | val_mAP=0.0869 | lr(d)=2.88e-04 | 82s  *best
+      [GradMax-gradient c1 ep 7/35] loss=0.3846 (cls=0.1431 box=0.1699) | val_mAP=0.0842 | lr(d)=2.88e-04 | 80s
+      [GradMax-gradient c1 ep 8/35] loss=0.3643 (cls=0.1356 box=0.1609) | val_mAP=0.0932 | lr(d)=2.88e-04 | 82s  *best
+      [GradMax-gradient c1 ep 9/35] loss=0.3480 (cls=0.1299 box=0.1532) | val_mAP=0.0959 | lr(d)=2.88e-04 | 82s  *best
+      [GradMax-gradient c1 ep10/35] loss=0.3373 (cls=0.1259 box=0.1484) | val_mAP=0.0988 | lr(d)=2.88e-04 | 81s  *best
+      [GradMax-gradient c1 ep11/35] loss=0.3273 (cls=0.1224 box=0.1437) | val_mAP=0.0939 | lr(d)=2.88e-04 | 82s
+      [GradMax-gradient c1 ep12/35] loss=0.3184 (cls=0.1193 box=0.1395) | val_mAP=0.0951 | lr(d)=2.88e-04 | 81s
+      [GradMax-gradient c1 ep13/35] loss=0.3109 (cls=0.1166 box=0.1361) | val_mAP=0.1022 | lr(d)=2.88e-04 | 81s  *best
+      [GradMax-gradient c1 ep14/35] loss=0.3035 (cls=0.1141 box=0.1323) | val_mAP=0.1065 | lr(d)=2.88e-04 | 81s  *best
+      [GradMax-gradient c1 ep15/35] loss=0.2970 (cls=0.1117 box=0.1295) | val_mAP=0.1025 | lr(d)=2.88e-04 | 80s
+      [GradMax-gradient c1 ep16/35] loss=0.2914 (cls=0.1098 box=0.1266) | val_mAP=0.1074 | lr(d)=2.88e-04 | 81s  *best
+      [GradMax-gradient c1 ep17/35] loss=0.2841 (cls=0.1072 box=0.1233) | val_mAP=0.1044 | lr(d)=2.88e-04 | 81s
+      [GradMax-gradient c1 ep18/35] loss=0.2787 (cls=0.1053 box=0.1207) | val_mAP=0.0926 | lr(d)=2.88e-04 | 77s
+      [GradMax-gradient c1 ep19/35] loss=0.2773 (cls=0.1049 box=0.1200) | val_mAP=0.0991 | lr(d)=2.88e-04 | 72s
+      [GradMax-gradient c1 ep20/35] loss=0.2734 (cls=0.1038 box=0.1176) | val_mAP=0.1071 | lr(d)=2.88e-04 | 71s
+      [GradMax-gradient c1 ep21/35] loss=0.2659 (cls=0.1010 box=0.1143) | val_mAP=0.1060 | lr(d)=2.88e-04 | 71s
+      ciklus 1 best val mAP=0.1074 (21 ep, 27.7 min)
+  --- FINALNO (GradMax-gradient) ---
+    params=1,944,798  GFLOPs=8.543  val mAP=0.1074  test mAP=0.0891
+    GPU=21.11 ms/img  CPU=40.26 ms/img  mrtvi filteri=0/2621
+
+==============================================================================
+TEHNIKA: Hessian-split-hessian
+  >>> CIKLUS 1: grow -> GFLOPs 8.279 (cilj 8.235) params 1,273,957 | dodano filtera=360 u 25 slojeva | benefit overhead=7.28 ms/img
+      [Hessian-split-hessian c1 ep 1/35] loss=0.7920 (cls=0.2718 box=0.3843) | val_mAP=0.0342 | lr(d)=1.52e-04 | 84s  *best
+      [Hessian-split-hessian c1 ep 2/35] loss=0.6312 (cls=0.2246 box=0.2943) | val_mAP=0.0399 | lr(d)=2.02e-04 | 83s  *best
+      [Hessian-split-hessian c1 ep 3/35] loss=0.5472 (cls=0.1990 box=0.2487) | val_mAP=0.0548 | lr(d)=2.50e-04 | 82s  *best
+      [Hessian-split-hessian c1 ep 4/35] loss=0.4873 (cls=0.1795 box=0.2181) | val_mAP=0.0651 | lr(d)=2.50e-04 | 81s  *best
+      [Hessian-split-hessian c1 ep 5/35] loss=0.4612 (cls=0.1703 box=0.2058) | val_mAP=0.0718 | lr(d)=3.14e-04 | 81s  *best
+      [Hessian-split-hessian c1 ep 6/35] loss=0.4298 (cls=0.1590 box=0.1913) | val_mAP=0.0717 | lr(d)=3.14e-04 | 81s
+      [Hessian-split-hessian c1 ep 7/35] loss=0.3985 (cls=0.1478 box=0.1768) | val_mAP=0.0792 | lr(d)=3.14e-04 | 81s  *best
+      [Hessian-split-hessian c1 ep 8/35] loss=0.3775 (cls=0.1403 box=0.1670) | val_mAP=0.0814 | lr(d)=3.14e-04 | 82s  *best
+      [Hessian-split-hessian c1 ep 9/35] loss=0.3602 (cls=0.1338 box=0.1595) | val_mAP=0.0895 | lr(d)=3.14e-04 | 89s  *best
+      [Hessian-split-hessian c1 ep10/35] loss=0.3498 (cls=0.1300 box=0.1549) | val_mAP=0.0834 | lr(d)=3.14e-04 | 88s
+      [Hessian-split-hessian c1 ep11/35] loss=0.3398 (cls=0.1262 box=0.1504) | val_mAP=0.0887 | lr(d)=3.14e-04 | 86s
+      [Hessian-split-hessian c1 ep12/35] loss=0.3295 (cls=0.1227 box=0.1455) | val_mAP=0.0907 | lr(d)=3.14e-04 | 87s  *best
+      [Hessian-split-hessian c1 ep13/35] loss=0.3203 (cls=0.1194 box=0.1412) | val_mAP=0.0845 | lr(d)=3.14e-04 | 86s
+      [Hessian-split-hessian c1 ep14/35] loss=0.3143 (cls=0.1173 box=0.1383) | val_mAP=0.0916 | lr(d)=3.14e-04 | 86s  *best
+      [Hessian-split-hessian c1 ep15/35] loss=0.3082 (cls=0.1152 box=0.1354) | val_mAP=0.0889 | lr(d)=3.14e-04 | 82s
+      [Hessian-split-hessian c1 ep16/35] loss=0.3041 (cls=0.1141 box=0.1329) | val_mAP=0.0925 | lr(d)=3.14e-04 | 82s  *best
+      [Hessian-split-hessian c1 ep17/35] loss=0.2980 (cls=0.1118 box=0.1303) | val_mAP=0.0930 | lr(d)=3.14e-04 | 87s  *best
+      [Hessian-split-hessian c1 ep18/35] loss=0.2942 (cls=0.1106 box=0.1283) | val_mAP=0.0923 | lr(d)=3.14e-04 | 85s
+      [Hessian-split-hessian c1 ep19/35] loss=0.2880 (cls=0.1085 box=0.1253) | val_mAP=0.0971 | lr(d)=3.14e-04 | 84s  *best
+      [Hessian-split-hessian c1 ep20/35] loss=0.2837 (cls=0.1070 box=0.1231) | val_mAP=0.0933 | lr(d)=3.14e-04 | 83s
+      [Hessian-split-hessian c1 ep21/35] loss=0.2808 (cls=0.1062 box=0.1215) | val_mAP=0.0924 | lr(d)=3.14e-04 | 84s
+      [Hessian-split-hessian c1 ep22/35] loss=0.2771 (cls=0.1047 box=0.1199) | val_mAP=0.0911 | lr(d)=3.14e-04 | 82s
+      [Hessian-split-hessian c1 ep23/35] loss=0.2717 (cls=0.1030 box=0.1172) | val_mAP=0.0947 | lr(d)=3.14e-04 | 81s
+      [Hessian-split-hessian c1 ep24/35] loss=0.2676 (cls=0.1017 box=0.1151) | val_mAP=0.0937 | lr(d)=3.14e-04 | 85s
+      ciklus 1 best val mAP=0.0971 (24 ep, 33.5 min)
+  --- FINALNO (Hessian-split-hessian) ---
+    params=1,273,957  GFLOPs=8.279  val mAP=0.0971  test mAP=0.0958
+    GPU=25.01 ms/img  CPU=60.36 ms/img  mrtvi filteri=0/2103
+
+==============================================================================
+USPOREDNA TABLICA (head-to-head)
+==============================================================================
+tehnika                   params  GFLOPs  val mAP test mAP  GPUms  CPUms     deadF
+--------------------------------------------------------------------------------------
+start(50%)                1.035M    6.33   0.0819   0.0975      -      -         -
+unpruned                  2.071M   11.55        -   0.1858      -      -         -
+GradMax-gradient          1.945M    8.54   0.1074   0.0891  21.11  40.26   0/2621 
+Hessian-split-hessian     1.274M    8.28   0.0971   0.0958  25.01  60.36   0/2103 
+--------------------------------------------------------------------------------------
+
+Graf: /home/tomi/code/dipl/growing/techniques_experiment3/gflops_vs_map.png
+UKUPNO VRIJEME: 65.2 min
+Spremljeno: /home/tomi/code/dipl/growing/techniques_experiment3/results.txt | /home/tomi/code/dipl/growing/techniques_experiment3/summary.json

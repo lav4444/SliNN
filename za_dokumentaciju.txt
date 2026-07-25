@@ -1,0 +1,192 @@
+(ove biljeske su moje, CLaud ih nesmije dirati, micati, dodavati!)
+
+OPĆENITO:
+
+- ovo ima dosta podudarnosti s NAS, ali je uže, fokusiranije, optimizira jedno rjesenje (a ne da paralelno razmatra i optimizira vise njih)
+    - ali ima puno podudarnosti, kako dobiti sto bolju arhitekturu za dani zadatak, moze se zadati kriterij, maks ogranicenja itd.
+    - MorphNet - od Googlea, myb na kraju usporediti na tih istih par zadataka?
+
+
+KD
+
+- temeljna razlika od GT treninga, pokusavamo zadrzati/imitirati trening proveden vjv na puno vecem setu podataka, ali validiramo kroz nas podskup podataka
+specifican nasoj namjeni
+
+- ako želimo raditi kontinuirano, a ne one shot (SOTA kontinuirano), onda je važno par koraka osigurati:
+- nemati GT u train pipeline, samo KD (jer inace mijenjamo prostor, jer je model pretreniran na drugacijem setu podataka vjv, na drugaciji nacin (loss))
+    - ako ostavimo samo KD, onda mi kroz treninge se trudimo micati neur/filt i zadrzati sto bolju imitaciju originalne, potpuno bez GT podataka
+    - GT podaci potrebni da bi uopce evaluirali TEACHERA jeli dobar fit, i za validacijsku metriku poput mAP itd, osim toga cak ni ne
+- predlazem budzet prunanja definirati u GFLOPS jer je to bolja metrika za kapacitet ("pamet") modela, nego parametri
+- raditi male inkrementalne prunove, -3% ukupnog gflopsa ok, ali bolje je ici 1% svaku epohu - stigne se i fine tunati. Preveliki rez moze imati kontraefekt, kao da one-shotamo!
+(Ako se ovo zadovolji, kontinuirano prunanje ce biti glatku, bez preogromnih padova performansi)
+- KD je najbolji bio logit + feature based ako mozes, + nemoj freezat ostale slojeve koji se nemogu prunat/growat, nego i njih fine tunaj (ima pozitivan efekt)
+
+- do sada sam najviše koristio: Output/Logit KD (student uči vjerojatnosnu distribuciju učitelja za svaki podatak)
+
+- treba usporediti i ostale pristupe (npr. Feature based, Contrastive Distillation itd..) i naravno kao baseline koristiti istu arhitekturu ali koja je naucena standardno
+samo na podacima: slika-oznaka, da vidimo jel KD superiorniji i ako je, koji je najbolji
+- adresirati i ograničenja, neki KD pristup rade samo ako je student arhitektualno sličan učitelju itd... Dal imamo težine učitelja i tako ograničenja i uvjete
+------- Claude komentar
+Nema univerzalnog pobjednika. Empirijski:
+
+Ista/slična arhitektura, mali capacity gap, gusti zadatak → feature pobjeđuje.
+Vrlo različite arhitekture, veliki gap, jednostavan izlaz → logit je robusniji.
+SOTA u praksi = oba (feature + logit istovremeno) — većina jakih detekcijskih KD radova kombinira.
+-------
+
+
+- kako bi KD features radio, FPN slojevi se ne prunaju/growaju! Samo FT. Interno radi se klasifikacija svakog layer tima: prunable/growable (ako rjesenje ima
+podrsku za tu vrstu slojeva), Trainable, Frozen, Unknow - onda u trainable ili u frozen - kako bi generaliziralo i na nove modele, nevidene
+
+
+
+
+
+PRUNING
+
+- samo structured pruning, jer ostalo na hardweru nema puno smisla, nema ubrzanja ni mem. uštede. Morali bi mjenjati u SParse strukturu podataka, 
+što dodaje puno overheada za interpretaciju, pogotovo na GPU.
+
+- za kvalitetan pruning potrebno je uvijek imati i kvalitetan dataset. Najbolje ga je radititi skupa sa/tijekom treninga, dok imamo sve podatke.
+Zašto: zato da možemo utvrditi kvalitetan kriteriji filtriranja (gradient, taylor), ali i radi fine tuninga nakon! Označeni podaci za loss!
+Djelomicni izuzetak je Magnitud based pruning, njemu za kriterij ne trebaju novi podaci, ali za fine tuning trebaju.
+
+- (uklanjanje) rani conv filteri najvise pridonose manjem broju FLOPSA (bržoj inferenciji), a neuroni vecinom malo ubrzavaju ali smanjuju memoriju
+
+- BatchNorm layer treba samo jednu epohu prolaska kroz podatke da se osvježi nakon rezanja, ne moraju ni označeni podaci biti 
+
+
+- Eksperimenti pokazuju da je najbolji kriterij: Taylor (testirano sa mean normalizacijom)
+- pošto tajlor ovisi o gradijentu, onda je teško na sirovom iznosu gradijenta odrediti važnost,
+zbog propagacije nazad, gradijent isčezava ili eksplodira, i neki layeri poput batchNorma ga mogu reskalirati,
+iz tog razloga koristi se normalizacija iznosa, defaultno mean, ali je napravljen i novi eksperiment unutar: critereum_experiment3/importance_normalisation
+-> potvrdeno da je mean među najboljim pristupima, pa ce se zadržati
+
+- Nije function preserving, ali uz male kontinuirane rezove, brzo se oporavlja pa performanse ne osciliraju preludo
+
+
+GROWING
+- GradMax, gradient based, odabire sloj koji je pod velikim pritiskom i dodaje
+- Simplified GradMax - SVD vlastite grad matrice ∂W_L (već imam G iz KD backwarda)
+(NIJE skuplja alternativa: SVD korelacije M = (∂L/∂ulaz_sljedećeg)ᵀ · (aktivacije_L) - ionako mali growovi + ft, omjer compute-posao / benefit ne obecava)
+
+- odabire po ovom: importance/cost (cost = 0.7 x GFLOPS udio + 0.3 x PARAMS udio)
+- GFLOPS - spregnuti, mora voditi racuna ne samo lokalne FLOPS nego koliko se oslobada/dodaje i u ostatku (Dependency Graph)
+
+
+
+
+
+
+
+PRUNING+GROWING - network Morphing, capacity reallocation
+
+Po uređaju (konkretno)
+uređaj	put	M (int8)	M (fp16)
+Laptop CUDA GPU (RTX, Ada/Ampere)	TensorRT IMMA	32 (CHW32)	8
+Jetson Orin Nano (Ampere GPU, bez DLA)	TensorRT IMMA	32 (CHW32)	8
+RPi5 (Cortex-A76 NEON, NCNN/ORT)	SDOT/UDOT, pack8	8 (16 sigurno)	8
+Vezujući uvjet je NVIDIA int8 = 32. A 32 je nadskup: model poravnat na 32 je automatski poravnat i za fp16-GPU (8) i za RPi5-ARM (8/16). Plus, 
+"lijepi" brojevi kanala (×32) ljepše prolaze ONNX export i izbjegavaju čudne oblike.
+
+**(Ono sto je prunano nemre isti lsoj odmah biti i growan (zaštićeno), također, ono što se growalo, u sljedecem MORPH koraku ne moze biti prunano)
+
+
+** Jos bitno, koliko Tiles Hardwera (oni ucitavaju filtere/neurone u jedan korak clocka) stane
+- PROBLEM: npr. imam 8 filtera u sloju, a HW radi sa plocicom od 32... popuni se tih 8, a 24 budu pad (neefikasno), pa nema stvarnog ubrzanja
+- Size: za int8 najsigurnije M=32, za fp16 M=16, za fp32 M=?
+- RJESENJA: uvesti penalizaciju u score za biranje sta prunati growati:
+
+OZNAKE
+  w     — širina sloja (broj kanala/filtera)
+  M     — ciljani višekratnik (veličina pločice, npr. 32)
+  beta  — jačina nudge-a (0 = isključeno)
+
+DVIJE UDALJENOSTI DO GRANICE
+  r = w mod M                 # koliko SKINUTI da padneš na donji višekratnik (prune smjer)
+  g = (-w) mod M = (M - r) mod M   # koliko DODATI da dođeš na gornji višekratnik (grow smjer)
+
+  raspon: r, g  ∈ {0, 1, ..., M-1}
+  ako je w višekratnik od M  ->  r = g = 0
+  inače                      ->  r + g = M
+
+DVA DIREKCIONA SCOREA
+  prune_score = 1 - r/M   ako r > 0,   inače 0      # visok kad je r mali (tik IZNAD ×M) -> jeftin tile-drop
+  grow_score  = 1 - g/M   ako g > 0,   inače 0      # visok kad je g mali (tik ISPOD ×M) -> jeftin tile-fill
+  na ×M: oba = 0 (poravnat -> nema nudge-a)
+
+SVOJSTVA
+  r + g = M   =>   prune_score + grow_score = 1     (za w != k*M)
+  sredina (r = g = M/2):  oba = 0.5  (neutralno po smjeru -> odlučuje importance/sigma)
+  na ×M:                  oba = 0
+
+(opcionalno) SELEKTIVNOST eksponentom p:
+  prune_score = (1 - r/M)^p ako r>0 inače 0
+  grow_score  = (1 - g/M)^p ako g>0 inače 0
+  p = 1 -> linearno (široko);  p = 2 -> oštrije (samo uz granice)
+
+FAKTORI (množe postojeći rang)
+  align_PRUNE = 1 - beta * prune_score    ∈ [1 - beta,  1]
+  align_GROW  = 1 + beta * grow_score     ∈ [1,  1 + beta]
+  !!!!!!!!!!!!!!!!!!!!!!!!
+  prva verzija je bila staticna, kalkulirala se na pocetku epohe jednom, prije svih npr. 44 reza iz te PRUNE epohe
+  PROBLEM: sloj ima 32, prune to rangira da ga treba prunat, ali onda odreze 7 filtera iz tog sloja
+  RJESENJE: nakon svakog mini reza (svaki maknuti filter/neuron), rekalkuliraj score - za kandidate iz tog mijenjanog SCOREA
+  efekt: nakon reza 33-32 ostali kandidati iz tog sloja padaju po PRUNE rankingu, jer je njihov sloj sada dobro snapan
+
+
+  PRUN slicno:
+  Dakle finalni dizajn (ništa novo osim 1 knoba za broj slojeva):
+
+    Max-heap, svaki sloj nudi score = σ[ptr] / flops × align_GROW(širina).
+    Petlja: pop top → ako σ[ptr] ≥ 4.0×med i ima budžeta → dodaj 1 kanal (init = Vh[ptr]), ptr++, širina+1, vrati u heap; inače taj sloj van.
+    Stani kad: heap prazan (svi pali ispod praga), budžet potrošen, ili dosegnuto max 3 različita sloja (PHASE2_GROW_MAX_LAYERS).
+    Odluka (_select_grow_plan) broji {sloj: k} bez operacije; pa materijalizacija = jedan _try_grow_layer(sloj, k, Vh[:k]) po sloju (batchana operacija, jeftino).
+    Svaki narasli sloj → grown_at (cooldown). KRAJ-rizik već pokriven prune-override-om.
+
+    (ukratko growa uvijek +1 po +1 f/n u mini grow koraku. Pa rakalkulira, 2 stvari se mjenjaju za efektani sloj: 1) grow_align_boost, 2) importance je sad sigma[1], a ne sigma[0] (to je bolje jer GradMax nam kaze, benefit od 1 novog neurona, benefit od 2. novog n, benef. od 3. novog neurona itd.....))
+  !!!!!!!!!!!!!!!!!!!!!!!!
+
+ULAZAK U RANG
+  PRUNE: rang uzlazno po (importance / cost)  ->  pomnoži s align_PRUNE (<=1)
+         => tik-iznad-×M slojevi dobiju manju vrijednost -> režu se ranije
+  GROW:  rang silazno po (sigma / cost)       ->  pomnoži s align_GROW (>=1)
+         => tik-ispod-×M slojevi dobiju veću vrijednost -> rastu ranije
+
+(Plocice:
+INT8 -> 32 po plocici
+FP16 -> 8 po plocici
+Fp32 -> 4 po plocici)
+
+
+
+
+
+SOLUTION/Pipeline:
+
+Faza #1 - dead/near-dead prune + FT recovery
+
+Faza #2
+
+init_map = original baseline;  tol_line = init_map − tol
+─ ako map ≥ tol_line  i  GFLOPs > (opcionalni floor):
+    PRUNE: skupljaj kandidate po risk/reward (uzlazno score/cost)
+           dok uklonjeni GFLOPs ne dosegnu 1.5% originala → rez → 1 FT KD epoha
+─ ako map < tol_line (pao nakon reza):
+    NE prunaj. Runde: FT (+ grow ako se isplati) dok se map ne vrati ≥ tol_line.
+    Brojač PATIENCE_prune; ako 5 epoha ne uspije → KRAJ.
+─ kad se map vrati → opet smije prune.
+─ grow se smije i u dobrom rangu (ako kandidat dovoljno benefitan), uz viši bar.
+nakon SVAKE epohe: ako (map ≥ tol_line  I  GFLOPs < dosad_najmanji) → novi best_quality_compressed (eager save).
+
+(Ono sto je prunano nemre isti lsoj odmah biti i growan (zaštićeno), također, ono što se growalo, u sljedecem MORPH koraku ne moze biti prunano)
+
+
+
+
+FINALNA EVALUACIJA
+
+- komentirati VRIJEME treninga predloženog pipelinea vs klasičnog GT pristupa
+- model loading time!
+
+- uz finalno rjesenje, dati i neki mali brzi model i dataset koji je brz a ima puno primjera, da korisnik moze testirati pipeline

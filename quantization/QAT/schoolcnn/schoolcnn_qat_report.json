@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "model": "SchoolCNN",
+    "method": "QAT",
+    "loss": "KD (logit, no GT)",
+    "quant_engine": "x86",
+    "epochs": 12,
+    "lr": 0.0001,
+    "device_train": "cuda",
+    "compare_map": {
+      "FP32": 0.61649,
+      "INT8-PTQ-static": 0.60754,
+      "INT8-QAT": 0.6155
+    }
+  },
+  "rows": [
+    {
+      "format": "INT8-QAT",
+      "backend": "PyTorch x86",
+      "cpu_ms": 2.5706,
+      "size_mb": 3.5576,
+      "map_macro": 0.6155,
+      "map_micro": 0.59323,
+      "f1_macro": 0.50805,
+      "acc_macro": 0.79769,
+      "auroc_macro": 0.81776,
+      "bce": 0.43989
+    }
+  ]
+}

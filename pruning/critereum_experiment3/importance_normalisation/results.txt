@@ -1,0 +1,164 @@
+================================================================================
+ABLACIJA NORMALIZACIJE VAZNOSTI — kriterij FIKSAN = Taylor
+Model: fasterrcnn_mobilenet_v3_large_320_fpn | dataset: sub10k_open_images_v7 (6 kl)
+================================================================================
+Device: cuda (NVIDIA GeForce RTX 4070 Laptop GPU)
+Normalizeri: none, mean, max, standarization, gaussian, sentinel_0.5, lamp
+Param-target: zadrzi 70% total params (binarna pretraga ratija) | global=True | calib batcheva: 128 (batch 4)
+FT: max 2 ep, LR=0.0005, early-stop patience 3 (val mAP) | eval cap 1000/split | group_reduction=mean (tp default)
+Metrika: mAP@50:95 / mAP@50 / mAP@75 / mAR@100 (torchmetrics)
+
+--------------------------------------------------------------------------------
+BASELINE (COCO-mapped na 6 klasa, zero-shot, BEZ treninga)
+  params=18,980,254  backbone GMACs=0.606  size=75.92 MB
+  GPU=14.52 ms/img  CPU=91.58 ms/img
+  mrtvi filteri=718/12016  mrtvi neuroni=0/2048
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.3150   0.5174   0.3242   0.4233
+  test      0.3316   0.5383   0.3453   0.4437
+
+PARAM-TARGET: zadrzi 70% total params (~13,286,177) | ratio se trazi binarno po normalizeru
+
+================================================================================
+NORMALIZER: NONE  (bez normalizacije (sirova vaznost; kontrola).)
+  [param-target] nadeni channel-ratio=0.472 za ~70% params
+  [vaznost+rez] vrijeme=10.36s (20.24 ms/slika, n=512) | peak GPU=3340 MB
+  [rezanje] params 18,980,254 -> 13,785,606 (72.6%) | backbone GMACs 0.606 -> 0.432
+  fc6: 12544->792 | fc7: 792->488
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0028   0.0099   0.0010   0.0742
+  test      0.0038   0.0131   0.0013   0.0766
+  --- FINE-TUNE: epoha=2 (117.0 s/ep, ukupno 4.3 min) | best val mAP=0.1815 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.1815   0.3445   0.1638   0.2972
+  test      0.1892   0.3499   0.1848   0.3019
+  [brzina nakon FT] GPU=11.85 ms/img  CPU=67.09 ms/img
+  [mrtve jedinice] filteri=303/7280  neuroni=0/1280
+
+================================================================================
+NORMALIZER: MEAN  (x / mean(x) (default iz exp3).)
+  [param-target] nadeni channel-ratio=0.127 za ~70% params
+  [vaznost+rez] vrijeme=10.47s (20.45 ms/slika, n=512) | peak GPU=4321 MB
+  [rezanje] params 18,980,254 -> 13,399,606 (70.6%) | backbone GMACs 0.606 -> 0.577
+  fc6: 12544->664 | fc7: 664->776
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0775   0.1603   0.0681   0.1955
+  test      0.0899   0.1814   0.0799   0.2212
+  --- FINE-TUNE: epoha=2 (120.2 s/ep, ukupno 4.3 min) | best val mAP=0.2776 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2776   0.4653   0.2861   0.3837
+  test      0.2912   0.4800   0.3036   0.3981
+  [brzina nakon FT] GPU=15.21 ms/img  CPU=81.26 ms/img
+  [mrtve jedinice] filteri=301/10952  neuroni=0/1440
+
+================================================================================
+NORMALIZER: MAX  (x / max(x).)
+  [param-target] nadeni channel-ratio=0.113 za ~70% params
+  [vaznost+rez] vrijeme=10.23s (19.98 ms/slika, n=512) | peak GPU=3647 MB
+  [rezanje] params 18,980,254 -> 13,467,278 (71.0%) | backbone GMACs 0.606 -> 0.589
+  fc6: 12544->664 | fc7: 664->712
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0779   0.1624   0.0673   0.2001
+  test      0.0911   0.1833   0.0823   0.2267
+  --- FINE-TUNE: epoha=2 (114.5 s/ep, ukupno 4.1 min) | best val mAP=0.2801 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2801   0.4739   0.2951   0.3856
+  test      0.2920   0.4805   0.3042   0.3990
+  [brzina nakon FT] GPU=13.32 ms/img  CPU=64.06 ms/img
+  [mrtve jedinice] filteri=304/11328  neuroni=0/1376
+
+================================================================================
+NORMALIZER: STANDARIZATION  (min-max u [0,1] (izjednaci raspon).)
+  [param-target] nadeni channel-ratio=0.177 za ~70% params
+  [vaznost+rez] vrijeme=10.17s (19.87 ms/slika, n=512) | peak GPU=3685 MB
+  [rezanje] params 18,980,254 -> 13,369,214 (70.4%) | backbone GMACs 0.606 -> 0.562
+  fc6: 12544->664 | fc7: 664->696
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0650   0.1323   0.0595   0.1846
+  test      0.0668   0.1396   0.0613   0.2006
+  --- FINE-TUNE: epoha=2 (114.1 s/ep, ukupno 4.1 min) | best val mAP=0.2692 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2692   0.4575   0.2717   0.3761
+  test      0.2762   0.4616   0.2951   0.3837
+  [brzina nakon FT] GPU=14.72 ms/img  CPU=65.72 ms/img
+  [mrtve jedinice] filteri=303/11320  neuroni=0/1360
+
+================================================================================
+NORMALIZER: GAUSSIAN  (z-score (x-mu)/sigma (izjednaci srednju I varijancu).)
+  [param-target] nadeni channel-ratio=0.247 za ~70% params
+  [vaznost+rez] vrijeme=10.32s (20.16 ms/slika, n=512) | peak GPU=2063 MB
+  [rezanje] params 18,980,254 -> 13,233,150 (69.7%) | backbone GMACs 0.606 -> 0.431
+  fc6: 12544->720 | fc7: 720->816
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0141   0.0357   0.0083   0.0932
+  test      0.0160   0.0430   0.0079   0.1044
+  --- FINE-TUNE: epoha=2 (113.3 s/ep, ukupno 4.1 min) | best val mAP=0.2127 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2127   0.3783   0.2132   0.3185
+  test      0.2241   0.3940   0.2269   0.3371
+  [brzina nakon FT] GPU=12.73 ms/img  CPU=61.17 ms/img
+  [mrtve jedinice] filteri=302/8976  neuroni=0/1536
+
+================================================================================
+NORMALIZER: SENTINEL_0.5  (x / medijan (robusno na outliere).)
+  [param-target] nadeni channel-ratio=0.219 za ~70% params
+  [vaznost+rez] vrijeme=10.37s (20.25 ms/slika, n=512) | peak GPU=3051 MB
+  [rezanje] params 18,980,254 -> 13,323,838 (70.2%) | backbone GMACs 0.606 -> 0.549
+  fc6: 12544->672 | fc7: 672->768
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0648   0.1333   0.0546   0.1784
+  test      0.0691   0.1447   0.0571   0.1949
+  --- FINE-TUNE: epoha=2 (113.5 s/ep, ukupno 4.1 min) | best val mAP=0.2671 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2671   0.4526   0.2782   0.3702
+  test      0.2769   0.4619   0.2895   0.3822
+  [brzina nakon FT] GPU=12.66 ms/img  CPU=62.99 ms/img
+  [mrtve jedinice] filteri=300/10368  neuroni=0/1440
+
+================================================================================
+NORMALIZER: LAMP  (LAMP layer-adaptive (ICLR'21).)
+  [param-target] nadeni channel-ratio=0.113 za ~70% params
+  [vaznost+rez] vrijeme=10.38s (20.27 ms/slika, n=512) | peak GPU=2716 MB
+  [rezanje] params 18,980,254 -> 13,168,598 (69.4%) | backbone GMACs 0.606 -> 0.581
+  fc6: 12544->632 | fc7: 632->736
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0775   0.1625   0.0653   0.1993
+  test      0.0891   0.1791   0.0805   0.2241
+  --- FINE-TUNE: epoha=2 (118.6 s/ep, ukupno 4.3 min) | best val mAP=0.2771 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2771   0.4620   0.2900   0.3832
+  test      0.2895   0.4775   0.3028   0.3973
+  [brzina nakon FT] GPU=13.75 ms/img  CPU=62.94 ms/img
+  [mrtve jedinice] filteri=301/11184  neuroni=0/1368
+
+================================================================================
+USPOREDNA TABLICA (Taylor + razliciti normalizeri)
+================================================================================
+normalizer       ratio   params  bbGMACs noFTval  FTval  FTtest  GPUms  CPUms    deadF
+--------------------------------------------------------------------------------------
+baseline             -   18.98M    0.606       -  0.315   0.332   14.5   91.6 718/12016
+none             0.472   13.79M    0.432   0.003  0.182   0.189   11.8   67.1 303/7280
+mean             0.127   13.40M    0.577   0.077  0.278   0.291   15.2   81.3 301/10952
+max              0.113   13.47M    0.589   0.078  0.280   0.292   13.3   64.1 304/11328
+standarization   0.177   13.37M    0.562   0.065  0.269   0.276   14.7   65.7 303/11320
+gaussian         0.247   13.23M    0.431   0.014  0.213   0.224   12.7   61.2 302/8976
+sentinel_0.5     0.219   13.32M    0.549   0.065  0.267   0.277   12.7   63.0 300/10368
+lamp             0.113   13.17M    0.581   0.078  0.277   0.289   13.8   62.9 301/11184
+--------------------------------------------------------------------------------------
+
+UKUPNO VRIJEME SKRIPTE: 39.7 min
+Spremljeno: /home/tomi/code/dipl/pruning/critereum_experiment3/importance_normalisation/results.txt | /home/tomi/code/dipl/pruning/critereum_experiment3/importance_normalisation/summary.json

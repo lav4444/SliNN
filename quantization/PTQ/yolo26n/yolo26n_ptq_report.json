@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "model": "yolo26n",
+    "task": "detection",
+    "weights": "/home/tomi/code/dipl/baseline_models/yolo26n/yolo26n.pt",
+    "imgsz": 640,
+    "conf": 0.001,
+    "pt_size_mb": 5.2876,
+    "cpu_threads": 8,
+    "lat_method": "PyTorch FP32/FP16 = sirovi forward (median, batch1); INT8 = native val speed['inference']",
+    "note": "FP16-CPU = sirovi .half() (spor, demonstrira nedostatak HW podr\u0161ke); veli\u010dine TRT/OV nisu samo te\u017eine."
+  },
+  "rows": [
+    {
+      "format": "FP32",
+      "cpu_ms": 92.5853,
+      "gpu_ms": 18.5472,
+      "size_mb": 5.2876,
+      "map": 0.40634,
+      "map50": 0.61318,
+      "map75": 0.42969,
+      "mp": 0.66474,
+      "mr": 0.60825
+    },
+    {
+      "format": "FP16",
+      "cpu_ms": 1908.1542,
+      "gpu_ms": 16.8215,
+      "size_mb": 2.6438,
+      "map": 0.40594,
+      "map50": 0.61281,
+      "map75": 0.42953,
+      "mp": 0.66629,
+      "mr": 0.60712
+    },
+    {
+      "format": "INT8-static",
+      "cpu_ms": 10.029,
+      "gpu_ms": "N/A (static je CPU)",
+      "size_mb": 3.1998,
+      "map": 0.40757,
+      "map50": 0.6143,
+      "map75": 0.43385,
+      "mp": 0.66101,
+      "mr": 0.61433
+    },
+    {
+      "format": "INT8-TRT",
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 4.5587,
+      "size_mb": 5.0848,
+      "map": 0.3793,
+      "map50": 0.58034,
+      "map75": 0.40318,
+      "mp": 0.62497,
+      "mr": 0.59816
+    }
+  ]
+}
