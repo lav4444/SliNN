@@ -1,22 +1,22 @@
 # SliNN
 
-**Slimming via Imitation (Neural Networks)** — stanjivanje neuronskih mreža iterativnim podrezivanjem i destilacijom znanja.
+**Slimming via Imitation (Neural Networks)** — slimming neural networks through iterative pruning and knowledge distillation.
 
-SliNN je arhitekturno-agnostičan alat za kompresiju neuronskih mreža. Automatski prepoznaje zadatak, komponente i tipove slojeva, pa kroz kontinuiranu petlju **podrezivanja** (primarno) i uvjetnog **doraštanja** kanala uz očuvanje funkcije traži manje modele — sve vođeno **destilacijom znanja** iz zamrznutog učitelja (bez oznaka), pod zadanim GFLOPs-budžetom i s hardverskim poravnanjem kanala. Rezultat je cijela Pareto putanja kompromisa kvaliteta↔složenost, uz završnu **kvantizaciju** (PTQ/QAT).
+SliNN is an architecture-agnostic neural network compression tool. It automatically detects the task, components, and layer types, then searches for smaller models through a continuous loop of **pruning** (primary) and conditional function-preserving **growing** of channels — all guided by **knowledge distillation** from a frozen teacher (no labels), under a target GFLOPs budget and with hardware-aware channel alignment. The result is a full Pareto trajectory of the quality↔complexity trade-off, followed by final **quantization** (PTQ/QAT).
 
-## Struktura
+## Structure
 
-| Folder | Sadržaj |
+| Folder | Contents |
 |---|---|
-| `morphology/` | Jezgra: kontinuirano podrezivanje + doraštanje + KD (faza 1 i 2) |
-| `pruning/` | Eksperimenti s kriterijima podrezivanja |
-| `growing/` | Function-preserving doraštanje (GradMax i sl.) |
-| `custom_models/` | Studentske arhitekture, KD varijante (pure vs feat+logit) |
-| `pareto_sweep/` | Prolazak Pareto krivulje (detekcija + klasifikacija) |
-| `quantization/` | PTQ i QAT (PyTorch fbgemm/x86, OpenVINO, TensorRT) |
-| `custom_framework/`, `Analyze_Net/` | Pomoćni alati i analiza mreže |
+| `morphology/` | Core: continuous pruning + growing + KD (phase 1 and 2) |
+| `pruning/` | Pruning-criterion experiments |
+| `growing/` | Function-preserving growing (GradMax, etc.) |
+| `custom_models/` | Student architectures, KD variants (pure vs feat+logit) |
+| `pareto_sweep/` | Pareto-curve sweep (detection + classification) |
+| `quantization/` | PTQ and QAT (PyTorch fbgemm/x86, OpenVINO, TensorRT) |
+| `custom_framework/`, `Analyze_Net/` | Helper utilities and network analysis |
 
-## Okruženje
+## Environment
 
 Python 3.10.12:
 
@@ -24,15 +24,15 @@ Python 3.10.12:
 conda activate dipl
 ```
 
-## Napomena o težinama i podatcima
+## Note on weights and data
 
-Repozitorij sadrži **samo kod**. Težine modela (`.pt`, `.onnx`, `.engine`), datasetovi i cache namjerno su izostavljeni (vidi `.gitignore`) — GitHub ionako odbija velike datoteke, a podatci se generiraju/preuzimaju skriptama.
+This repository contains **code only**. Model weights (`.pt`, `.onnx`, `.engine`), datasets, and caches are intentionally excluded (see `.gitignore`) — GitHub rejects large files anyway, and the data is generated/downloaded via the scripts.
 
-## Kontekst
+## Context
 
-Nastalo u sklopu diplomskog rada na FER-u (Sveučilište u Zagrebu).
+Developed as part of a master's thesis at FER (University of Zagreb).
 
-## Reference
+## References
 
 - Open Images V7 (Ultralytics): https://docs.ultralytics.com/datasets/detect/open-images-v7/
 - https://www.nature.com/articles/s42005-023-01364-0
