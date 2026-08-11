@@ -13,7 +13,7 @@ KD
 specifican nasoj namjeni
 
 - ako želimo raditi kontinuirano, a ne one shot (SOTA kontinuirano), onda je važno par koraka osigurati:
-- nemati GT u train pipeline, samo KD (jer inace mijenjamo prostor, jer je model pretreniran na drugacijem setu podataka vjv, na drugaciji nacin (loss))
+- nemati GT u train pipeline, samo KD (jer inace mijenjamo prostor, jer je model predtreniran na drugacijem setu podataka vjv, na drugaciji nacin (loss))
     - ako ostavimo samo KD, onda mi kroz treninge se trudimo micati neur/filt i zadrzati sto bolju imitaciju originalne, potpuno bez GT podataka
     - GT podaci potrebni da bi uopce evaluirali TEACHERA jeli dobar fit, i za validacijsku metriku poput mAP itd, osim toga cak ni ne
 - predlazem budzet prunanja definirati u GFLOPS jer je to bolja metrika za kapacitet ("pamet") modela, nego parametri
