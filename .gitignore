@@ -61,5 +61,13 @@ Thumbs.db
 # ---- Local tool state ----
 .claude/
 
-# ---- Private (personal email hardcoded) ----
+# ---- New baseline zoo models (local only, weights+datasets too big for GitHub) ----
+baseline_models/housing_mlp/
+baseline_models/midas_depth/
+baseline_models/speechcommands_m5/
+baseline_models/sst2_distilbert/
+baseline_models/voc_deeplabv3/
+
+# ---- Private ----
 auto_run_mail.py
+deploy_devices.txt

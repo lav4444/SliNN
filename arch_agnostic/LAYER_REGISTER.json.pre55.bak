@@ -61,8 +61,8 @@
     },
     "torch.nn.modules.conv.Conv1d": {
       "frozen": false,
-      "growable": true,
-      "prunable": true,
+      "growable": false,
+      "prunable": false,
       "status": "verified",
       "trainable": true
     },

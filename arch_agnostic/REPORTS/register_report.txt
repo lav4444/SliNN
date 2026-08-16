@@ -1,0 +1,72 @@
+baseline: 27 tipova u registru
+
+### yolo26n: dodano=0 azurirano=7 hazard-skip=0
+   SiLU                     prune=False grow=False train=False
+   BatchNorm2d              prune=False grow=False train=True 
+   Conv2d                   prune=True  grow=True  train=True 
+   Identity                 prune=False grow=False train=False
+   MaxPool2d                prune=False grow=False train=False
+   Upsample                 prune=False grow=False train=False
+   Concat                   prune=False grow=False train=False
+
+### fasterrcnn: dodano=0 azurirano=11 hazard-skip=0
+   Hardsigmoid              prune=False grow=False train=False
+   Hardswish                prune=False grow=False train=False
+   ReLU                     prune=False grow=False train=False
+   BatchNorm2d              prune=False grow=False train=True 
+   Conv2d                   prune=True  grow=True  train=True 
+   Linear                   prune=True  grow=True  train=True 
+   AdaptiveAvgPool2d        prune=False grow=False train=False
+   AnchorGenerator          prune=False grow=False train=False
+   GeneralizedRCNNTransform prune=False grow=False train=False
+   LastLevelMaxPool         prune=False grow=False train=False
+   MultiScaleRoIAlign       prune=False grow=False train=False
+
+### schoolcnn: dodano=0 azurirano=5 hazard-skip=0
+   ReLU                     prune=False grow=False train=False
+   BatchNorm2d              prune=False grow=False train=True 
+   Conv2d                   prune=True  grow=True  train=True 
+   Linear                   prune=True  grow=True  train=True 
+   MaxPool2d                prune=False grow=False train=False
+
+### housing_mlp: dodano=0 azurirano=3 hazard-skip=0
+   ReLU                     prune=False grow=False train=False
+   BatchNorm1d              prune=False grow=False train=True 
+   Linear                   prune=True  grow=True  train=True 
+
+### speechcommands_m5: dodano=0 azurirano=5 hazard-skip=0
+   ReLU                     prune=False grow=False train=False
+   BatchNorm1d              prune=False grow=False train=True 
+   Conv1d                   prune=True  grow=True  train=True 
+   Linear                   prune=True  grow=False train=True 
+   MaxPool1d                prune=False grow=False train=False
+
+### sst2_distilbert: dodano=0 azurirano=4 hazard-skip=1
+   Dropout                  prune=False grow=False train=False
+   Linear                   prune=False grow=False train=True 
+   LayerNorm                prune=False grow=False train=True 
+   Embedding                prune=False grow=False train=True 
+   GELUActivation           prune=False grow=False train=False
+
+### voc_deeplabv3: dodano=0 azurirano=7 hazard-skip=0
+   Hardsigmoid              prune=False grow=False train=False
+   Hardswish                prune=False grow=False train=False
+   ReLU                     prune=False grow=False train=False
+   BatchNorm2d              prune=False grow=False train=True 
+   Conv2d                   prune=True  grow=True  train=True 
+   Dropout                  prune=False grow=False train=False
+   AdaptiveAvgPool2d        prune=False grow=False train=False
+
+### midas_depth: dodano=0 azurirano=7 hazard-skip=0
+   Interpolate              prune=False grow=False train=False
+   ReLU                     prune=False grow=False train=False
+   ReLU6                    prune=False grow=False train=False
+   BatchNorm2d              prune=False grow=False train=True 
+   Conv2d                   prune=True  grow=True  train=True 
+   Identity                 prune=False grow=False train=False
+   ZeroPad2d                prune=False grow=False train=False
+
+======================================================================
+NOVI TIPOVI (0):
+
+ukupno tipova sada: 27

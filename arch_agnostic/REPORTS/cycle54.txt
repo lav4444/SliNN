@@ -1,0 +1,20 @@
+===== FAZA 5.4 — dead-removal + quality-gated ciklus (voc) =====
+dead-removal: maknuto 379 kanala u 15 slojeva
+gate = teacher-agreement (auto); baseline-agreement=0.8687  |  baseline GFLOPs=30.1971
+
+korak  GFLOPs     ušteda%   params      rez   grow    agreement  
+--------------------------------------------------------------------
+0      30.1971    0.00      10,917,660  0     0       -          
+1      29.7291    1.55      10,770,892  18    0       0.8732     
+2      29.2737    3.06      10,628,540  16    0       0.8804     
+3      28.8169    4.57      10,486,014  17    0       0.8887     
+4      28.3615    6.08      10,343,662  16    0       0.8951     
+5      27.9060    7.59      10,201,310  16    0       0.9027     
+6      27.4506    9.10      10,058,958  16    0       0.9099     
+7      26.9939    10.61     9,916,432   17    0       0.9076     
+8      26.5384    12.12     9,774,080   16    0       0.9173     
+9      26.0817    13.63     9,631,554   17    0       0.9229     
+10     25.6262    15.14     9,489,202   16    0       0.9290     
+--------------------------------------------------------------------
+BEST model: korak 10  GFLOPs=25.6262 (ušteda 15.14%)  forward-ok=DA
+VERDIKT: dead-removal-radi=DA  ciklus-napreduje=DA  best-odabran=DA  forward-ok=DA  ->  PROLAZI

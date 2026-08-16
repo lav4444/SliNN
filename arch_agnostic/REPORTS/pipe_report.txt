@@ -1,0 +1,14 @@
+model             task          mode         ulaz            kd             tap prun loss      imp  
+--------------------------------------------------------------------------------------------------------------
+schoolcnn         multilabel    full         image-files     feature+logit  1   6    0.1055    DA   
+      metrike=['mAP']  enhaneri=[]  (task-izvor A|B-shape)
+housing_mlp       regression    full         tabular         feature+logit  1   3    0.3807    DA   
+      metrike=['r2', 'rmse']  enhaneri=[]  (task-izvor A)
+speechcommands_m5 classificationfull         audio-files     feature+logit  1   3    1.0432    DA   
+      metrike=['f1_macro', 'accuracy']  enhaneri=[]  (task-izvor A)
+sst2_distilbert   classificationfull         fallback-random feature+logit  5   8    0.7843    DA   
+      metrike=['f1_macro', 'accuracy']  enhaneri=[]  (task-izvor A)
+voc_deeplabv3     segmentation  full         image-files     feature+logit  5   34   0.4898    DA   
+      metrike=['mIoU']  enhaneri=[]  (task-izvor A∩B)
+midas_depth       regression    core_kd_only fallback-random feature+logit  1   70   0.0393    DA   
+      metrike=['r2', 'rmse']  enhaneri=[]  (task-izvor A∩B)

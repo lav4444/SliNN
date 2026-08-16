@@ -1,0 +1,24 @@
+===== FAZA 5.3-A — morph_loop (prune+grow+cooldown+reinvest), voc =====
+baseline GFLOPs=0.6954  cooldown=2  reinvest=0.3  GROW_DOM=4.0
+korak  GFLOPs     ušteda%   params      rez   grow(sloj,k)                KD       cd_ovr 
+--------------------------------------------------------------------------------------------
+0      0.6954     0.00      11,029,328  0     -                           -               
+1      0.6856     1.40      10,842,993  243   -                           0.5534          
+2      0.6752     2.90      10,735,700  97    0:1,0:1                     0.5132          
+3      0.6647     4.41      10,599,164  192   0:1                         0.5486          
+4      0.6537     5.99      10,461,684  53    0:1,0:1                     0.5947          
+5      0.6429     7.54      10,318,732  31    0:1                         0.5885          
+6      0.6322     9.09      10,169,755  17    0:1,0:1                     0.5818          
+7      0.6218     10.58     10,026,405  17    0:1,0:1                     0.5736          
+8      0.6114     12.07     9,883,693   17    0:1,0:1,0:1                 0.5700          
+--------------------------------------------------------------------------------------------
+grow-događaja: 13  |  churn-prekršaja (narastao pa rezan u cooldownu): 0
+net GFLOPs pao: DA (12.07%)  forward-ok=DA
+
+===== FAZA 5.3-B — function-preserving +1 rast po sloju (_try_grow_layer) =====
+  prunable slojeva: 34  |  function-preserving +1 rast USPIO na: 9
+  najveci |Δizlaz| medu uspjelima: 5.17e-04 (<1e-3 = function-preserving)
+  (u petlji A grow je materijalizirao na: 0, 0, 0)
+
+--------------------------------------------------------------------------------------------
+VERDIKT: A(cooldown-poštovan=DA, net-pad=DA, fwd=DA)  B(grow-mehanika=DA)  ->  PROLAZI

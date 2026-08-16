@@ -1,0 +1,19 @@
+===== TEACHER-AGREEMENT GATE (unknown-task fallback) =====
+
+[speechcommands_m5]  out_kind=kl  gate=teacher-agreement (auto)  baseline-agreement=1.0000
+  korak GFLOPs     ušteda%  rez   agreement  
+  0     0.0316     0.00     0     -          
+  1     0.0311     1.73     4     0.9219     
+  2     0.0306     3.28     8     0.9688     
+  3     0.0301     4.86     14    0.8438     
+  BEST: korak 0  ušteda 4.9%  forward-ok=DA  (gate čuva original — kompresija bi pala ispod praga)
+
+[midas_depth]  out_kind=mse  gate=teacher-agreement (auto)  baseline-agreement=1.0000
+  korak GFLOPs     ušteda%  rez   agreement  
+  0     1.2850     0.00     0     -          
+  1     1.2682     1.31     57    -0.8294    
+  2     1.2490     2.80     865   0.2526     
+  3     1.2297     4.30     1081  0.3573     
+  BEST: korak 0  ušteda 4.3%  forward-ok=DA  (gate čuva original — kompresija bi pala ispod praga)
+
+VERDIKT: agreement-gate radi (kl+mse) -> PROLAZI
