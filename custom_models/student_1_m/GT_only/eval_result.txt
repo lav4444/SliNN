@@ -1,0 +1,60 @@
+Model: StudentYOLO (1,013,654 params)
+Checkpoint: /home/tomi/code/dipl/custom_models/student_1_m/GT_only/checkpoints/best.pt
+Trained epoch: 19 (val_gt_loss=1.7852, val_mAP@50:95=0.0493)
+Image size: 640
+Device: cuda
+Eval conf threshold: 0.001
+NMS IoU threshold: 0.6
+
+=========== VAL (837 images) ===========
+
+Speed:
+  Inference (model only):       12.77 ms/image  (78.3 FPS)
+  Total (preproc+inf+postproc): 72.01 ms/image  (13.9 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.0494
+  mAP@50    = 0.1464
+  mAP@75    = 0.0218
+  mAR@100   = 0.2280
+
+Per-class mAP@50:95:
+  Person       0.0189
+  Car          0.0369
+  Truck        0.0533
+  Bus          0.0970
+  Motorcycle   0.0398
+  Bicycle      0.0503
+
+=========== TEST (1000 images) ===========
+
+Speed:
+  Inference (model only):       13.78 ms/image  (72.6 FPS)
+  Total (preproc+inf+postproc): 72.59 ms/image  (13.8 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.0527
+  mAP@50    = 0.1503
+  mAP@75    = 0.0226
+  mAR@100   = 0.2297
+
+Per-class mAP@50:95:
+  Person       0.0226
+  Car          0.0455
+  Truck        0.0345
+  Bus          0.1160
+  Motorcycle   0.0511
+  Bicycle      0.0465
+
+
+================================================================
+CPU vs GPU latency benchmark (10 random train images, seed=42)
+================================================================
+
+CPU per-image times (ms): [  76.51,   26.43,   26.96,   23.94,   21.78,   21.97,   19.99,   22.32,   25.58,   20.97]
+GPU per-image times (ms): [  12.50,   18.23,   11.70,   11.06,   14.71,   11.32,   21.23,    8.79,    8.82,    8.87]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:     22.87 ms/image  (43.7 FPS)
+  GPU:     10.97 ms/image  (91.1 FPS)
+  Speedup (GPU vs CPU):  2.1x

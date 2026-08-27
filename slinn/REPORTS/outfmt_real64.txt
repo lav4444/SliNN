@@ -1,0 +1,25 @@
+===== 6.4 FORMAT + DECODE NA STVARNIM MREZAMA =====
+
+yolo26n eval (end2end)           -> nms_out       OK
+     [B,300,6]: ch5 cjelobrojan (id razreda 0..24), ch4 u [0,1] (conf)
+     decode -> 11 okvira · valjanih 100% · scores [0.264, 0.751] · razreda 2
+yolo26n train one2one            -> dense_split   OK
+     dict boxes (1, 4, 8400) + scores (1, 80, 8400)
+     decode -> 1 okvira · valjanih 100% · scores [0.749, 0.749] · razreda 1
+yolo26n train ['feats']          -> feat_pyramid  OK
+     3 razina RAZLICITIH kanala [64, 128, 256] -> znacajke, ne predikcije
+     decode -> None  OK (ispravno odbija)
+
+yolos-tiny ucitan (6,488,736 params)
+yolos-tiny (set-prediction)      -> set_pred      OK
+     dict pred_boxes (1, 100, 4) + logits (1, 100, 92)
+     decode -> 89 okvira · valjanih 100% · scores [0.255, 0.967] · razreda 4
+
+fasterrcnn (torchvision)         -> boxes_dicts   OK
+     lista dict-ova, kljucevi ['boxes', 'labels', 'scores']
+     decode -> 40 okvira · valjanih 100% · scores [0.052, 0.783] · razreda 4
+
+VERDIKT: 5/5 -> PROLAZI
+
+CISCENJE (yolos-tiny vise ne treba nakon prolaza):
+  rm -rf ~/.cache/huggingface/hub/models--hustvl--yolos-tiny

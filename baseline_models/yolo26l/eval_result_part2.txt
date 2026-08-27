@@ -1,0 +1,78 @@
+Model: yolo26l.pt
+Image size: 640
+Device: cuda
+Eval conf threshold: 0.001
+Hard pseudo-label threshold: 0.25
+
+=========== TRAIN (8625 images) ===========
+
+Speed:
+  Inference (model only):       18.14 ms/image  (55.1 FPS)
+  Total (preproc+inf+postproc): 30.43 ms/image  (32.9 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.4658
+  mAP@50    = 0.6710
+  mAP@75    = 0.5039
+  mAR@100   = 0.6636
+
+Per-class mAP@50:95:
+  Person       0.1978
+  Car          0.3962
+  Truck        0.5548
+  Bus          0.7140
+  Motorcycle   0.5259
+  Bicycle      0.4063
+
+=========== VAL (1232 images) ===========
+
+Speed:
+  Inference (model only):       19.50 ms/image  (51.3 FPS)
+  Total (preproc+inf+postproc): 28.37 ms/image  (35.3 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.4812
+  mAP@50    = 0.6793
+  mAP@75    = 0.5227
+  mAR@100   = 0.6693
+
+Per-class mAP@50:95:
+  Person       0.1900
+  Car          0.4385
+  Truck        0.5504
+  Bus          0.7634
+  Motorcycle   0.5345
+  Bicycle      0.4105
+
+=========== TEST (2464 images) ===========
+
+Speed:
+  Inference (model only):       19.30 ms/image  (51.8 FPS)
+  Total (preproc+inf+postproc): 28.67 ms/image  (34.9 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.4701
+  mAP@50    = 0.6729
+  mAP@75    = 0.5110
+  mAR@100   = 0.6665
+
+Per-class mAP@50:95:
+  Person       0.2044
+  Car          0.4008
+  Truck        0.5595
+  Bus          0.7316
+  Motorcycle   0.5096
+  Bicycle      0.4144
+
+
+================================================================
+CPU vs GPU latency benchmark (10 random train images, seed=42)
+================================================================
+
+CPU per-image times (ms): [ 377.69,  326.13,  309.39,  322.76,  306.47,  326.49,  301.87,  311.66,  322.71,  310.98]
+GPU per-image times (ms): [ 130.83,   17.97,   19.38,   17.42,   17.19,   17.24,   16.21,   19.53,   15.30,   19.36]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    314.00 ms/image  (3.2 FPS)
+  GPU:     17.51 ms/image  (57.1 FPS)
+  Speedup (GPU vs CPU):  17.9x

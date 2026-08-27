@@ -1,0 +1,26 @@
+model               detektirano    izvor      ocek.         OK   metrike
+--------------------------------------------------------------------------------------------------------
+yolo26n             detection      A∩B        detection     YES  mAP_50,mAP_50_95
+      probe: fmt=yolo mode=full smpl=True lbl=True
+      why: oznake: lista [N,>=4] okvira po slici | arh: detekcijski modul DetectionModel
+fasterrcnn          detection      A∩B        detection     YES  mAP_50,mAP_50_95
+      probe: fmt=yolo mode=full smpl=True lbl=True
+      why: oznake: lista [N,>=4] okvira po slici | arh: detekcijski modul RegionProposalNetwork
+schoolcnn           multilabel     A|B-shape  multilabel    YES  mAP,f1_macro
+      probe: fmt=yolo mode=full smpl=True lbl=True
+      why: A=detection nemoguc na flat izlazu -> multilabel | oznake: lista [N,>=4] okvira po slici | arh: flat izlaz (1, 6) (cls/multilabel/reg — treba oznake)
+housing_mlp         regression     A          regression    YES  rmse,mae,r2
+      probe: fmt=tabular mode=full smpl=True lbl=True
+      why: oznake: [B] float(skalar) | arh: flat izlaz (1, 1) (cls/multilabel/reg — treba oznake)
+speechcommands_m5   classification A          classificationYES  accuracy,f1_macro,top5
+      probe: fmt=folder_per_class mode=full smpl=True lbl=True
+      why: oznake: [B] int(klasa) | arh: flat izlaz (1, 12) (cls/multilabel/reg — treba oznake)
+sst2_distilbert     classification A          classificationYES  accuracy,f1_macro,top5
+      probe: fmt=hf_datasets mode=full smpl=True lbl=True
+      why: oznake: [B] int(klasa) | arh: flat izlaz (1, 2) (cls/multilabel/reg — treba oznake)
+voc_deeplabv3       segmentation   A∩B        segmentation  YES  mIoU,pixel_acc
+      probe: fmt=voc mode=full smpl=True lbl=True
+      why: oznake: dense (8, 281, 500) int(klase) | arh: izlaz [B,21,H,W] (per-piksel klase)
+midas_depth         regression     A∩B        regression    YES  rmse,mae,r2
+      probe: fmt=sniffed mode=core_kd_only smpl=True lbl=False
+      why: probe.task_hint=regression | arh: izlaz (1, 96, 96) float (dense/depth)

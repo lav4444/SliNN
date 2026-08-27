@@ -1,0 +1,267 @@
+{
+  "meta": {
+    "model": "distilbert-base-uncased-finetuned-sst-2-english",
+    "task": "text-classification (SST-2)",
+    "weights": "/home/tomi/code/dipl/baseline_models/sst2_distilbert/model.pt",
+    "num_classes": 2,
+    "max_len": 64,
+    "eval_split": "validation",
+    "eval_images": "full",
+    "quant_engine": "x86",
+    "reference_eval_result": {
+      "acc": 0.9106,
+      "f1_macro": 0.9104,
+      "gpu_ms": 3.007,
+      "cpu_ms": 18.054
+    },
+    "conditions": {
+      "cpu_threads": 8,
+      "lat_batch": 1,
+      "lat_warmup": 15,
+      "lat_iters": 100,
+      "lat_slow_iters": 5,
+      "torch": "2.6.0+cu124",
+      "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+      "metric_note": "latencija = medijan; p90/min u 'lat_full'",
+      "padding": "max_length (fiksna duljina -> usporediva latencija)"
+    },
+    "note": "Prvi ne-konvolucijski model u setu. INT8-PT-dynamic je ovdje kanonski put (model je gotovo sav Linear) \u2014 suprotno fasterrcnn-u, gdje su Linear samo glave pa je dynamic bio sporiji. CPU fp16 mjeren s manje iteracija jer je namjerno spor.",
+    "lat_full": {
+      "FP32": {
+        "cpu": {
+          "median_ms": 31.928600999890477,
+          "p90_ms": 34.90746900024533,
+          "mean_ms": 32.00262632995873,
+          "min_ms": 27.09227399827796,
+          "n": 100
+        },
+        "gpu": {
+          "median_ms": 3.101599999354221,
+          "p90_ms": 4.061609999553184,
+          "mean_ms": 3.2758650700270664,
+          "min_ms": 2.6107640005648136,
+          "n": 100
+        }
+      },
+      "FP16": {
+        "cpu": {
+          "median_ms": 74.5536220001668,
+          "p90_ms": 75.8310689998325,
+          "mean_ms": 75.34213639992231,
+          "min_ms": 74.3974969991541,
+          "n": 5
+        },
+        "gpu": {
+          "median_ms": 3.284375499788439,
+          "p90_ms": 3.870845999699668,
+          "mean_ms": 3.369688120110368,
+          "min_ms": 2.797130000544712,
+          "n": 100
+        }
+      },
+      "INT8-PT-dynamic": {
+        "cpu": {
+          "median_ms": 12.704321499768412,
+          "p90_ms": 17.046437998942565,
+          "mean_ms": 13.433209609975165,
+          "min_ms": 9.341955999843776,
+          "n": 100
+        },
+        "gpu": "N/A (PyTorch quant je CPU-only)"
+      },
+      "INT8-PT-static": {
+        "cpu": "N/A (HF nije fx-traceable: ValueError)",
+        "gpu": "N/A (CPU-only)"
+      },
+      "INT8-ORT-dynamic": {
+        "cpu": {
+          "median_ms": 6.142083499071305,
+          "p90_ms": 6.466390001151012,
+          "mean_ms": 6.147692969934724,
+          "min_ms": 4.529980000370415,
+          "n": 100
+        },
+        "gpu": "N/A (CPUExecutionProvider)"
+      },
+      "FP16-TRT": {
+        "median_ms": 1.017100998069509,
+        "p90_ms": 1.0537990019656718,
+        "mean_ms": 1.0663438898700406,
+        "min_ms": 1.003084998956183,
+        "n": 100
+      },
+      "INT8-TRT": {
+        "median_ms": 1.099658999919484,
+        "p90_ms": 1.123989000916481,
+        "mean_ms": 1.1124223999286187,
+        "min_ms": 1.0899669996433659,
+        "n": 100
+      },
+      "FP32-TRT": {
+        "median_ms": 1.0660970001481473,
+        "p90_ms": 1.1027389991795644,
+        "mean_ms": 1.115950759849511,
+        "min_ms": 1.0548410027695354,
+        "n": 100
+      }
+    },
+    "tensorrt": {
+      "version": "10.16.1.11",
+      "calib_sentences": 256,
+      "input": "1x64",
+      "fp16_path": "ONNX izvezen iz .half() modela (tezine fp16 u grafu)",
+      "int8_path": "QDQ graf (onnxruntime quantize_static, QuantFormat.QDQ, simetricni int8)",
+      "why": "TRT flagovi FP16/INT8 su DOPUSTENJA, ne naredbe \u2014 prva verzija je ostala na FP32 (engine 255.9 MB, INT8 sporiji od FP16, acc identicna FP32). Preciznost se zato nosi u GRAFU, a rezultat se provjerava histogramom precizosti po sloju + velicinom enginea.",
+      "fp32_trt_row": "referenca koja izolira dobitak od SAME graf-optimizacije (bez promjene precizije)",
+      "note": "ORT u ovoj okolini nema CUDA provider (CPU-only build), pa je TRT jedini GPU int8 put."
+    }
+  },
+  "rows": [
+    {
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 255.4507,
+      "cpu_ms": 31.9286,
+      "gpu_ms": 3.1016,
+      "acc": 0.91055,
+      "f1_macro": 0.91043,
+      "f1_micro": 0.91055,
+      "prec_macro": 0.91129,
+      "recall_macro": 0.91018,
+      "auroc": 0.97175,
+      "ce": 0.3902,
+      "per_class_recall": {
+        "negative": 0.8901869158878505,
+        "positive": 0.9301801801801802
+      }
+    },
+    {
+      "format": "FP16",
+      "backend": "PyTorch",
+      "size_mb": 127.7442,
+      "cpu_ms": 74.5536,
+      "gpu_ms": 3.2844,
+      "acc": 0.91055,
+      "f1_macro": 0.91043,
+      "f1_micro": 0.91055,
+      "prec_macro": 0.91129,
+      "recall_macro": 0.91018,
+      "auroc": 0.97173,
+      "ce": 0.39022,
+      "per_class_recall": {
+        "negative": 0.8901869158878505,
+        "positive": 0.9301801801801802
+      }
+    },
+    {
+      "format": "INT8-PT-dynamic",
+      "backend": "PyTorch x86",
+      "size_mb": 132.2877,
+      "cpu_ms": 12.7043,
+      "gpu_ms": "N/A (PyTorch quant je CPU-only)",
+      "acc": 0.8922,
+      "f1_macro": 0.89195,
+      "f1_micro": 0.8922,
+      "prec_macro": 0.89388,
+      "recall_macro": 0.89162,
+      "auroc": 0.96502,
+      "ce": 0.41196,
+      "per_class_recall": {
+        "negative": 0.8598130841121495,
+        "positive": 0.9234234234234234
+      }
+    },
+    {
+      "format": "INT8-PT-static",
+      "backend": "PyTorch x86",
+      "size_mb": "N/A (\u2014)",
+      "cpu_ms": "N/A (HF nije fx-traceable: ValueError)",
+      "gpu_ms": "N/A (CPU-only)",
+      "acc": "N/A (\u2014)",
+      "f1_macro": "N/A (\u2014)",
+      "f1_micro": "N/A (\u2014)",
+      "prec_macro": "N/A (\u2014)",
+      "recall_macro": "N/A (\u2014)",
+      "auroc": "N/A (\u2014)",
+      "ce": "N/A (\u2014)",
+      "per_class_recall": {
+        "negative": NaN,
+        "positive": NaN
+      }
+    },
+    {
+      "format": "INT8-ORT-dynamic",
+      "backend": "ONNX Runtime",
+      "size_mb": 64.2325,
+      "cpu_ms": 6.1421,
+      "gpu_ms": "N/A (CPUExecutionProvider)",
+      "acc": 0.90252,
+      "f1_macro": 0.9024,
+      "f1_micro": 0.90252,
+      "prec_macro": 0.90316,
+      "recall_macro": 0.90217,
+      "auroc": 0.96867,
+      "ce": 0.39848,
+      "per_class_recall": {
+        "negative": 0.883177570093458,
+        "positive": 0.9211711711711712
+      }
+    },
+    {
+      "format": "FP32-TRT",
+      "backend": "TensorRT",
+      "cpu_ms": "N/A (TensorRT je GPU-only)",
+      "gpu_ms": 1.0661,
+      "size_mb": 255.8425,
+      "acc": 0.91055,
+      "f1_macro": 0.91043,
+      "f1_micro": 0.91055,
+      "prec_macro": 0.91129,
+      "recall_macro": 0.91018,
+      "auroc": 0.97175,
+      "ce": 0.39007,
+      "per_class_recall": {
+        "negative": 0.8901869158878505,
+        "positive": 0.9301801801801802
+      },
+      "precision_layers": {
+        "?": 64
+      }
+    },
+    {
+      "format": "FP16-TRT",
+      "backend": "TensorRT",
+      "cpu_ms": "N/A (TensorRT je GPU-only)",
+      "gpu_ms": 1.0171,
+      "size_mb": 255.8231,
+      "acc": 0.91055,
+      "f1_macro": 0.91043,
+      "f1_micro": 0.91055,
+      "prec_macro": 0.91129,
+      "recall_macro": 0.91018,
+      "auroc": 0.97172,
+      "ce": 0.39021,
+      "per_class_recall": {
+        "negative": 0.8901869158878505,
+        "positive": 0.9301801801801802
+      },
+      "precision_layers": {
+        "?": 64
+      }
+    },
+    {
+      "format": "INT8-TRT",
+      "backend": "TensorRT",
+      "cpu_ms": "N/A (TensorRT je GPU-only)",
+      "gpu_ms": "N/A (RuntimeError: ONNX parse failed: In node 1 with name: /m/distilbert/transformer/layer.4/attention/Consta)",
+      "size_mb": "N/A (\u2014)",
+      "acc": "N/A (\u2014)",
+      "f1_macro": "N/A (\u2014)",
+      "f1_micro": "N/A (\u2014)",
+      "prec_macro": "N/A (\u2014)",
+      "recall_macro": "N/A (\u2014)",
+      "auroc": "N/A (\u2014)",
+      "ce": "N/A (\u2014)"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+===== FAZA 5.1 — split-materijalizacija + teacher-cache =====
+
+[voc_deeplabv3]  mode=image  taps=5  out_kind=mse  source=image-files
+  materijalizacija: 4 batcha x [4, 4, 4, 4]  determ.=DA
+  cached~inline: max rel-diff=1.04e-05 (OK)  build=0.10s
+  reuse: DA (0.006s vs build 0.10s)  invalidacija=DA
+  speedup: inline=0.171s cached=0.089s  ->  1.92x
+
+[housing_mlp]  mode=vector  taps=1  out_kind=mse  source=tabular
+  materijalizacija: 4 batcha x [4, 4, 4, 4]  determ.=DA
+  cached~inline: max rel-diff=2.87e-04 (OK)  build=0.01s
+  reuse: DA (0.001s vs build 0.01s)  invalidacija=DA
+  speedup: inline=0.012s cached=0.009s  ->  1.28x
+
+[speechcommands_m5]  mode=seq  taps=1  out_kind=kl  source=audio-files
+  materijalizacija: 4 batcha x [4, 4, 4, 4]  determ.=DA
+  cached~inline: max rel-diff=2.20e-05 (OK)  build=0.01s
+  reuse: DA (0.002s vs build 0.01s)  invalidacija=DA
+  speedup: inline=0.027s cached=0.016s  ->  1.73x

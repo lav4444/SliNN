@@ -1,0 +1,39 @@
+{
+ "model": "/home/tomi/code/dipl/baseline_models/yolo26n/yolo26n.pt",
+ "device": "cpu",
+ "g0": 5.958374399999993,
+ "g_min": 2.3364352000000017,
+ "g_min_frac": 0.39212628196039584,
+ "banned": [
+  "model.10.cv1.conv",
+  "model.10.m.0.ffn.1.conv",
+  "model.13.cv1.conv",
+  "model.13.m.0.cv3.conv",
+  "model.16.cv1.conv",
+  "model.16.m.0.cv3.conv",
+  "model.19.cv1.conv",
+  "model.19.m.0.cv3.conv",
+  "model.2.cv1.conv",
+  "model.22.cv1.conv",
+  "model.22.m.0.0.cv2.conv",
+  "model.22.m.0.1.ffn.1.conv",
+  "model.4.cv1.conv",
+  "model.4.m.0.cv2.conv",
+  "model.6.cv1.conv",
+  "model.6.m.0.cv3.conv",
+  "model.8.cv1.conv",
+  "model.8.m.0.cv3.conv"
+ ],
+ "n_banned": 18,
+ "probe_seconds": 17.43632483482361,
+ "n_prunable": 85,
+ "min_alive": 16,
+ "min_alive_frac": 1e-05,
+ "n_ckpt": 3,
+ "delta": 1.2073130666666638,
+ "targets": [
+  4.751061333333329,
+  3.5437482666666655,
+  2.3364352000000017
+ ]
+}

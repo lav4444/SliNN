@@ -323,9 +323,9 @@ OTVORENO (backlog/kasnije): (a) readeri za coco/seg_masks/nlp + parquet-with-den
 INPUT-readeri (trenutno `label_sample` vadi samo oznake; KD treba i dekodirane ulaze) — nadogradnja istih
 recognizera; (c) txt-list splitovi (VOC ImageSets, SpeechCommands) — sad se hvataju samo dir-bazirani splitovi.
 
-NAPOMENA (organizacija): `arch_agnostic/` = pravi moduli (`classify`/`position`/`task`/`dataset`) + registri
-(3 JSON-a). `arch_agnostic/helper/` = svi `_*` harnessi + ovaj PLAN.md. `arch_agnostic/REPORTS/` (PARALELNO s
-helper, ne pod njim) = `*_report.txt`. Harnessi imaju arch_agnostic apsolutno na `sys.path` (importi rade iz
+NAPOMENA (organizacija): `slinn/` = pravi moduli (`classify`/`position`/`task`/`dataset`) + registri
+(3 JSON-a). `slinn/helper/` = svi `_*` harnessi + ovaj PLAN.md. `slinn/REPORTS/` (PARALELNO s
+helper, ne pod njim) = `*_report.txt`. Harnessi imaju slinn apsolutno na `sys.path` (importi rade iz
 helper/-a); OUT = `../REPORTS/` (`dirname(dirname(__file__))`, makedirs za svjež clone).
 
 DATASET POKRIVENOST (2026-08, svih 8 modela): yolo/fasterrcnn/schoolcnn dijele `sub10k_open_images_v7`
@@ -636,20 +636,37 @@ Sub-koraci (rizik-gate):
   `_dead_decode(train_bn=True)` toggle-a BN → buduci fix = snapshot/restore). ZAKLJUČAK: plug radi + integrira se
   čisto (agnostično, task-uvjetno); detekcija kompresira BOLJE s enhancerima; puni agresivni paritet treba još FT/BN-tuninga.
 
-## 6. FAZA 6 — merge u glavni Streamlit GUI + čišćenje 🔜 DETALJAN PLAN
+## 6. FAZA 6 — merge u novi `slinn/` folder (jedinstveni proizvod) ✅ ZAVRSENA (2026-08-23)
 
-CILJ: arch_agnostic postaje AKTIVAN pipeline iza `morphology/gui.py` — GUI radi na **bilo kojem modelu + bilo
-kojem tasku** (ne samo yolo/frcnn detekcija). Stari morphology = kralježnica (dokazane mehanike prune/grow/dead/
-align/budžet/rollback/verzije) + detekcijski decode (scorer/enhaner plug); novi generički slojevi
-(probe/classify/position/task/dataset/loss/enhancers/engine) preuzimaju vođenje.
+> **FAZA 6 JE ZAVRSENA.** Svi podkoraci (6.0, 6.0.1, 6.1, 6.4, 6.2, 6.3, 6.5, 6.6) su gotovi i
+> verificirani. `slinn/` je jedini zivi proizvod: agnosticna jezgra + izolirani detekcijski plug +
+> GUI. `legacy/` je cista arhiva koja se smije obrisati bez posljedica.
+> Detalji svakog koraka su nize; sazetak na kraju poglavlja ("ZAVRSNO STANJE").
 
-KADA: Faza 5 gotova (svih 5 taskova + detekcija s enhancerima + BN-fix + frcnn, dokazano). Izolacija
-(`morphology` read-only) vrijedi DO 6.1 (backend swap) — od tada se morphology smije uređivati.
 
-STRATEGIJA: **strangler-fig** (novi raste unutar, stari se šuplji), NE big-bang. Flip na novi default TEK nakon
-paritet-provjere (6.3). Svaki korak je zaseban commit, reverzibilan.
+CILJ: složiti **NOVI top-level folder `slinn/`** kao jedinstveni proizvod — generički compression pipeline s
+GUI-jem koji radi na **bilo kojem modelu + bilo kojem tasku** (ne samo yolo/frcnn detekcija). `slinn/` = jezgra
+iz `arch_agnostic/` (prioritet, vodi) + preuzete morphology-mehanike (dokazane prune/grow/dead/align/budžet/
+rollback/verzije) + detekcijski decode (scorer/enhaner plug). Novi generički slojevi (probe/classify/position/
+task/dataset/loss/enhancers/engine) preuzimaju vođenje; sve per-model/detection-hardkodirano nestaje iz jezgre.
+
+**ODLUKA O FOLDERU (korisnik, 2026-08): NOVI `slinn/`, građen KOPIRANJEM — NE `git mv`, NE merge-u-morphology.**
+- `slinn/` je novi dom. U njega se **kopira** `arch_agnostic/*` kao jezgra; kako se generaliziraju GUI i detekcijski
+  decode, kopiraju/prilagođavaju se potrebni dijelovi iz `morphology/` (npr. `slinn/gui/`, `slinn/plugins/detection/`).
+- Povijest renamea nije bitna (zato ne `git mv`). Ime `morphology` je zavaravajuće (nastalo detekcijski-only) →
+  proizvod NE živi pod njim.
+- **ANTI-DRIFT (jedino pravilo):** za vrijeme mergea `morphology/` i `arch_agnostic/` su **ZAMRZNUTI** (nula novih
+  izmjena ondje) — sav rad ide u `slinn/`. Time je duplikacija privremena i ograničena, ne troizvorni kaos. Oba
+  ostaju netaknuta i radna kao referenca/fallback dok paritet-gate (6.0/6.3) ne prođe; nakon flipa se OBA PREMJESTAJU u `legacy/` (NE brisu se — odluka korisnika, v. 6.5).
+
+KADA: Faza 5 gotova (svih 5 taskova + detekcija s enhancerima + BN-fix + frcnn, dokazano).
+
+STRATEGIJA: **strangler-fig** (novi `slinn/` raste, stari se ostavlja radnim dok se ne isprazni), NE big-bang.
+Flip na `slinn/` kao default TEK nakon paritet-provjere (6.3). Svaki korak je zaseban commit, reverzibilan.
+Pošto se KOPIRA (ne editira morphology in-place), izolacija starog koda vrijedi cijelo vrijeme — do arhiviranja u `legacy/` (6.5).
 
 ### Coupling-točke koje merge dira (iz analize morphology GUI-ja, 2026-08)
+(Lijeva strana = izvor u `morphology/` koji se KOPIRA+prilagođava u `slinn/`; `morphology/` original ostaje zamrznut.)
 | gdje | sada (detection-hardkodirano) | postaje (generičko) |
 |---|---|---|
 | `gui.py:40` | `st.selectbox("Model", ["fasterrcnn", YOLO_PATH])` | tekst-unos putanje na BILO KOJI `.pt` + putanja dataseta |
@@ -665,35 +682,732 @@ paritet-provjere (6.3). Svaki korak je zaseban commit, reverzibilan.
 
 ### Sub-koraci
 
+**IZMJENA REDOSLIJEDA (korisnik, 2026-08): 6.4 → 6.3 → 6.2** (čišćenje → flip → GUI), umjesto izvornog
+6.2 → 6.3 → 6.4. Razlog: GUI je vrh hrpe; građen nad jezgrom koja se u 6.4 seli, gradio bi se dvaput.
+Nalaz iz 6.1 da je `import worker` dvosmislen između `morphology/` i `slinn/gui/` je simptom istoga —
+nestaje sam kad morphology ode. Preseljenje je jeftino osigurati: postoji `_parity60.py`, pa je
+petlja `preseli → paritet → zeleno` dovoljna garancija da ništa nije puklo.
+
+**NAČELO PRESELJENJA (korisnik, 2026-08):** `arch_agnostic`/`slinn` jezgra je smjer — općenitija je i
+uvijek pobjeđuje u tehničkim odlukama. `morphology/` je izgrađeniji, ali mu jezgra ne generalizira.
+Iz njega seli SAMO ono čega u `slinn/` nema; gdje postoje obje verzije, morphology se odbacuje.
+
 - **6.0 Pred-merge paritet-harness (offline, prije diranja GUI-ja):** skripta koja na ISTOM modelu vrti (a) stari
   `morphology.run_morph` i (b) novi `engine.full_cycle`, pa usporedi finalne GFLOPs + metriku. Za yolo/frcnn
   (detekcija, aktivni produkt) mora biti PARITET (nema regresije mAP-a); za voc/housing/m5 dokaz generalnosti.
   Ovo je SIGURNOSNI GATE — bez zelenog ovdje, ne diramo GUI.
-- **6.1 Backend swap (worker/prep_worker → engine/ctx):** `prep_worker` gradi `ctx = pipeline.prepare(model,
-  probe_adapter, dev, dataset_path)`, autobatch preko `engine.autobatch(…, ctx, …)`, baseline metrika per-task;
-  `worker` zove `engine.full_cycle(…, metric_fn=<per-task>)` umjesto `run_dead_ft`/`run_morph`. `config.json`
-  dobiva `model_path` + `dataset_path` (pravi korisnički ulaz); task/metrika/enhaneri se AUTO-detektiraju (ne u
-  configu). Engine-mehanike i dalje importane iz morphology-a (kralježnica). **Izolacija pada ovdje** (smijemo
-  editirati morphology zbog integracije).
+  **✅ GOTOVO (2026-08, `slinn/helper/_parity60.py`→`REPORTS/parity60.txt`):** yolo26n, 5 koraka, oba iz originala,
+  bez dead-removala, isti step 1.5%/reinvest 0.30, OBA finalna mjerena istim mAP-om (morphology ProfileAdapter
+  decode). Baseline GFLOPs 5.958/mAP 0.4174. **A stari:** rez 4.2%, mAP 0.3057 (73.2%). **B novi:** rez 4.0%,
+  mAP 0.3839 (**92.0%**). VERDICT PARITET OK — novi NE regresira (čak bolji: nosi enhanere+BN-fix iz 5.6b/5.7).
+  Novi `full_cycle` odvrtio pun engine end-to-end IZ `slinn/` na najtežem slučaju (detekcija) → nova lokacija radi.
+  Napomena: DEV_DATA_SUBSET=200 (niska vjernost apsolutnih brojki; svrha = paritet). Generalnost ne-detekcije već
+  dokazana u F5 (voc/housing/m5) + scaffold `prepare` iz `slinn/`.
+- **6.0.1 Skele `slinn/`:** napravi prazan `slinn/`, **kopiraj `arch_agnostic/*` → `slinn/`** (jezgra). Potvrdi da
+  smokovi/lanac probe→task→loss→importance rade iz nove lokacije (importi, `sys.path`, putanje do REPORTS-a).
+  Od ovog trena SVE novo ide u `slinn/`; `arch_agnostic/` i `morphology/` su zamrznuti.
+  **✅ GOTOVO (2026-08):** `slinn/` = kopija `arch_agnostic` (bez `__pycache__`/`tmp`); self-putanje
+  `code/dipl/arch_agnostic`→`code/dipl/slinn` (sed; `_MORPH`/`baseline_models` netaknuti, 23 morphology-ref
+  očuvane). Verifikacija (`_slinn_scaffold_check`): svi core moduli importaju IZ `slinn/`, `REGISTER_PATH`→
+  `slinn/…`, `prepare` radi (housing→regression). SHIM-GENERALIZACIJA (bonus, nužna za paritet): `install_sizing_
+  shims` sad pamti ORIGINALNE morphology funkcije i `_ag_layer_table`/`_ag_forward_ok`/`_ag_try_grow_layer`
+  DELEGIRAJU na original kad adapter nema `forward_example` (morphology `ProfileAdapter`) → probe-adapter i
+  morphology-adapter koegzistiraju bez sudara (točno što merge treba).
+- **6.1 Backend swap (engine-vođeni GUI backend, autoriran u `slinn/`):** u `slinn/` se **kopira+prilagodi**
+  morphology-ov `prep_worker`/`worker` tako da: `prep_worker` gradi `ctx = pipeline.prepare(model, probe_adapter,
+  dev, dataset_path)`, autobatch preko `engine.autobatch(…, ctx, …)`, baseline metrika per-task; `worker` zove
+  `engine.full_cycle(…, metric_fn=<per-task>)` umjesto `run_dead_ft`/`run_morph`. `config.json` dobiva `model_path`
+  + `dataset_path` (pravi korisnički ulaz); task/metrika/enhaneri se AUTO-detektiraju (ne u configu). Dokazane
+  engine-mehanike se preuzimaju u `slinn/` (kopirane/prilagođene, ne editiran morphology in-place). `morphology/`
+  ostaje netaknut i radan kao paritet-referenca.
+  **✅ GOTOVO (2026-08, `slinn/gui/` + `slinn/helper/_run61.py`→`REPORTS/run61.txt`):** novi engine-vođeni backend:
+  `backend.py` (dijeljeno: `load_ctx`=eager+probe+`prepare`; `build_metric_fn`=PER-TASK gate — detection→morphology
+  mAP plug, seg→mIoU, reg→r2, ostalo/bez-oznaka→teacher-agreement; `frozen_teacher`; `baseline_report`),
+  `prep_worker.py` (semafor gpu/task/batch/perf iz `{model_path,dataset_path}`, `engine.autobatch`), `worker.py`
+  (`engine.full_cycle` + `on_step`→`trajectory.jsonl`, best→`compressed.pt`, `status.json`). Isti JSON-protokol kao
+  stari GUI (prep_status/status/trajectory). VALIDIRANO na housing (ne-detekcija) kroz SUBPROCESS-launch (kako GUI
+  stvarno pokreće): prep `ready` (task=regression AUTO, r2 baseline 0.7565), compress `done` (6 koraka, params
+  110721→99512, r2 zadržan 0.749, best_step 6, compressed.pt spremljen). NALAZ: `import worker`/`import prep_worker`
+  je DVOSMISLEN (morphology/ i slinn/gui/ dijele imena) → workeri se pokreću SAMO kao subprocess-po-putanji (kako
+  gui.py ionako radi `subprocess.Popen`); kolizija nestaje kad morphology ode u `legacy/` (6.5). Detekcija kroz worker:
+  isti kod-put (`build_metric_fn`→mAP); engine na yolo već dokazan u 6.0 (odvojena yolo-kroz-worker provjera čeka
+  slobodan GPU — trenutno zauzet korisnikovim `train_gt.py`).
 - **6.2 GUI generalizacija:** (a) unos = putanja modela + putanja dataseta (ne selectbox 2 modela); (b) task se
   prikaže AUTO (read-only, iz `detect_task`) + `mode` (full/core_kd_only); (c) metrika-kartica dinamička iz
   `SUPPORTED_TASKS[task]["metrics"]` (npr. seg→mIoU, reg→r2/rmse, cls→f1/acc, det→mAP/mAR); (d) NOVA
   capability-kartica: što pipeline zna na OVOM modelu (iz `classify`/`position`/LAYER_REGISTER — prunable/tapovi/
   terminali/kd_mode) + format dataseta (SUPPORTED_DATASET_FORMATS); (e) trajektorija-graf task-generičan (ime
   metrike iz taska, ne hardkod mAP).
-- **6.3 Paralelni rad + paritet-gate + flip:** u GUI-ju (ili harnessu) kratko oba puta na istom modelu → potvrdi
-  paritet (detekcija) i smislenost (ne-detekcija) → **flip default** na novi engine. Stari put ostaje dostupan
-  iza zastavice dok se ne obriše u 6.4.
-- **6.4 ČIŠĆENJE (puno, tek nakon zelenog flipa):** obriši SUPERSEDED: hardkodirani `TASK_METRICS`/`_EVALUATORS`
-  (2 taska → SUPPORTED_TASKS+metric.py), detection-centrične GUI-birače, `config.MODEL_SPEC`/`FT_METRICS` hardkod,
-  `pick_adapter` kao pogon. **VAŽNA NIJANSA — NE briši detekcijski decode:** `profiles.py` (ProfileAdapter/
-  pick_profile/`_dense_decode`), `YoloAdapter`/`FrcnnAdapter` decode + `eval_map` OSTAJU jer ih `enhancers.py`
-  (detekcijski KD) i mAP-scorer (gate) REUSE-aju kao IZOLIRAN per-obitelj plug (jedini priznati per-model dio).
-  Zadrži REUSE-mehanike (dead/prune/grow/coupled-cost/align/rollback/autobatch/verzije/`kd._LOSS`).
-- **6.5 Konsolidacija foldera:** arch_agnostic = glavni pipeline modul; zadržane morphology-mehanike + detekcijski
-  decode-plug se presele u arch_agnostic (npr. `engine/` submodul za mehanike, `decode/` za detekcijski plug)
-  ILI ostanu kao tanki uvezeni `backbone`. `helper/` ostaje dev-alat. Jedan čist modul-stablo, jasna granica
-  jezgra (agnostično) / plug (decode).
+- **6.3 Paralelni rad + paritet-gate + flip:** u GUI-ju (ili harnessu) kratko oba puta na istom modelu (stari
+  `morphology` vs novi `slinn`) → potvrdi paritet (detekcija) i smislenost (ne-detekcija) → **flip default** na
+  `slinn/`. Stari `morphology/` ostaje radan kao fallback dok ne ode u `legacy/` (6.5).
+- **6.4 Dovršetak `slinn/` jezgre (nakon zelenog flipa):** unutar `slinn/` počisti superseded obrasce naslijeđene
+  kopiranjem: hardkodirani `TASK_METRICS`/`_EVALUATORS` (2 taska → SUPPORTED_TASKS+metric.py), detection-centrične
+  GUI-birače, `config.MODEL_SPEC`/`FT_METRICS` hardkod, `pick_adapter` kao pogon. **VAŽNA NIJANSA — NE briši
+  detekcijski decode:** `profiles.py` (ProfileAdapter/pick_profile/`_dense_decode`), `YoloAdapter`/`FrcnnAdapter`
+  decode + `eval_map` žive u `slinn/plugins/detection/` jer ih `enhancers.py` (detekcijski KD) i mAP-scorer (gate)
+  REUSE-aju kao IZOLIRAN per-obitelj plug (jedini priznati per-model dio). Zadrži REUSE-mehanike (dead/prune/grow/
+  coupled-cost/align/rollback/autobatch/verzije/`kd._LOSS`) — sad kao `slinn/` moduli.
+
+  **📐 IZMJERENO (2026-08, `_move64.py` → `REPORTS/move64.txt`):** tranzitivno zatvorenje iz 30 ulaznih točaka
+  koje `slinn/` stvarno zove = **85 simbola, 1198 od 2486 redaka (48%)**. Ostalih 1288 redaka je mrtvo za nas
+  i NE seli. Klasifikacija je po **dosežnosti** (dvije zatvorenosti: detekcijski ulazi `pick_adapter`/`eval_map`/
+  `make_gt_loader` naspram ostalih), ne po imenu.
+  - **Kolizije → 32 retka se odbacuju:** `weighted_leaves` (imamo `classify.py`), `evaluate` +
+    `eval_classification` (imamo `metric.py`).
+  - **Samo detekcija → `slinn/plugins/detection/`: 35 simbola, 508 redaka.** `YoloAdapter` (141) ·
+    `FrcnnAdapter` (74) · `ProfileAdapter` (47) · `ModelAdapter` (37) · `_DetDataset` (32) · cijeli
+    `profiles.py` (10/10 simbola) · gotovo cijeli `kd.py` (9/10 — detekcijski KD članovi).
+  - **Samo jezgra → `slinn/`: 45 simbola, 639 redaka.** Dokazane mehanike: `_try_grow_layer` (83) ·
+    `coupled_unit_cost` (58) · `remove_dead_neardead` (50) · `_grow_decide` (48) · `_select_grow_plan` (41) ·
+    `_select_prune_plan` (36) · `_apply_prune_plan` (33) · `align_factors` · `_widen_*` (depthwise guard).
+  - **21 `config` konstanta** — otud `slinn/config.py`.
+
+  **TRI TOČKE ZAGAĐENJA koje analiza otkriva (riješiti TIJEKOM preseljenja, ne poslije):**
+  1. `analysis.load_any` (generički eager loader, zove ga i `classify.py` i `position.py`) interno zove
+     `build_fasterrcnn` → detekcija se provlači u jezgru. Razdvojiti: čisti loader ostaje, frcnn-grana ide u plug.
+  2. `analysis._EVALUATORS` (hardkod 2 taska) povlači `eval_map` u jezgrenu zatvorenost — zato `eval_map`
+     ispada „dijeljen". Kad `_EVALUATORS` umre (zamjena: SUPPORTED_TASKS + `metric.py`), `eval_map` postaje
+     čisto detekcijski. **Ne seliti ga — obrisati.**
+  3. `config.COCO_IDS`/`NUM_CLASSES`/`CLASS_NAMES`/`DATASET_ROOT` su konstante KONKRETNOG detekcijskog
+     dataseta, ne globalne postavke → u plug (ili u job-config), ne u `slinn/settings.py`.
+
+  **✅ KORAK 1 — JEZGRA PRESELJENA (2026-08, `_extract64.py`):** mehanicka AST-ekstrakcija (izvorni rasponi
+  simbola, NE prepisivanje rukom) → 4 nova modula, svi bez ijedne morphology ovisnosti:
+  - `slinn/settings.py` — kompresijski hiperparametri (ALIGN_*/PHASE2_*/FT_*), nula dataset/detekcijskih konstanti
+  - `slinn/introspect.py` — 9 simbola iz `analysis.py`; **ne koristi NIJEDNU konstantu** (cista introspekcija)
+  - `slinn/morph.py` — 21 simbol iz `compress.py`; treba samo 3 konstante + `config.ALIGN_*` dinamicki
+  - `slinn/kdterms.py` — cijeli `kd.py`
+
+  Rewiring uz ZADRZANE aliase (`A`/`C`/`CFG`) → 24 pozivna mjesta nepromijenjena. Preseljenje je
+  SEMANTICKI NEUTRALNO; jedina namjerna izmjena = `load_any` gubi `spec=="fasterrcnn"` string-precac.
+  Verifikacija: pun lanac (engine/loss/enhancers/pipeline) uvozi se uz **NULA ucitanih morphology modula**.
+  Jedini preostali most je `gui/backend.py` (alias `DET`) na detekcijskom gate-u — tamo i pripada.
+
+  **ISPRAVAK move64 analize:** `kd.py` je bio svrstan kao 90% detekcijski. KRIVO — modul je po vlastitom
+  opisu genericki KD po tipu tapa, a `loss.py` ga zove iz AGNOSTICNE grane. Promaklo jer `_move64.py` skenira
+  prefikse `A.`/`C.`/`K.`, a poziv ide kao `kd.`. Cijeli modul ide u jezgru.
+
+  **⚠️ ZAMKA — SJENANJE IMENA MODULA (potrosen jedan ciklus):** dok su `slinn/` i `morphology/` oba na
+  `sys.path`, ISTOIMENI modul u `slinn/` zasjenjuje morphologyjev za CIJELI proces. `slinn/config.py` je
+  oborio paritet-harness (`morphology/analysis.py` → `from config import DATASET_ROOT` → dobio nas config).
+  Rjeseno preimenovanjem u **`slinn/settings.py`**. Isto pravilo je vec bilo primijenjeno na `kdterms.py`
+  (umjesto `kd.py`) i na `import worker` nalaz iz 6.1. Preostali sudar `introspect.py` je BEZOPASAN —
+  provjereno: morphology nigdje ne uvozi vlastiti `introspect`. **Pravilo do 6.5 (dok je morphology jos u korijenu): novi modul u `slinn/`
+  NE SMIJE nositi ime koje postoji u `morphology/`.**
+
+  **🔜 KORAK 2 — UNIFIKACIJA `weighted_leaves` (ODLUKA KORISNIKA, 2026-08: OBAVEZNO, ne opcija).**
+  Postoje dvije verzije: `introspect.weighted_leaves` (preseljena morphology, dim **2/4**) i
+  `classify.weighted_leaves` (dim **2/3/4**, vidi Conv1d). **ULTIMATIVNO POBJEDUJE 2/3/4** — 2/4 verzija
+  mora NESTATI, ne smije prezivjeti u jezgri ni kao fallback. Razlog: bez dim-3 je citav 1D lanac (M5,
+  audio, sekvence) nevidljiv grafu ovisnosti → nema tapova ni terminala → jezgra nije agnosticna.
+  Trenutno stanje: `engine.py` NAMJERNO drzi obje (`A.weighted_leaves` 7×, `_WL_AG` = classify verzija).
+  Zasto NIJE napravljeno u istom koraku s preseljenjem: unifikacija je promjena PONASANJA (1D convovi
+  postaju vidljivi ondje gdje prije nisu), pa bi pad pariteta postao dvosmislen — greska preseljenja ili
+  namjerna izmjena. Redoslijed je zato: preseli (neutralno) → paritet zelen → TEK ONDA unificiraj →
+  paritet ponovno. DEFINICIJA GOTOVOG: u `slinn/` postoji SAMO `classify.weighted_leaves`, `introspect`
+  je vise ne definira, svih 7 poziva u `engine.py` ide na 2/3/4, `_WL_AG` alias nestaje kao suvisan,
+  paritet zelen I 1D model (m5) i dalje prolazi pun ciklus.
+
+  **✅ KORAK 2 GOTOV (2026-08).** `weighted_leaves` ima JEDNU definiciju: `classify.py:195` (dim 2/3/4).
+  `introspect` je re-exporta (pozivna mjesta `A.weighted_leaves` nepromijenjena), `_WL_AG` alias i
+  monkeypatch `A.weighted_leaves = _WL_AG` uklonjeni iz `install_sizing_shims`.
+  NALAZ: ta je zakrpa bila JEDINA od cetiri BEZ fallbacka (ostale tri provjeravaju `forward_example` i
+  inace zovu original) → 2/3/4 je i prije uvijek pobjedivao, pa unifikacija NIJE promjena ponasanja
+  nego uklanjanje obmane.
+  VERIFICIRANO: (a) paritet `REPORTS/parity60.txt` — B novi 5.721 GFLOPs / 4.0% / mAP 0.3834 (91.9%),
+  strukturno IDENTICNO pred-unifikacijskom runu (5.721 / 4.0); mAP razlika u 4. decimali je FT-sum
+  (stara strana varirala 0.2971→0.3167 izmedu ista dva pokretanja). (b) 1D `REPORTS/prune1d55.txt` —
+  PROLAZI: prune 61 Conv1d kanala + forward-ok, grow 3 Conv1d sloja function-preserving |Δ|=0.00e+00.
+
+  **⚠️ NUSNALAZ — ZASTARJELI HARNESSI (rijeseno):** preseljenje je utisalo dev-harnesse. Oni su uvozili
+  `compress`/`analysis` iz morphology, a engine od 6.4 zakrpa `morph`/`introspect` → harnessi bi testirali
+  NEZAKRPANI stari kod, i to BEZ greske pri uvozu (tiho krivo). Prvi simptom: `_prune1d55.py` grow-test
+  pao s CUDA OOM 25.75 GiB jer je dosao u `morphology/compress.py` hardkod `rand(3, sz, sz)` nad audio
+  modelom. Preusmjereno 16 harnessa na `morph`/`introspect`; **`_parity60.py` NAMJERNO ostaje na oba**
+  (po naravi usporeduje stari i novi put). Ponovno pokrenut samo `_prune1d55.py`; ostalima status nije
+  provjeren — pokrenuti po potrebi.
+
+  **✅ KORAK 3 GOTOV — DETEKCIJSKI PLUG (2026-08, `_extractplug64.py`):** `slinn/plugins/detection/`
+  - `adapters.py` — 16 simbola (`ModelAdapter`/`YoloAdapter`/`FrcnnAdapter`/`_DetDataset`/`eval_map`/`pick_adapter`)
+  - `profiles.py` — cijeli modul (svih 10 simbola je detekcijskih)
+  - `dsconfig.py` — 10 konstanti KONKRETNOG dataseta (razredi, COCO remap, DATASET_ROOT); jezgra ih ne cita
+  - `__init__.py` — JAVNI OTVOR: `pick_adapter`, `make_gt_loader`, `eval_map`, `set_bn_eval`
+
+  ZASTO BAS DETEKCIJA: kod regresije/klasifikacije/segmentacije sirovi izlaz modela VEC JEST odgovor.
+  Kod detekcije nije — yolo izbacuje tisuce brojeva vezanih uz sidra i DFL, iz kojih se okviri tek moraju
+  izracunati (decode), pa procistiti (NMS), pa upariti s GT-om po IoU (mAP). Ta tri koraka se NE MOGU
+  izmjeriti probanjem; traze unaprijed poznatu konvenciju OBITELJI (yolo != frcnn). Sve ostalo u jezgri
+  (koji kanal rezati, kako rasti, KD gubitak) radi jednako na svim taskovima — zato jedino ovo ide iza ograde.
+
+  Rucni popravci nakon ekstrakcije (oba bi u paketu tiho promasila): `pick_adapter` je radio `import profiles`
+  → `from . import profiles`, i `import kd` → `import kdterms as kd`.
+  VERIFICIRANO na STVARNOM modelu (ne samo uvozom): yolo26n → `ProfileAdapter(kind=yolo)` → `eval_map`
+  mAP 0.4270 (48 slika).
+
+  **✅ RAZDVAJANJE POTPUNO:** `morphology` maknut sa `sys.path` u CIJELOJ jezgri i GUI-ju
+  (classify/enhancers/loss/metric/pipeline/position/gui.backend). Test s nasilno ocisenom putanjom:
+  jezgra + plug + `gui/backend.py` uvoze se uz **NULA morphology modula**. `backend.py` je JEDINO mjesto
+  gdje jezgra dodiruje plug (`build_metric_fn`) → obrisi `plugins/detection/` i jezgra radi dalje
+  (gate padne na teacher-agreement). Karantena je time stvarna, ne deklarativna.
+
+  **✅ KORAK 4 (ciscenje hardkoda) — NIJE BILO POTREBNO.** `_EVALUATORS`, `TASK_METRICS`, `MODEL_SPEC`,
+  `FT_METRICS` NIKAD nisu preseljeni: ekstrakcija je bila selektivna pa su ostali u morphology, a slinn ga
+  vise ne uvozi. Provjera: nula pogodaka u `slinn/**.py` (osim spomena u komentaru `metric.py:7`).
+  `pick_adapter` vise nije pogon nego samo plug-simbol. Preostala stavka iz izvornog 6.4 popisa —
+  "detection-centricni GUI-birace" — pripada 6.2 jer `gui.py` jos ne postoji.
+
+  **VERIFIKACIJA CIJELE 6.4:** `parity60` B novi = 5.721 GFLOPs / 4.0% / mAP 0.3839 / 92.0% — **TRECI put
+  zaredom ZNAMENKU PO ZNAMENKU isto**, kroz preseljenje jezgre, unifikaciju `weighted_leaves` I izdvajanje
+  pluga. Novi put je deterministican; stara strana pluta (0.3057 → 0.2971 → 0.3167 → 0.3242), sto potvrduje
+  da varijacija dolazi od nje. `run61` (ne-detekcija, housing/regresija, subprocess): prep `ready`
+  (autobatch TRAIN=64), compress `done`, 6 koraka, r2 0.7565 → 0.7492, `compressed.pt` spremljen.
+
+  **⚠️ REDOSLIJED — NAPOMENA ZA 6.3/6.5:** flip i selidba u `legacy/` ne mogu se DOVRSITI prije 6.2, jer je
+  `morphology/gui.py` jos uvijek JEDINI radni frontend. Praktican rasplet: flip ENGINE-a je vec dokazan
+  (3× paritet + run61) → napravi 6.2 (`slinn/gui/gui.py`) → pa 6.3 flip i 6.5 selidbu u `legacy/` zajedno.
+
+  **✅ KORAK 5 — PREPOZNAVANJE FORMATA IZLAZA (2026-08, `outfmt.py` + `_outfmt64.py` → `REPORTS/outfmt64.txt`).**
+  NALAZ KOJI JE OVO POKRENUO: `FrcnnAdapter.matches` je strukturan (`hasattr(model, "roi_heads")`), ali
+  `YoloAdapter.matches` je NJUSIO IME PAKETA (`type(model).__module__.startswith("ultralytics")`).
+  To je jedino mjesto u lancu koje je uzimalo model po imenu.
+
+  ODLUKA KORISNIKA: ultralytics ostaje PRIMARNA provjera (brza i sigurna za nase modele), a ispod nje
+  ide fallback po FORMATU IZLAZA. Cilj: model koji nikad nismo vidjeli mora i dalje proci kroz slinn.
+
+  `pick_adapter(model, sample_input=None, strict=False)` — tri razine:
+    1. poznata obitelj (`matches`) · 2. `outfmt.describe` -> posudi decode koji taj OBLIK zna citati ·
+    3. None + glasno upozorenje -> jezgra degradira na KD-only (gate = teacher-agreement) i KOMPRIMIRA DALJE.
+  `strict=True` pretvara 3. u tvrdi prekid (samo kad je korisnik izricito trazio mAP-gated kompresiju).
+
+  PREPOZNATE OBITELJI FORMATA (`FORMATS`), sve mjerenjem oblika:
+  `boxes_dicts` (torchvision liste) → FrcnnAdapter · `dense_nc` [B,4+K,N] (yolov8+) i `dense_cn` [B,N,4+K]
+  (yolov5) → YoloAdapter · `set_pred` (DETR dict) i `multilevel` (4D po FPN razini) → prepoznati ali BEZ
+  decode-a (posten "znam sto je, ne znam procitati") · `unknown`.
+
+  **OGRANICENJE KOJE SE PRIJAVLJUJE, NE PRESUCUJE:** oblik otkriva OBITELJ, ali NE i konvenciju okvira
+  (`xyxy`/`xywh`/`cxcywh`, px ili normalizirano). Zato `probe_box_layout` mjeri: pretvori po svim
+  pretpostavkama i uzmi onu s najvise VALJANIH okvira. KLJUCNO: `xywh` i `cxcywh` razlikuju se SAMO po
+  tome probije li okvir granicu — ako su svi okviri duboko unutar slike, razlika je NEMJERLJIVA. Tada
+  funkcija vraca `confident=False` + popis `ambiguous` umjesto tiho pogodjenog odgovora. Kod pravih
+  gustih izlaza (tisuce sidara preko cijele slike) okviri dodiruju rub pa se razlucuje.
+  (Prva verzija je tiho birala `xywh` za `cxcywh` ulaz — uhvatio test, popravljeno.)
+
+  VERIFICIRANO (`_outfmt64.py`, 6 izmisljenih mreza koje NISU iz ultralytics/torchvision — ime ne pomaze):
+  formati 6/6 tocno · degradacija na None bez pada · konvencija okvira: 3/3 tocno kad okviri dodiruju rub,
+  a kod okvira-svi-unutra ispravno prijavljuje `ambiguous=['cxcywh/px','xywh/px']`.
+  Regresija: pravi yolo26n i dalje ide PRIMARNIM putem (`ProfileAdapter kind=yolo`), fallback se ne poziva.
+
+  **✅ KORAK 6 — DECODE ZA SVE PREPOZNATE FORMATE (2026-08, `outfmt.decode` + `_outfmtreal64.py`
+  → `REPORTS/outfmt_real64.txt`).** Prosireno sa 6 na 9 formata, svi osim `dense_cn`/`dense_nc`
+  potvrdjeni na STVARNIM tezinama. Svaki decode svodi izlaz na ISTI oblik
+  `[{boxes xyxy PIKSELI, scores, labels}]` — ono sto torchmetrics mAP jede, pa jezgra dalje ne mora
+  znati odakle je doslo.
+
+  | format | izvor potvrde | decode |
+  |---|---|---|
+  | `nms_out` [B,D,6] | yolo26n eval (end2end) | builtin — vec dekodirano |
+  | `dense_split` {boxes,scores} | yolo26n train `one2one` | builtin — sidro-relativno |
+  | `set_pred` {logits,pred_boxes} | **yolos-tiny** (HF, 6.5M) | builtin — cxcywh norm, bez NMS |
+  | `boxes_dicts` | fasterrcnn (torchvision) | FrcnnAdapter |
+  | `feat_pyramid` | yolo26n train `feats` | NEMA (i ne smije) |
+  | `dense_nc` / `dense_cn` | sinteticki | YoloAdapter |
+  | `multilevel`, `unknown` | — | NEMA |
+
+  **DVIJE GRESKE KOJE JE OVAJ KORAK UHVATIO NA KORISNIKOVOM VLASTITOM MODELU:**
+  1. **`nms_out` nije postojao** — yolo26n eval vraca `[B,300,6]`, sto bi stari klasifikator proglasio
+     gustom glavom "s ~2 razreda". Razlucuje se MJERENJEM: ch5 je CJELOBROJAN (id razreda), ch4 u [0,1]
+     (conf) → vec dekodiran NMS izlaz.
+  2. **`feat_pyramid` naspram `multilevel`** — yolo26 `feats` su `[64,128,256]` kanala po razini, dakle
+     RAZLICITI → piramida ZNACAJKI, ne predikcije. Prava glava ima ISTI broj kanala na svim razinama.
+     Ta razlika sprjecava da se piramida znacajki proglasi detekcijskim izlazom.
+
+  **SIDRO-RELATIVNI DECODE (`anchor_grid` + `_ltrb_to_xyxy`).** Nalaz: yolo26 train `boxes` NISU
+  koordinate — raspon [-0.6, 13.7], svih 6 izravnih hipoteza dobiva score ~0.006. To su DFL udaljenosti
+  (l,t,r,b) od sidra u jedinicama koraka. Resetka se IZVODI, ne hardkodira: za N sidara i ulaz HxW
+  provjeri pogadja li `sum((H//s)*(W//s))` za korake (8,16,32) tocno N (640² → 6400+1600+400 = 8400).
+  Ako da, dekodiraj i OCIJENI rezultat kroz `probe_box_layout`; prihvati samo ako je udio valjanih okvira
+  >= 0.2. **KRIZNA POTVRDA:** tako dekodirana gusta glava daje top-score **0.749**, a modelov vlastiti
+  end2end NMS na ISTOJ slici **0.751** — dva neovisna puta do istog okvira.
+
+  **`_dense_to_dets` sada ODBIJA umjesto da izmislja:** ako nijedna hipoteza (izravna ni sidro-relativna)
+  ne prijedje `min_score`, vraca None → `decode` vraca None → degradacija na KD-only. Prva verzija je
+  koristila `lay["layout"] or "xyxy"` bez obzira na pouzdanost i proizvodila smece.
+
+  **TEST MORA IC NA STVARNU SLIKU, NE SUM.** Prvo mjerenje je dalo "0% valjanih okvira" na `torch.rand`
+  ulazu — model na sumu izbacuje besmislene okvire pa provjera valjanosti nema sto mjeriti. Sa stvarnom
+  slikom iz val skupa: 5/5 formata, svi 100% valjanih.
+
+  yolos-tiny je nakon prolaza OBRISAN (25 MB, `~/.cache/huggingface/hub/models--hustvl--yolos-tiny`) —
+  test ga preskace uz poruku ako ga nema, ostali slucajevi i dalje rade.
+- **✅ 6.2 GUI GENERALIZACIJA — GOTOVO (2026-08).** `slinn/gui/gui.py` (Streamlit), tri stranice.
+  Odluke korisnika: sve tri stranice (puna zamjena) · SAMO rucne putanje (bez popisa modela) ·
+  align/kvantizacija SE PRENOSI iz morphology.
+
+  **Novi moduli / izmjene:**
+  - `slinn/overview.py` — GENERICKA zamjena za `analysis.analyze_report` (koji je bio detekcijski).
+    `summary` (velicina, tipovi, task/mode/format/tapovi/kd_mode), `layer_rows` (per-layer + spregnuta
+    cijena iz JEDNOG izvora `morph.prune_costs`), `top_prune`, `worst_aligned`, `capabilities` (About).
+    `report(deep=True)` doda KD-vaznost. NULA grananja po modelu ni tasku.
+  - `slinn/morph.py` += `model_align_score`, `best_align_score` (preseljeno bez izmjena).
+  - `engine.py` trajektorija += `size_mb`, `gflops_freed`, `gflops_reinvested`, `align_score`,
+    `align_best`; `traj[0]` (BASELINE) se sad EMITIRA kroz `on_step` — prije ga GUI nije imao kao
+    referentnu tocku.
+  - `gui/worker.py` — primjenjuje `align_m` iz configa PRIJE `full_cycle` (`settings.ALIGN_M` +
+    `PHASE2_MIN_ALIVE = M//2`), jer ih `morph` cita dinamicki.
+
+  **Sto je nestalo u odnosu na morphology GUI:** `selectbox("Model", ["fasterrcnn", YOLO_PATH])`,
+  hardkodirane mAP/mAR kartice i biraci metrika, `config.MODEL_SPEC`/`FT_METRICS`. Metrika se sad
+  ISPISUJE (auto iz taska), ne bira. Ako je `teacher_agreement`, GUI to glasno kaze.
+
+  **VERIFICIRANO U PRAVOM PREGLEDNIKU** (headless streamlit + klikanje), nula gresaka u logu:
+  - Overview na yolo26n: 2.572M params · 5.9584 GFLOPs (poklapa se s paritet baselineom) · 9.8 MB ·
+    poravnanje 83.7% · **sve auto-detektirano**: task=detection, mode=full, format=yolo, 8371 uzoraka,
+    kd_mode=feature+logit, 3 tapa, 93/126 prunable, enhaneri=da. Tablice najjeftinijeg reza i najgore
+    poravnatih slojeva se crtaju.
+  - Overview na housing (regresija, tablicni podaci): isti ekran, task=regression, format=tabular —
+    dokaz da nema detekcijskog grananja.
+  - About: svih 6 taskova, 10 formata dataseta, 9 formata IZLAZA s pripadnim decode-om, 27 tipova slojeva.
+  - Compress: priprema/semafor renderira; pun run nije pokretan (dugotrajno).
+
+  **NALAZ (uhvacen pri prvom pokretanju):** `overview.py` je zvao `A.gflops_total`, a sizing-shimovi se
+  instaliraju tek pri `import engine` → mjerenje je padalo na hardkodirani `rand(3,640,640)` i pucalo na
+  tablicnom modelu. Ispravak: `overview` uvozi `engine` i koristi `E.gflops` (adapter-svjestan).
+
+- **6.5 Arhiviranje starih foldera + finalna struktura.**
+
+  **⛔ ODLUKA KORISNIKA (2026-08): `morphology/` i `arch_agnostic/` se NE BRIŠU. NIKAD.**
+  Umjesto brisanja: napravi `legacy/` i **premjesti** oba foldera u njega →
+  `legacy/morphology/` i `legacy/arch_agnostic/`. Kôd ostaje sačuvan kao referenca; miče se samo iz
+  korijena da `slinn/` bude jedini živi proizvod. Zamjena za "brisanje" u svakoj ranijoj rečenici ovog
+  plana (§ODLUKA O FOLDERU, 6.1, 6.3, 6.4) glasi: **premještanje u `legacy/`**.
+
+  **ČIŠĆENJE PRI PREMJEŠTANJU:** iz `morphology/` obriši regenerabilne artefakte da arhiva ostane čista i
+  prazna — **precomputane datasetove/cacheve (`morphology/tmp/`) i spremljene modele (`morphology/models/`)**.
+  To su izlazi, ne izvor; ponovno se generiraju iz koda. Prije brisanja provjeriti veličinu i sadržaj i
+  potvrditi s korisnikom (jednosmjerno).
+
+  Ciljno stablo:
+  `slinn/` (jezgra: engine/loss/task/dataset/classify/position/pipeline/metric/enhancers/morph/introspect/
+  kdterms/settings + registri) · `slinn/plugins/detection/` (izolirani decode-plug) · `slinn/gui/` (Streamlit) ·
+  `slinn/helper/` (dev-alat) · `slinn/REPORTS/` · `legacy/` (arhiva, izvan puta izvođenja).
+  Jedno čisto modul-stablo, jasna granica jezgra (agnostično) / plug (decode); u korijenu nema više
+  `morphology`/`arch_agnostic` duplikata.
+
+  Nuspojava koja time nestaje: sudari imena modula (`introspect`, ranije `config`) prestaju biti opasni čim
+  `legacy/` nije na `sys.path`.
+
+### ✅ 6.3 FLIP-GATE PROSAO (2026-08-23) — pun run KROZ NOVI GUI
+
+Zadnji neprovjereni put: kompresija pokrenuta iz `slinn/gui/gui.py` (Compress stranica), yolo26n,
+INT8/M=32, tolerancija 0.75, cilj 15%, `DEV_DATA_SUBSET=200`.
+
+    kor    GFLOPs     params      mAP    align      MB    rez%
+      0    5.9584  2,572,280   0.4270    0.837    9.81    0.0%
+      6    5.5529  2,465,985   0.3345    0.847    9.41    6.8%   <- best
+      9    5.3183  2,338,064   0.2371    0.823    8.92   10.7%
+
+`state=done` · `best_step=6` · `compressed.pt` spremljen (9.9 MB).
+
+**QUALITY-GATE RADI KAKO TREBA:** prag = 0.75 x 0.4270 = 0.3202. Koraci 7-9 probili ga TRI puta
+zaredom (0.3192 / 0.2832 / 0.2371) -> petlja stala i zadrzala KORAK 6 kao najmanji model koji jos
+drzi kvalitetu. Nije uzet zadnji nego najbolji.
+
+**POKRIVENO OVIM RUNOM (nijedan raniji test to nije imao zajedno):**
+worker pokrenut IZ GUI-ja · `align_m=32` iz kartice kvantizacije stvarno primijenjen (align_score
+prati ×32 skalu, poklapa se s Overview 83.7%) · svih pet novih trajektorijskih vrijednosti
+(`size_mb`, `gflops_freed/reinvested`, `align_score`, `align_best`) · baseline tocka (step 0) ·
+`compressed.pt`. Time je zatvoren i zaostatak iz 6.1 ("yolo kroz novi worker ceka slobodan GPU").
+
+**⚠️ BUG UHVACEN OVIM RUNOM — `enhancers.py:31 import profiles as PF`.** Prvi pokusaj pao s
+`ModuleNotFoundError: No module named 'profiles'`. Uvoz je bio UNUTAR funkcije (lazy), pa ga provjera
+"jezgra se uvozi uz nula morphology modula" nije mogla uhvatiti. Dok je morphology bio na `sys.path`,
+tiho je povlacio NJEGOV `profiles` — detekcijski KD je isao MIMO pluga, a sve je izgledalo ispravno.
+Ispravak: `from plugins.detection import profiles as PF` unutar `try/except ImportError` -> bez pluga
+se enhancer sam iskljuci umjesto da srusi run.
+POUKA: skidanje morphology sa `sys.path` (6.4) nije kozmetika — ovo je prvi dokaz da karantena hvata
+ono sto bi inace proslo nezapazeno. Provjeriti LAZY uvoze, ne samo modul-razinske.
+
+**OGRADA OKO BROJKI:** mAP pada strmije nego u paritet testu (tamo 92% zadrzano na 4% reza) jer
+`DEV_DATA_SUBSET=200` daje oporavku samo 200 slika, a gate mjeri na 48. **Ovo su brojke INSTALACIJE,
+ne rezultat.** Za rad: `DEV_DATA_SUBSET=None` + ozbiljniji `ft_steps`.
+
+### ✅ 6.5 SELIDBA U `legacy/` GOTOVA (2026-08-23) — FAZA 6 ZAVRSENA
+
+Korijen projekta sada: `slinn/` (zivi proizvod) + `legacy/` (arhiva, izvan puta izvodjenja).
+
+**OBRISANO:** `morphology/tmp/` — **12 GB** teacher cachea (yolo26n 11G, fasterrcnn 1.2G,
+yolo26l 106M). Regenerabilno.
+**ZADRZANO (odluka korisnika):** `morphology/models/` (174 MB — 3 rezultata ranijih kompresija:
+frcnn 75M, yolo26l 96M, yolo26n 9.7M) i `arch_agnostic/tmp/` (527 MB).
+`legacy/` = 702 MB · `legacy/morphology` 175 MB · `legacy/arch_agnostic` 527 MB.
+
+**ZASTO JE UOPCE BILO 24 REFERENCE NA `morphology/`** (pitanje korisnika — razvrstano mjerenjem,
+`scratchpad/why_morph.py`):
+1. **16 harnessa — LAZNA UZBUNA.** Uvoze `introspect`, ali to je NAS `slinn/introspect.py` (nastao u
+   6.4). Nista nije dolazilo iz morphology; ostala im je samo mrtva `sys.path.insert` linija. Maknuto.
+2. **2 harnessa — STVARAN BUG (moj).** `_grow53.py`/`_spike50.py` rade `import config as CFG`. Kad sam
+   `slinn/config.py` preimenovao u `settings.py` (zbog sjenanja imena), oni su TIHO pali na
+   morphologyjev `config`. Ista klasa buga kao `enhancers.py`. Popravljeno -> `import settings as CFG`.
+3. **`_parity60.py` — NAMJERNO.** Usporeduje stari i novi engine, treba oba. Putanja -> `legacy/`.
+4. **5 `baseline_models/*/_verify.py` — stari kod** koji prethodi slinnu i koristi `analysis`.
+   Putanja -> `legacy/`. Jedini stvarni preostali korisnici arhive.
+
+**VERIFICIRANO NAKON SELIDBE:** jezgra + plug + `gui/backend` se uvoze cisto · `pick_adapter` na
+yolo26n vraca `ProfileAdapter` · **nula referenci na staru putanju** u cijelom projektu ·
+stara putanja nije na `sys.path`.
+
+**POUKA (druga potvrda istog obrasca):** dvije od tri stvarne ovisnosti bile su TIHE — kod se oslanjao
+na to da je morphology na `sys.path`, pa je pogresan modul ulazio bez ijedne greske. Prvi put
+`enhancers.py` (lazy `import profiles`), drugi put `import config`. Sjenanje imena modula je glavni
+izvor te klase gresaka; nakon selidbe vise nije moguca jer `legacy/` nije na putanji.
+
+### ✅ 6.6 `legacy/` VISE NIJE UVJET ZA RAD (2026-08-23)
+
+ZAHTJEV KORISNIKA: "ako sutra obrisem legacy, sve mora i dalje raditi". Arhiva smije biti referenca,
+nikad ovisnost. Odvezano svih 12 preostalih datoteka.
+
+**A. 5x `baseline_models/*/_verify.py` — POTPUNO na slinn.** Iz `analysis` su koristili SAMO
+`load_any` (postoji u `slinn/introspect.py`). NALAZ: pokazivali su i na `arch_agnostic`, koji je
+TAKODJER u `legacy/` — dakle bili su dvostruko slomljeni, ne samo jednom. Sada `_AA` -> `slinn`,
+`import analysis as A` -> `import introspect as A`, legacy linija maknuta.
+
+**B. 3x mrtve path linije** (`_sweep.py`, `_populate.py`, `_spike50.py`) — imale su
+`sys.path.insert(legacy)` ali uvoze SLINN module. Promasilo ih je ranije ciscenje jer koriste druga
+imena varijabli (`_M`, `_MORPH`). Maknuto.
+
+**C. 4x POVIJESNI alati — graciozno odustajanje umjesto pada.** `_parity60.py` (usporeduje stari i
+novi engine) i `_move64/_extract64/_extractplug64` (citaju iz morphology jer su njime PRESELILI kod).
+Ti po naravi trebaju arhivu i ne mogu se portati — posao im je odradjen. Sada provjere postoji li
+`legacy/morphology` i, ako ne, ispisu sto su bili i zavrse s kodom 0.
+
+**VERIFICIRANO S POTPUNO SAKRIVENOM ARHIVOM** (`mv legacy _legacy_HIDDEN`):
+- jezgra + plug + `gui/backend` uvoz OK; `pick_adapter` -> `ProfileAdapter`
+- `baseline_models/housing_mlp/_verify.py` odradi pun probe+classify+position (13 leafova, 1 tap)
+- svih 26 harnessa u `slinn/helper/` sintaksno prolazi
+- 4 povijesna alata uredno odustanu (exit 0, jasna poruka)
+- **`_run61.py` odvrti PUN GUI-backend lanac** (prep -> compress -> `compressed.pt`) bez arhive
+
+Arhiva je od sada cisto povijesna: `legacy/` se moze obrisati bez ijedne posljedice za rad.
+
+### ✅ 6.7 TERMINAL-LOG U GUI-ju (2026-08-23)
+
+ZAHTJEV: stari morphology GUI je uz grafove prikazivao i terminal-ispis napretka; isto se trazi i ovdje.
+
+**Mehanika (preneseno iz morphology/worker.py):** `backend._Tee` + `backend.tee_log(name)` preusmjere
+`stdout`/`stderr` u terminal **I** u `JOB/<name>`. `worker.py` -> `worker.log`, `prep_worker.py` ->
+`prep.log`. Pokretanje iz terminala ostaje nepromijenjeno; log je samo dodatni zapis.
+GUI: `_render_log()` (expander + `st.code`, zadnjih 8000 znakova) na tri mjesta — trening log otvoren
+DOK RUN TRAJE, log pripreme otvoren pri gresci. `_startup_cleanup` brise oba pri novom pokretanju servera.
+
+**NALAZ: sam tee nije bio dovoljan.** Prvi test dao je log od **0 bajtova** — `slinn/engine.py` ima
+svega 4 `print`-a (samo poruke o cacheu), dok je morphologyjev `compress.py` bio brbljav. Bez dodatnog
+ispisa kartica bi bila prazna.
+RJESENJE: ispis napretka dodan u `worker.py`, NE u engine — `on_step` ionako vec dobiva svaki zapis
+trajektorije. Tako je log task-genericki i engine ostaje tih.
+  - zaglavlje: model · task/mode/enhaneri/metrika · cilj/tolerancija/batch/FT/max · align M · baseline -> prag
+  - tablica po koraku: GFLOPs · params · metrika · align · MB · rez% · KD, uz oznaku `<-- ISPOD praga`
+  - podredak: rezano kanala · naraslo (ime sloja skraceno na 2 dijela) · broj zabranjenih slojeva
+  - zavrsetak: najbolji korak, rez%, putanja spremljenog modela
+  - `prep_worker`: svaki semafor-korak ispisan JEDNOM kad dobije boju
+
+**DVIJE GRESKE UHVACENE PRI PRVOM ISPISU (housing):**
+1. GFLOPs stupac je pokazivao `0.0002` za SVE korake — 4 decimale nisu dovoljne za mali model.
+   Popravak: `_g()` bira `%.4f` iznad 0.01, inace `%.3e` (yolo ~6, housing ~2e-4).
+2. Zavrsni redak je tvrdio "zadnji korak ispod praga, zato se ne uzima" i kad je najbolji korak BIO
+   zadnji. Sada se ispisuje samo kad se `best_gflops` i `final_gflops` stvarno razlikuju.
+(Usput ocisen besmislen ostatak `n.split(".")[-2:] and n` u retku za rast.)
+
+**VERIFICIRANO:** `_run61.py` pun lanac -> `prep.log` i `worker.log` sadrze tocno ocekivano
+(v. ispis u razgovoru); sve 4 GUI datoteke sintaksno prolaze. Vizualni prikaz expandera nije
+potvrdjen u pregledniku (Streamlit text_input ne prima sinteticke evente) — provjera je trivijalna
+u vlastitom pregledniku.
+
+### ✅ 6.8 CETIRI BUGA IZ PRVE PRIMJENE NA CIJELOM ZOOU (2026-08-23)
+
+Korisnik je uocio dva simptoma ("staje na 20", "rezovi nisu 1.5%") i pitao za f1. Dijagnoza je dala
+CETIRI odvojena uzroka; svaki je prvo izmjeren, pa popravljen, pa provjeren.
+
+**1. Petlja je stajala na 20 koraka.** `engine.py:444` je imao HARDKODIRAN literal `max_steps=20`,
+dok morphology koristi `PHASE2_MAX_STEPS = 200`. Zato je ta konstanta izgledala "mrtvo" — nije bila
+suvisna, nego NESPOJENA. To je ujedno odgovor na pitanje "zasto neke konstante nisu implementirane":
+prekopirane su u `settings.py`, a u kodu je pisao literal.
+FIX: `max_steps=None` -> razrjesava se u `CFG.PHASE2_MAX_STEPS`; GUI default 200 (uz help da je to
+sigurnosna granica, NE cilj).
+
+**2. Rezovi 0.07% umjesto 1.5% (DistilBERT).** `coupled_unit_cost` je broj ULAZNIH kanala citao iz
+`ish[1]` — dimenzije 1 IZMJERENOG oblika ulaza. To vrijedi za NCHW conv i 2D linear, ali kod
+sekvencijskog ulaza `(B, S, C)` to je DULJINA SEKVENCE. DistilBERT: ulaz `(1,64,768)` -> dijelilo se
+sa 64 umjesto 768 (lin2: 64 umjesto 3072).
+DOKAZ: cijena/kanal napuhana **49x** (lin1) i **134x** (lin2); `pre_classifier` je bio JEDINI tocan
+(1.0x) jer je jedini 2D. Planer je zato rezao ~20 kanala umjesto tisuca.
+FIX: `in_features`/`in_channels` iz SAMOG MODULA (egzaktno, neovisno o rasporedu).
+PROVJERA: 49x -> **2.0x**, sto je i tocan iznos (rez kanala `lin1` uklanja i stupac iz `lin2`).
+yolo26n nakon popravka: rez **1.46% / 1.19% / 0.99%** — u rangu morphologyjevih 1.58/1.51/1.57 na vocu.
+
+**3. Klasifikacija je uvijek padala na `teacher_agreement`.** `metric.py` ima `eval_classification`,
+ali NEMA citac parova, a `build_metric_fn` nije imao granu (u kodu je stajao komentar "6.2 backlog").
+PROVJERENO U `legacy/arch_agnostic/metric.py`: ista rupa — nije bilo rijeseno ni tamo
+(`REPORTS/metric56.txt` pokriva samo segmentaciju). Dakle nov posao, ne ponovno otkrivanje.
+FIX: `metric.pairs_classification` za `folder_per_class` (slike i audio).
+DVIJE MOJE GRESKE UHVACENE PRI PROVJERI: (a) uzimao prvih N sortiranih datoteka = SVE iz jednog
+razreda -> f1 0.0000; (b) indeks razreda gradio iz uzorka umjesto iz strukture foldera.
+**TUDJA ZAMKA KOJA JE VAZNIJA:** M5 ima **36 foldera ali 12 izlaza** — `data.py` mapira 25 foldera u
+`unknown`, `_background_noise_` u `silence`. IME FOLDERA NIJE OZNAKA. Bez provjere bi metrika bila
+uvjerljiva a kriva (izmjereno f1 0.011 = razina slucajnog pogadjanja).
+FIX: `n_classes` (sirina izlaza modela) se prosljedjuje citacu; nepoklapanje -> vrati [] i degradiraj
+na teacher-agreement uz glasnu poruku. Bolje priznati neznanje nego izmisliti brojku.
+
+**4. Spregnutost tapova (otkrio ju je popravak #2).** Cim je planer poceo rezati normalno, feature-KD
+je pukao: `student 758 vs teacher 768`. `position.py` tap oznaci `morph=False`, ali to ga stiti samo
+kao KORIJEN reza — sirina mu ostaje spregnuta kroz tp-grupu.
+Morphology to nije morao rjesavati: kod yola/frcnn su tapovi u vratu a rezivo u okosnici (strukturno
+odvojeno), a `adapter.protect_prefixes` je RUCNO pokrivao cijela podstabla.
+FIX: `morph.tap_coupled` — isto nacelo, ali IZMJERENO iz tp-grafa, pa vrijedi za bilo koji model.
+`pipeline.prepare` izbaci iz `prunable` sve sto dijeli grupu s tapom.
+| model | prunable prije -> poslije |
+|---|---|
+| yolo26n | 93 -> 85 |
+| voc_deeplabv3 | 34 -> 30 |
+| DistilBERT | 8 -> **0** (uz upozorenje) |
+DistilBERT-ova nula je TOCAN odgovor: cijeli rezidualni tok je na 768, pa se feature-KD i strukturni
+rez medjusobno iskljucuju. Prije bi to puknulo usred treninga.
+
+**TAP CAP 5 -> 3 (odluka korisnika).** `TAP_CAP_ABS` je zapravo bio DONJA granica
+(`max(5, 10% morphabilnih)`), pa su veliki modeli dobivali 9+ tapova. Sada je TVRDA gornja:
+`max(1, min(3, 10% morphabilnih))`. Manje tapova = manje spregnutog = vise rezivog; nusucinak je
+grublji feature-KD signal. Ucinak: voc 5->3 tapa i prunable **25 -> 30**; yolo nepromijenjen (imao 3);
+m5 dobiva 1 tap; DistilBERT i dalje 0 (njemu tapovi nisu uzrok).
+
+### ✅ 6.9 KOLICINA PODATAKA — AUTO UMJESTO PITANJA (2026-08-23)
+
+Korisnik: "ako proces sam pronalazi batch size, zasto ja moram definirati `n_batches`? Sto manje pitati,
+sto vise sigurno zakljuciti." Provjereno u legacy: **morphology NIKAD nije pitao** —
+`teacher_mem_plan` uzima `n_batches = len(loader)` (CIJELI train split), izmjeri jedan batch, izracuna
+cache i odustane ako ne stane. arch_agnostic je taj plan ispustio i zabio `n_batches=8`.
+
+**SADA: nista se ne pita.** KD = cijeli train split, metrika = cijeli val split.
+
+**ZID NIJE BIO DISK NEGO RAM.** `materialize_train_batches` je drzala SVE dekodirane uzorke u memoriji:
+yolo 5860 x 4.7 MB (fp32 640x640) = **26.8 GB**, dostupno 12 GB. Zato je `n_batches=8` i bio default —
+nije bila lijenost nego posljedica dizajna. morphology to nije imao jer je isao DataLoaderom (ulazi se
+dekodiraju po batchu i odbacuju; na disk idu SAMO teacher signali).
+FIX: `LazyBatches` — batchevi drze PUTANJE, dekodiraju se pri pristupu. Ponasa se kao lista pa
+`to_device(batches[i])` i `for b in batches` rade nepromijenjeno.
+Uz to: `_fingerprint` racuna otisak iz PUTANJA (inace bi dekodirao 1 uzorak po batchu = 367 dekodiranja),
+a `_batch_size_of` cita `bsize` bez dekodiranja (`max(len(b) for b in batches)` bi procitao SVE).
+
+IZMJERENO na punom yolo train splitu:
+    367 batcheva · 5872 uzoraka · materijalizacija 2.1s · RAM +0.01 GB  (prije bi 26.8 GB)
+    teacher cache 7.86 GB · slobodno 636 GB · stane
+Smoke (lijeni batchevi kroz precompute + FT): rez 1.45% / 0.95% / 0.91%, KD racuna normalno.
+
+**NOVO: `engine.plan_teacher_cache`** (port morphology `teacher_mem_plan`) — izmjeri jedan batch
+teacher-signala, procijeni cijeli cache, provjeri disk. Prep dobiva karticu **"Plan podataka i teacher
+cachea"** (koju je stari GUI imao, a 6.1 ispustio): broj uzoraka, velicina cachea, slobodan disk.
+Prikaz, ne pitanje.
+
+**BUG USPUT: DVA `DEV_DATA_SUBSET`.** Ekstrakcija pluga (6.4) je u `plugins/detection/dsconfig.py`
+kopirala VLASTITU vrijednost 200. Gasenje `settings.DEV_DATA_SUBSET` je tiho ostavljalo detekcijski GT
+loader kapiran na 200 — mAP gate je davao ISTI rezultat (0.4217) za n_gate 200/400/837.
+FIX: `dsconfig` uvozi konstantu iz `settings` — jedan prekidac.
+POTVRDA NAKON FIXA: gate skalira (200 -> 0.4217 / 400 -> 0.4133 / 837 -> **0.4126**), i **0.4126 je
+tocno yolo26n val mAP iz tablice u radu** — slinn reproducira poznati baseline u decimalu.
+Cijena: 13.7s po koraku na punom valu.
+
+**STANJE PARAMETARA (odgovor na pitanje korisnika):**
+- `n_batches` — nema ga u `settings.py`, nema ga u `config.json`, nema ga u GUI-ju. U `engine.py` je
+  parametar s `None` (= cijeli split) u tri potpisa. Jedini preostali broj je `FALLBACK_BATCHES = 8`,
+  koji vrijedi SAMO kad nema citljivih podataka (token/parquet bez readera) — ondje su uzorci nasumicni
+  pa "sve" nema znacenje. `plan["n_batches"]` i meta cachea su ispis/identitet, ne postavka.
+- `n_gate` — NIJE broj batcheva nego broj UZORAKA na kojima se mjeri metrika nakon svakog morph koraka
+  (quality-gate). Koristi se u `backend.build_metric_fn`: detekcija `eval_map(max_images=)`,
+  segmentacija `pairs_segmentation(n=)`, klasifikacija `pairs_classification(n=)`. Default je sada
+  `None` = cijeli val split; worker to prosljeduje eksplicitno; GUI ne pita. Ostao kao parametar samo
+  za smoke-testove. To je JEDINA prava vremenska cijena po koraku.
+
+**Korisniku u GUI-ju ostaju samo prave odluke:** kvantizacija (M), tolerancija, ciljano smanjenje,
+FT koraci, max koraka, dead-rez.
+
+### ✅ 6.10 REVIZIJA `settings.py` — TRI POLUSTRGANE KONSTANTE (2026-08-23)
+
+Revizija svih 23 konstante (tko ih stvarno cita): **14 radi · 7 mrtvo · 3 POLUSTRGANE**.
+Mrtve se na zahtjev korisnika NE MICU. Polustrgane su popravljene jer su aktivno lagale.
+
+**1. `TMP_ROOT` — dvije definicije.** Izgledalo je aktivno (6 citanja u `engine.py`), ali engine je
+imao VLASTITU definiciju `TMP_ROOT = _AA/tmp` i nikad nije gledao u settings. Promjena u settings nije
+imala nikakav ucinak → cache se nije dao preseliti na drugi disk (a rijec je o 7.86 GB).
+FIX: `engine.TMP_ROOT = CFG.TMP_ROOT`. Sto je TMP_ROOT: dom svega regenerabilnog — teacher cache
+(`<model>/train/sig_*.pt`) i GUI job (`gui_job/`: config, status, trajektorija, compressed.pt, logovi).
+
+**2. `DEV_DATA_SUBSET` — vrijedio je SAMO za detekciju.** U jezgri se koristio iskljucivo za ISPIS
+upozorenja; stvarno rezanje radio je jedino detekcijski GT loader u plugu. Za regresiju, segmentaciju
+i klasifikaciju prekidac nije radio NISTA.
+FIX: cap u `engine._candidate_files` (jedino usko grlo kroz koje jezgra cita medijske ulaze) i u
+`count_train_samples` za tabularni put.
+PROVJERA (KD ulazi): yolo 5860→200 · voc 17125→200 · m5 105835→200 (prije je rezala samo detekcija).
+
+  **DOPUNA (6.10b): cap vrijedi i za MJERENJE metrike.** Prvi popravak je hvatao KD ulaze i detekcijski
+  GT loader, ali `metric.pairs_*` citaci su si SAMI listali datoteke i zaobilazili to usko grlo —
+  pa je kod segmentacije i klasifikacije dev-podskup rezao TRENING, a metrika se mjerila na
+  CIJELOM val skupu. Nekonzistentno i sporo.
+  FIX: `metric._cap(n)` na jednom mjestu, primijenjen u sva tri citaca (`pairs_segmentation`,
+  `pairs_regression`, `pairs_classification`).
+  PROVJERA: segmentacija (voc) 1449→200 · regresija (housing) 3096→200.
+  ZNACENJE (kao morphology): najvise N uzoraka **PO SPLITU** — dakle 200 za train I 200 za val, zasebno.
+
+**3. `FT_RECOVERY_FRAC` — nije bila tolerancija nego samo default klizaca.** U kodu su postojale TRI
+vrijednosti: settings 0.75, hardkodirano `metric_tol=0.90` u `morph_loop`, i `0.97` u `full_cycle`.
+Pozovi engine izravno bez `metric_tol` i dobio bi 0.90, ne 0.75.
+FIX: `morph_loop(metric_tol=None)` -> uzima `CFG.FT_RECOVERY_FRAC` (task-metrika) ili novi
+`CFG.AGREEMENT_TOL = 0.97` (kad je gate teacher-agreement — on se krece oko 1.0 pa bi 0.75 bilo
+besmisleno labavo). Ponasanje GUI-ja NEPROMIJENJENO: klizac i dalje POCINJE od `FT_RECOVERY_FRAC` i
+korisnik ga pomice; ta vrijednost ide u config i engine je koristi. Settings = default, klizac nadglasava.
+
+**MRTVE (7, ostaju po odluci korisnika):** `FT_PATIENCE`, `FT_MAX_EPOCHS` (slinn nema epohe ni patience —
+`ft_steps` je fiksan broj gradijentnih koraka) · `PHASE2_PRUNE_PATIENCE` (zamijenjeno pravilom "3
+uzastopna koraka ispod praga", hardkodiranim u `engine.py`) · `TRAIN_BATCH`, `EVAL_BATCH` (autobatch) ·
+`VAL_CAP` (metrika mjeri na cijelom valu) · `MODELS_DIR` (worker sprema u `gui_job/compressed.pt`).
+
+### ✅ 6.11 PRECIZAN REZ — ZATVORENA PETLJA plan→rez→IZMJERI→doplaniraj (2026-08-23)
+
+**SIMPTOM.** Korisnik: "cini mi se da ne radi rezove od 1.5% pocetnih parametara". Tocno. Novi
+dijagnosticki redak (cilj -> procjena -> stvarno, dodan u `worker.py`) dao je nedvosmislen nalaz na
+yolo26n / 4 koraka:
+
+    kor  kanala  cilj      procjena          stvarno            banned
+     1     83    0.0894    0.0899 (101%)     0.0875 ( 97%)        0
+     2     68    0.0894    0.0907 (101%)     0.0668 ( 74%)        1
+     3     57    0.0894    0.0898 (100%)     0.0564 ( 63%)        2
+     4     60    0.0894    0.0903 (101%)     0.0489 ( 54%)        3
+
+Planer UVIJEK nade dovoljno kandidata (procjena pogada cilj 100-101% svaki korak). Ne valja
+IZVRSENJE: stvarni rez pada na 54% procjene.
+
+**PRVO SAM PROVJERIO LEGACY** (korisnikova pretpostavka: morphology je to vec rijesio re-planiranjem).
+NIJE. Usporedba funkcija `legacy/morphology/compress.py` vs `slinn/morph.py`:
+
+    coupled_unit_cost   RAZLIKA — samo in_ch fix iz 6.7; za NCHW conv ponasanje IDENTICNO
+    prune_costs         IDENTICAL
+    _select_prune_plan  IDENTICAL
+    _apply_prune_plan   IDENTICAL
+
+`while True:` u morphology petlji NIJE korekcija preciznosti — vrti se samo dok je n_rem == 0
+(`if n_rem > 0 or not bad: break`), tj. parcijalni uspjeh se prihvaca. Bug je star; NOVO je samo to
+sto ga sada MJERIMO. Morphology ga nikad nije ispisao: njegov jedini redak je
+"GFLOPs 5.874->5.807 (97.5% orig.)" — a to je koliko je OSTALO, ne koliko je promasen cilj.
+
+**TRI CURENJA** (sva u istom smjeru — procjena veca od stvarnosti):
+
+  a) **Banani listovi ulaze u procjenu, a ne u rez.** `est_freed` je procjena CIJELOG plana;
+     `_apply_prune_plan` list koji padne na forward-checku preskoci. Kandidati koji padaju su C2f/concat
+     cvorista — a bas njih planer bira PRVE jer imaju najvecu spregnutu cijenu po kanalu. Zato procjena
+     po kanalu raste 1.08e-3 -> 1.33e-3 -> 1.58e-3 dok stvarna stoji na ~1.0e-3.
+  b) **Drugi red spregnutosti.** Kad su producent A i potrosac B OBA u planu, usteda a*b se broji
+     dvaput: procjena je linearna (in*out - a*out - b*in), stvarnost je (in-a)*(out-b). To objasnjava
+     manjak od 3% vec u koraku 1, gdje nema nijednog bana.
+  c) **Tihi preskoci** u `_apply_prune_plan` (floor/cap, len(idx2) >= C).
+
+**FIX** (`engine.morph_loop`, ~40 redaka): jedan prolaz zamijenjen zatvorenom petljom unutar KORAKA —
+
+    remaining = step_target
+    dok remaining > SLACK*step_target  i  krugova < PHASE2_PRUNE_ROUNDS:
+        (od 2. kruga) prekalkuliraj prune_costs na VEC SMANJENOM modelu
+        plan  = _select_prune_plan(target=remaining, exclude=banned|touched|cooldown)
+        model = _apply_prune_plan(plan)                 # banovi se skupljaju kao i prije
+        remaining -= (gflops_prije - gflops_poslije)    # MJERENO, ne procijenjeno
+
+Sva tri curenja nestaju odjednom: banani list u iducem krugu ispada iz elig, drugi red spregnutosti
+nestaje jer se cijena racuna na vec rezanom modelu, preskoceni kanali se nadoknade drugdje.
+
+**Kljucni detalj — `touched`.** Sloj dirnut u ranijem krugu se IZUZIMA do kraja koraka. Dva razloga:
+(1) imp/order su za njega zastarjeli — tp prepakira indekse kanala pa bi se u 2. krugu rezali KRIVI
+kanali; (2) usput to cuva `PHASE2_PRUNE_LAYER_CAP` — bez izuzeca bi se isti sloj mogao rezati 15% PO
+KRUGU, tj. do 50% u jednom koraku, sto je upravo kolaps od kojeg cap stiti. `touched` se racuna
+MJERENJEM sirina (`_widths`), pa hvata i spregnute siblinge koje tp orezi usput, ne samo kljuceve plana.
+
+**Sto se NIJE mijenjalo:** imp (`kd_importance`) se racuna JEDNOM po koraku — najskuplji dio, a za
+nedirnute slojeve i dalje vrijedi. GROW i dalje dobiva flops_per0/units0 s POCETKA koraka (kao prije
+6.11), da mu se ponasanje ne pomakne.
+
+**Novo u `settings.py`:** PHASE2_PRUNE_ROUNDS = 4 (1 = staro ponasanje) i PHASE2_PRUNE_SLACK = 0.02.
+**Novo u trajektoriji:** prune_rounds. **Novo u `worker.py`:** ispis "cilj -> stvarno (% cilja) u N
+krug(a)" + koliko je zatvorena petlja nadoknadila nad 1. krugom.
+
+
+**REZULTAT** (isti job: yolo26n, 4 koraka, DEV_DATA_SUBSET=400 radi brzine):
+
+    kor   PRIJE 6.11              POSLIJE 6.11                       krugova   1. krug
+     1    0.0875 ( 97% cilja)     0.0880 ( 98% cilja)   rez 1.5%        3        97% procjene
+     2    0.0668 ( 74% cilja)     0.0879 ( 98% cilja)   rez 2.9%        3        77% procjene
+     3    0.0564 ( 63% cilja)     0.0888 ( 99% cilja)   rez 4.4%        1        99% procjene
+     4    0.0489 ( 54% cilja)     0.0884 ( 99% cilja)   rez 5.8%        1        98% procjene
+
+Kumulativni rez 4.3% -> **5.8%**, a neto po koraku 1.46/1.43/1.48/1.47% naspram cilja 1.50%.
+
+**POTVRDA UZROKA (a).** Koraci 1-2 trebali su 3 kruga jer je 1. krug isporucio 97%/77% procjene;
+koraci 3-4 pogode iz PRVOG kruga (99%/98%). Razlika je `banned`: do kraja 2. koraka skupi se 6 trajno
+banananih slojeva i vise se ne biraju. Dakle glavno curenje JEST bilo (a) — precijenjeni C2f/concat
+listovi koji padnu na forward-checku — a zatvorena petlja ih otkriva brze (6 bana do 2. koraka umjesto
+3 bana do 4. koraka) jer u istom koraku odmah proba sljedece kandidate.
+
+**Nuspojava koju treba znati:** buduci da se sada REALNO reze 1.5% po koraku, kvaliteta pada brze po
+koraku nego prije (mAP 0.4133 -> 0.3213 u 4 koraka umjesto -> 0.4020). To NIJE regresija — to je isti
+model na 5.8% reza umjesto 4.3%. Quality-gate ce zato pragom zagristi u ranijem KORAKU, ali na istoj
+razini GFLOPs-a; trajektorija je samo gusca.
+
+### ⏱ GDJE PRIPREMA TROSI VRIJEME (izmjereno, yolo26n)
+
+Korisnik je posumnjao na plan-korak. Nije on:
+
+    load_any / probe_adapter            1.5s
+    prepare (classify+position+task)    5.0s
+    plan_teacher_cache (cijeli korak)   3.1s
+    autobatch                          60.1s   <- glavni trosak
+    baseline metrika (pun val)         35.8s   <- drugi trosak
+
+Autobatch traje jer proba PUNE FT korake pri sve vecim batchevima dok ne nadje granicu VRAM-a.
+PRIJEDLOG (nije implementirano): rezultat ovisi samo o (model, GPU) i ne mijenja se izmedu runova —
+da se kesirati kao teacher cache, pa bi drugi put bio trenutacan. Baseline se ne moze izbjeci i tocan je.
+
+### STANJE NA DAN ZAUSTAVLJANJA (2026-08-23)
+
+**KAKO POKRENUTI GUI** (iz WSL-a):
+
+    cd /home/tomi/code/dipl/slinn/gui
+    /home/tomi/miniconda3/envs/dipl/bin/python -m streamlit run gui.py
+
+Otvori http://localhost:8501. U lijevoj traci upisi putanju modela (`.pt`, pun eager modul) i putanju
+dataseta; ostalo je AUTO. Za modele cija klasa nije uvoziva (npr. housing) dodaj kod-putanju.
+Primjer koji radi: model `baseline_models/yolo26n/yolo26n.pt` + dataset
+`datasets/mini_set/sub10k_open_images_v7`.
+NAPOMENA: workeri se pokrecu kao subprocess po putanji, pa GUI mora ostati pokrenut iz `slinn/gui/`.
+
+**GOTOVO U FAZI 6:**
+
+| korak | stanje |
+|---|---|
+| 6.0 paritet-harness | ✅ |
+| 6.0.1 skele `slinn/` | ✅ |
+| 6.1 backend swap | ✅ |
+| 6.4 ciscenje (7 koraka) | ✅ jezgra preseljena · `weighted_leaves` unificiran 2/3/4 · detekcijski plug · hardkodi nikad preseljeni · outfmt prepoznavanje · decode za 9 formata · align preseljen |
+| 6.2 GUI | ✅ tri stranice, provjereno u pregledniku |
+| 6.3 flip | ✅ gate prosao (pun run kroz GUI, v. gore) |
+| 6.5 selidba u `legacy/` | ✅ gotovo |
+| 6.6 odvez od `legacy/` | ✅ arhiva se smije obrisati — FAZA 6 ZAVRSENA |
+
+**SVE JE GOTOVO.** Nista iz Faze 6 ne ceka.
+
+**PRIJE PRAVIH RUNOVA (jedina obavezna radnja):** `slinn/settings.py` → `DEV_DATA_SUBSET = 200`
+mora na `None`. GUI to prikazuje kao upozorenje na About stranici.
+
+**ZAOSTALO, NE BLOKIRA NISTA:**
+- 16 dev-harnessa preusmjereno na `morph`/`introspect`, ali ponovno su pokrenuti samo `_prune1d55.py`
+  i `_run61.py` — ostalima status nije provjeren.
+- `multilevel` format izlaza (ista sirina kanala po razini) je PREPOZNAT ali bez decode-a: nema
+  stvarnog modela tog oblika za provjeru, a pogadjanje podjele kanala bez validacije se ne radi.
+  Obrazac za dodavanje kad se pojavi: skini najmanji takav model → izmjeri → implementiraj → obrisi
+  model (tako je dodan `set_pred` preko yolos-tiny).
 
 ### Otvoreni zaostaci iz F1–F5 koji se rješavaju TIJEKOM mergea
 (Nijedan ne BLOKIRA merge-scaffolding; rješavaju se kad ih GUI-tok prirodno izloži.)
@@ -714,9 +1428,35 @@ NAČELO: sve per-model/detection-HARDKODIRANO nestaje iz JEZGRE; mjereno-generi�
 preživljava SAMO kao izoliran, auto-biran (po arhitekturi) plug. RIZIK: ne regresirati aktivni detection-produkt →
 zato **6.0 offline paritet-harness + 6.3 paralelna usporedba PRIJE flipa**, i cleanup (6.4) TEK nakon zelenog.
 
+### ZAVRSNO STANJE FAZE 6 (2026-08-23)
+
+Stablo:
+
+    slinn/                      jezgra — agnosticna, ne zna nista o tasku ni obitelji modela
+      settings.py               kompresijski hiperparametri (nula dataset/detekcijskih konstanti)
+      introspect.py             layer-tablica, census, GFLOPs, eager load
+      morph.py                  prune/grow/dead mehanike, coupled cost, GradMax, align
+      kdterms.py                genericki KD po tipu tapa
+      classify/position/task/dataset/loss/metric/pipeline/engine/enhancers/overview
+      plugins/detection/        JEDINI per-obitelj dio: decode + NMS + mAP + outfmt
+      gui/                      gui.py (3 stranice) + backend/prep_worker/worker
+      helper/ · REPORTS/        dev-alat i izvjestaji
+    legacy/                     arhiva, IZVAN puta izvodjenja, smije se obrisati
+
+Brojke koje stoje iza toga:
+- **paritet 4x zaredom znamenku po znamenku** (B novi 5.721 GFLOPs / 4.0% / mAP 0.3839 / 92.0%),
+  kroz preseljenje jezgre, unifikaciju `weighted_leaves` I izdvajanje pluga
+- **pun run kroz GUI** na yolo26n: best_step 6, 6.8% reza uz mAP iznad praga, `compressed.pt`
+- **9 formata izlaza** prepoznato mjerenjem, 5 potvrdjeno na stvarnim tezinama
+- **1D lanac** (Conv1d): prune 61 kanal + grow function-preserving |Δ|=0
+- **ne-detekcija** (housing/regresija) kroz isti kod-put, bez ijednog grananja
+
 ## 7. Bit
 
-Teži (strukturni) dio agnostičnosti je razbijen. Preostaje ravnina gubitka — nju čine agnostičnom
-**hook-KD + KD-grad**, dok se dokazani **engine i redoslijed iz `morphology` preuzimaju gotovi**.
-Rezultat: pipeline koji na novom modelu radi *odmah* (generic feature+output KD), a decode/mAP je jedini
-opcijski, izolirani plug.
+Agnosticnost je postignuta na sve tri ravnine: strukturno-pozicijskoj (classify/position mjerenjem),
+gubitka (hook-KD + KD-grad), i evaluacije (per-task metrike + teacher-agreement fallback). Dokazane
+prune/grow mehanike su PRESELJENE, ne prepisane. Detekcijski decode je prezivio kao izoliran,
+auto-biran plug — i sam se bira mjerenjem OBLIKA IZLAZA kad model nije poznat.
+
+Rezultat: pipeline koji na novom modelu radi *odmah*. Ako nesto ne prepozna, kaze to naglas i
+degradira na KD-only umjesto da pogadja — i nastavi komprimirati.

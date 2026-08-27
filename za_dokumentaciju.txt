@@ -48,7 +48,7 @@ PRUNING
 što dodaje puno overheada za interpretaciju, pogotovo na GPU.
 
 - za kvalitetan pruning potrebno je uvijek imati i kvalitetan dataset. Najbolje ga je radititi skupa sa/tijekom treninga, dok imamo sve podatke.
-Zašto: zato da možemo utvrditi kvalitetan kriteriji filtriranja (gradient, taylor), ali i radi fine tuninga nakon! Označeni podaci za loss!
+Zašto: zato da možemo utvrditi kvalitetan kriteriji filtriranja (gradient, taylor), ali i radi fine tuninga nakon! 
 Djelomicni izuzetak je Magnitud based pruning, njemu za kriterij ne trebaju novi podaci, ali za fine tuning trebaju.
 
 - (uklanjanje) rani conv filteri najvise pridonose manjem broju FLOPSA (bržoj inferenciji), a neuroni vecinom malo ubrzavaju ali smanjuju memoriju

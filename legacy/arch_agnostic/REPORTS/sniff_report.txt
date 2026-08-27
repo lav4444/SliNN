@@ -1,0 +1,14 @@
+dataset                     modality  n_smpl   label_method    task_hint     
+--------------------------------------------------------------------------------------------------------------
+sub10k (yolo/frcnn/school)  image     8371     stem_sidecar    detection     
+      splits=['test', 'train', 'val']  why: sniffer: ulaz=image x8371, oznake=stem_sidecar (po-uzorku '.txt' (sadrzaj=boxes) uz 8371/8371)
+housing                     tabular   1        in_table        regression    
+      splits=[]  why: sniffer: ulaz=tabular x1, oznake=in_table (tablica: label=da (regression), input=tabular)
+speechcommands              audio     105835   class_subfolder classification
+      splits=[]  why: sniffer: ulaz=audio x105835, oznake=class_subfolder (36 folder-klasa (overlap 0.60))
+sst2                        text      10       class_subfolder classification
+      splits=[]  why: sniffer: ulaz=text x10, oznake=class_subfolder (3 folder-klasa (overlap 0.00))
+voc                         image     17125    mask_content    segmentation  
+      splits=[]  why: sniffer: ulaz=image x17125, oznake=mask_content (5826 maski (sadrzaj) poravnato s fotama)
+nyu                         image     3        in_table        regression    
+      splits=[]  why: sniffer: ulaz=image x3, oznake=in_table (tablica: label=da (regression), input=image)
