@@ -218,9 +218,14 @@ def _export(mod, xs, names, dyn, path):
               do_constant_folding=True)
     if dyn:
         kw["dynamic_axes"] = dyn
+    # `dynamo=False` trazi stari (TorchScript) izvoznik. Laptop ima torch 2.6, Pi 2.14 —
+    # jedina razlika koju nije bilo gdje isprobati. Ako taj argument nestane, pada se na
+    # zadani put; vrata su ionako ta koja presudjuju je li graf ispravan.
     try:
         torch.onnx.export(mod, xs[0], path, dynamo=False, **kw)
-    except TypeError:                       # stariji torch ne poznaje `dynamo`
+    except TypeError as e:
+        if "dynamo" not in str(e):          # TypeError iz samog trasiranja — ne zataskavaj
+            raise
         torch.onnx.export(mod, xs[0], path, **kw)
 
 
