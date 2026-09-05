@@ -18,15 +18,25 @@ LIM="${1:-}"
 
 export EVAL_SPLITS="val,test"
 export WRITE_CACHE=0                    # yolo: ne generiraj KD kes (na 26l bi bilo ~55 GB)
-[ -n "$LIM" ] && export EVAL_LIMIT="$LIM"
+if [ -n "$LIM" ]; then
+  export EVAL_LIMIT="$LIM"
+else
+  unset EVAL_LIMIT        # naslijedjen iz ljuske bi tiho skratio "puni" run
+fi
 
 source "$HOME/dipl-venv/bin/activate"
 
+echo "############################################################"
 if [ -n "$LIM" ]; then
-  echo "### MINI-TEST — $LIM uzoraka po splitu, splitovi: $EVAL_SPLITS"
+  echo "###  MINI-TEST — $LIM uzoraka po splitu"
+  echo "###  zapis -> eval_result_mini.txt"
 else
-  echo "### PUNI RUN — splitovi: $EVAL_SPLITS"
+  echo "###  PUNI RUN — svi uzorci"
+  echo "###  zapis -> eval_result.txt"
 fi
+echo "###  EVAL_SPLITS=$EVAL_SPLITS   WRITE_CACHE=$WRITE_CACHE"
+echo "###  EVAL_LIMIT=${EVAL_LIMIT:-<nije postavljen>}"
+echo "############################################################"
 echo "### $(date '+%H:%M:%S')"
 
 run() {   # run <mapa> <skripta>
