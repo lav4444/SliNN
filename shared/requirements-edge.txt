@@ -32,6 +32,14 @@ geffnet                    # pickle trazi geffnet.* (gen-efficientnet-pytorch)
 torchmetrics               # laptop: 1.9.0   (mAP za detekciju)
 pycocotools                # mAP backend
 
+# --- BASELINE_OPTIM (izvoz + ONNX Runtime) ----------------------------------
+# Treba samo za mjernu mapu BASELINE_OPTIM; BASELINE_RAW radi i bez ovoga.
+# `onnxruntime` je CPU izvedba i ima aarch64 wheel — na RPi5 se instalira pipom.
+# NA JETSONU se NE instalira odavde: ondje se ONNX predaje TensorRT-u, a njegov
+# ONNX Runtime dolazi iz NVIDIA-inog kanala.
+onnxruntime                # RPi5 samo
+onnx                       # citanje/provjera grafa
+
 # --- opce --------------------------------------------------------------------
 numpy                      # laptop: 2.1.3
 pillow                     # laptop: 12.2.0

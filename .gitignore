@@ -38,3 +38,9 @@ edge_notify.py
 # rezultati mjerenja (nose pecat runa, ovise o uredjaju)
 results_*.csv
 eval_result_*.txt
+
+# ---- artefakti izvoza (nastaju NA uredjaju, ondje i ostaju) ----
+# .onnx je vec gore. Uz njega ide opis grafa i dnevnik izvoza: oboje opisuje
+# konkretan uredjaj i konkretnu verziju torcha, pa u granu ne spada.
+model_onnx.json
+export_log_*.txt
