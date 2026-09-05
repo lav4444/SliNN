@@ -18,7 +18,8 @@ import torch.nn.functional as F
 import torchaudio
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(HERE, "data")
+# Podaci su ULAZ, dijele ih sve mjerne mape -> shared/datasets/.
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(HERE)), "shared", "datasets", "speech_commands")
 BASE = os.path.join(DATA_DIR, "SpeechCommands", "speech_commands_v0.02")
 
 CORE = ["yes", "no", "up", "down", "left", "right", "on", "off", "stop", "go"]

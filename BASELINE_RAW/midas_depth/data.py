@@ -35,7 +35,8 @@ from huggingface_hub import hf_hub_download
 from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(HERE, "data")                    # data/{train,val}/<split>-N.parquet
+# Podaci su ULAZ, dijele ih sve mjerne mape -> shared/datasets/.
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(HERE)), "shared", "datasets", "nyu_depth")   # {train,val}/<split>-N.parquet
 # Izvornih 654 stoji IZVAN data/ namjerno: SliNN rekurzivno obilazi data/ i broji SVAKI
 # parquet, a te se datoteke zovu `validation-*.parquet` pa bi ih pribrojio splitu 'val'
 # (izmjereno: val 908 umjesto 254, ukupno 1308 umjesto 654). Smiju se i obrisati —

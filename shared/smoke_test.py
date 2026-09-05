@@ -102,11 +102,11 @@ CASES = [
 
 # ---------------------------------------------------------------- podaci
 DATA = [
-    ("housing_mlp/data/california_housing.npz", "datoteka"),
-    ("speechcommands_m5/data/SpeechCommands/speech_commands_v0.02", "mapa"),
-    ("sst2_distilbert/data/hf", "mapa"),
-    ("voc_deeplabv3/data/VOCdevkit/VOC2012/JPEGImages", "mapa"),
-    ("midas_depth/data/val", "mapa"),      # 254; train ne ide na edge
+    ("../shared/datasets/california_housing/california_housing.npz", "datoteka"),
+    ("../shared/datasets/speech_commands/SpeechCommands/speech_commands_v0.02", "mapa"),
+    ("../shared/datasets/sst2_hf/hf", "mapa"),
+    ("../shared/datasets/voc2012/VOCdevkit/VOC2012/JPEGImages", "mapa"),
+    ("../shared/datasets/nyu_depth/val", "mapa"),      # 254; train ne ide na edge
 ]
 YOLO_DATA = os.path.join(ROOT, "shared", "datasets", "mini_set",
                          "sub10k_open_images_v7", "images", "val")

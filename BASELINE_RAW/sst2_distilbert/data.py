@@ -8,7 +8,8 @@ Napomena: TEST oznake su SKRIVENE (-1) -> metrika samo na validation (i train).
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-os.environ.setdefault("HF_HOME", os.path.join(HERE, "data", "hf"))     # dataset + model cache uz model
+# Podaci su ULAZ, dijele ih sve mjerne mape -> shared/datasets/.
+os.environ.setdefault("HF_HOME", os.path.join(os.path.dirname(os.path.dirname(HERE)), "shared", "datasets", "sst2_hf", "hf"))
 
 import torch                                                            # noqa: E402
 from datasets import load_dataset                                       # noqa: E402

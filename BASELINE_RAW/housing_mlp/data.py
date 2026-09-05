@@ -18,7 +18,8 @@ from sklearn.model_selection import train_test_split
 
 SEED = 42
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(HERE, "data")
+# Podaci su ULAZ, dijele ih sve mjerne mape -> shared/datasets/.
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(HERE)), "shared", "datasets", "california_housing")
 NPZ = os.path.join(DATA_DIR, "california_housing.npz")
 FEATURES = ["MedInc", "HouseAge", "AveRooms", "AveBedrms", "Population", "AveOccup", "Latitude", "Longitude"]
 _cache = {}

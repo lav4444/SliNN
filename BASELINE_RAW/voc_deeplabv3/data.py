@@ -10,7 +10,8 @@ from torchvision.datasets import VOCSegmentation
 from torchvision.models.segmentation import DeepLabV3_MobileNet_V3_Large_Weights as _W
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(HERE, "data")
+# Podaci su ULAZ, dijele ih sve mjerne mape -> shared/datasets/.
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(HERE)), "shared", "datasets", "voc2012")
 
 WEIGHTS = _W.DEFAULT
 NUM_CLASSES = 21

@@ -12,8 +12,8 @@
 
 # ---- podaci ----
 shared/datasets/
-*/[a-z]*/data/
-BASELINE_RAW/*/data/
+
+
 
 # ---- rezultati mjerenja ----
 # Ovise o uredjaju; u granu ne idu da se Pi i Jetson ne bore oko istih datoteka.
