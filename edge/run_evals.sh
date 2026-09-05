@@ -39,15 +39,23 @@ echo "###  EVAL_LIMIT=${EVAL_LIMIT:-<nije postavljen>}"
 echo "############################################################"
 echo "### $(date '+%H:%M:%S')"
 
+N_OK=0
+N_TOTAL=0
+FAILED=""
+T0=$(date +%s)
+
 run() {   # run <mapa> <skripta>
   echo
   echo "==================== $1  ($(date '+%H:%M:%S'))"
   cd "$BM/$1" || return 1
+  N_TOTAL=$((N_TOTAL + 1))
   if timeout 21600 python "$2" > /tmp/eval_$1.log 2>&1; then
+    N_OK=$((N_OK + 1))
     grep -E "^=====|mAP@50:95 = |R2   =|Accuracy  =|macro-F1  =|mIoU |AbsRel |acc |Inference \(batch=1\)|CPU: " \
          /tmp/eval_$1.log | head -14
     echo "  [OK] puni log: /tmp/eval_$1.log"
   else
+    FAILED="$FAILED $1"
     echo "  [PAD] izlazni kod $? — zadnjih 8 redaka:"
     tail -8 /tmp/eval_$1.log | sed 's/^/     /'
   fi
@@ -63,4 +71,27 @@ run voc_deeplabv3      eval_baseline.py
 run yolo26l            evaluate.py          # zadnji: sam traje ~110 min na punom runu
 
 echo
-echo "### GOTOVO  $(date '+%H:%M:%S')"
+echo "### GOTOVO  $(date '+%H:%M:%S')   ($N_OK/$N_TOTAL proslo)"
+
+# --- neobavezna obavijest mailom ---------------------------------------------
+# ~/edge_notify.py NIJE u repozitoriju (ondje su adresa i app-lozinka). Ako ga nema,
+# run zavrsava tiho. Postavljanje: v. komentar na vrhu te skripte.
+NOTIFY="$HOME/edge_notify.py"
+if [ -f "$NOTIFY" ]; then
+  MINS=$(( ($(date +%s) - T0) / 60 ))
+  if [ "$N_OK" -eq "$N_TOTAL" ]; then
+    STATUS="done"
+  else
+    STATUS="done s greskama ($N_OK/$N_TOTAL)"
+  fi
+  if [ -n "$LIM" ]; then
+    KIND="mini-test ($LIM uzoraka)"
+  else
+    KIND="puni run"
+  fi
+  python3 "$NOTIFY" "$STATUS" \
+    "$KIND, splitovi $EVAL_SPLITS
+proslo: $N_OK/$N_TOTAL   trajanje: ${MINS} min
+palo:${FAILED:- nista}
+logovi: /tmp/eval_<model>.log"
+fi

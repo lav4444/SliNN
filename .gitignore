@@ -27,3 +27,9 @@ __pycache__/
 edge/filelists/
 edge/send_to_edge.sh
 edge/make_filelists.py
+
+# ---- Privatno: NIKAD u git ----
+# Zive u \/c/Users/tomislavmatanovic, izvan repozitorija; ovo je pojas i tregeri.
+edge_notify.py
+.edge_notify.env
+*notify*.env
