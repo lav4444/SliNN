@@ -18,6 +18,9 @@ ROOT="$HOME/Documents/code/dipl/EVAL"
 BM="$ROOT/${EVAL_DIR:-BASELINE_RAW}"
 LIM="${1:-}"
 
+# Jedan pecat za CIJELI run: svih 7 modela pise u isti results_<pecat>.csv,
+# a .txt imena ga nose, pa se stariji rezultati ne mogu prepisati.
+export RUN_STAMP="$(date +%Y%m%d_%H%M%S)"
 export EVAL_SPLITS="val,test"
 export WRITE_CACHE=0                    # yolo: ne generiraj KD kes (na 26l bi bilo ~55 GB)
 if [ -n "$LIM" ]; then
@@ -38,6 +41,7 @@ else
 fi
 echo "###  EVAL_SPLITS=$EVAL_SPLITS   WRITE_CACHE=$WRITE_CACHE"
 echo "###  EVAL_LIMIT=${EVAL_LIMIT:-<nije postavljen>}"
+echo "###  RUN_STAMP=$RUN_STAMP"
 echo "############################################################"
 echo "### $(date '+%H:%M:%S')"
 

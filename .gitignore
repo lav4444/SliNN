@@ -34,3 +34,7 @@ shared/make_filelists.py
 edge_notify.py
 .edge_notify.env
 *notify*.env
+
+# rezultati mjerenja (nose pecat runa, ovise o uredjaju)
+results_*.csv
+eval_result_*.txt

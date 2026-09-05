@@ -17,6 +17,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import data as D                                                # noqa: E402
 
+# --- CSV uz .txt (shared/emit.py) --------------------------------------------
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(HERE)), "shared"))
+import emit as EMIT                                             # noqa: E402
+# -----------------------------------------------------------------------------
+
+
 # --- MINI-TEST kocnica (edge/add_eval_limit.py) ------------------------------
 # EVAL_LIMIT prazan/0 -> postojece ponasanje. EVAL_LIMIT=5 -> 5 uzoraka po splitu.
 def _env_int(name, default=0):
@@ -67,9 +73,11 @@ def _cap(n, lim=EVAL_LIMIT):
 
 
 MODEL_PT = os.path.join(HERE, "model.pt")
-OUT = os.path.join(HERE, "eval_result.txt")
+# Jedan pecat po runu (run_evals.sh ga izveze); rucno pokretanje si ga izracuna samo.
+RUN_STAMP = os.environ.get("RUN_STAMP") or __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M%S")
+OUT = os.path.join(HERE, f"eval_result_{RUN_STAMP}.txt")
 if EVAL_LIMIT:            # mini-test u zasebnu datoteku, kanonske brojke ostaju
-    OUT = os.path.join(HERE, "eval_result_mini.txt")
+    OUT = os.path.join(HERE, f"eval_result_mini_{RUN_STAMP}.txt")
 SEED = 42
 
 
@@ -144,6 +152,8 @@ def main():
         if first_sample is None and split == "train":
             first_sample = xb
         ms = _median_ms(model, xb.to(dev), dev)
+        EMIT.write(HERE, "speechcommands_m5", "speech_commands_v0.02", split,
+                   len(yt), {"accuracy": acc, "f1_macro": f1}, latency_ms=ms)
 
         L += [f"=========== {split.upper()} ({len(yt)} samples) ===========", "",
               "Speed:",

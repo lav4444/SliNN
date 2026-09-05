@@ -16,6 +16,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import data as D                                                # noqa: E402
 
+# --- CSV uz .txt (shared/emit.py) --------------------------------------------
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(HERE)), "shared"))
+import emit as EMIT                                             # noqa: E402
+# -----------------------------------------------------------------------------
+
+
 # --- MINI-TEST kocnica (edge/add_eval_limit.py) ------------------------------
 # EVAL_LIMIT prazan/0 -> postojece ponasanje. EVAL_LIMIT=5 -> 5 uzoraka po splitu.
 def _env_int(name, default=0):
@@ -46,9 +52,11 @@ def _cap(n, lim=EVAL_LIMIT):
 for _d in D.HUB_DIRS:                                           # MiDaS + geffnet klase za torch.load
     sys.path.insert(0, _d)
 MODEL_PT = os.path.join(HERE, "model.pt")
-OUT = os.path.join(HERE, "eval_result.txt")
+# Jedan pecat po runu (run_evals.sh ga izveze); rucno pokretanje si ga izracuna samo.
+RUN_STAMP = os.environ.get("RUN_STAMP") or __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M%S")
+OUT = os.path.join(HERE, f"eval_result_{RUN_STAMP}.txt")
 if EVAL_LIMIT:            # mini-test u zasebnu datoteku, kanonske brojke ostaju
-    OUT = os.path.join(HERE, "eval_result_mini.txt")
+    OUT = os.path.join(HERE, f"eval_result_mini_{RUN_STAMP}.txt")
 DEPTH_CAP = 10.0
 
 
@@ -126,6 +134,8 @@ def main():
     n_eval = len(D.NYUVal(EVAL_LIMIT))
     img0, _ = D.NYUVal(1)[0]
     ms = _median_ms(model, tf(np.asarray(img0, dtype=np.float32) / 255.0).to(dev), dev)
+    EMIT.write(HERE, "midas_depth", "NYU_Depth_V2", "val", n_eval,
+               {"AbsRel": absrel, "RMSE_m": rmse, "delta1": d1}, latency_ms=ms)
     L += [f"=========== NYU VAL ({n_eval} images) ===========", "",
           "Speed:",
           f"  Inference (batch=1):   {ms:.2f} ms/image  ({1000 / ms:,.1f} images/s)", "",

@@ -34,6 +34,12 @@ from ultralytics import YOLO
 
 
 SCRIPT_DIR = Path(__file__).parent
+
+# --- CSV uz .txt (shared/emit.py) --------------------------------------------
+sys.path.insert(0, str(SCRIPT_DIR.parent.parent / "shared"))
+import emit as EMIT                                             # noqa: E402
+# -----------------------------------------------------------------------------
+
 MODEL_NAME = "yolo26n.pt"
 # Relativno na polozaj skripte (baseline_models/<model>/ -> korijen je .parent.parent),
 # neovisno o tome gdje je repozitorij kloniran.
@@ -61,7 +67,9 @@ BENCHMARK_SEED = 42
 
 SPLITS = ("train", "val", "test")
 META_FILE = PRED_ROOT / "meta.json"
-EVAL_RESULT_FILE = SCRIPT_DIR / "eval_result.txt"
+# Jedan pecat po runu (run_evals.sh ga izveze); rucno pokretanje si ga izracuna samo.
+RUN_STAMP = os.environ.get("RUN_STAMP") or __import__("datetime").datetime.now().strftime("%Y%m%d_%H%M%S")
+EVAL_RESULT_FILE = SCRIPT_DIR / f"eval_result_{RUN_STAMP}.txt"
 
 # --- KOCNICE ZA EDGE / MINI-TEST (edge/add_eval_limit_yolo.py) ----------------
 # EVAL_LIMIT=5  -> 5 slika po splitu, rezultat u eval_result_mini.txt
@@ -110,7 +118,7 @@ def _want(split):
 WRITE_CACHE = _env_flag("WRITE_CACHE", True)
 if EVAL_LIMIT:
     WRITE_CACHE = False                      # mini-test ne dira dataset
-    EVAL_RESULT_FILE = SCRIPT_DIR / "eval_result_mini.txt"
+    EVAL_RESULT_FILE = SCRIPT_DIR / f"eval_result_mini_{RUN_STAMP}.txt"
 if not WRITE_CACHE:
     EXTRACT_BACKBONE_FEATURES = False        # ~55 GB kod yolo26l; nema smisla bez kesa
     def _soft_save(*_a, **_k):               # noqa: E306  (zamjena za torch.save mekih oznaka)
@@ -655,6 +663,12 @@ def main():
             per_split[split] = run_inference_for_split(model, split, paths)
         else:
             per_split[split] = load_and_eval_split(split, paths)
+        EMIT.write(str(SCRIPT_DIR), MODEL_NAME.replace(".pt", ""),
+                   "sub10k_open_images_v7", split, per_split[split]["n_images"],
+                   {"map": per_split[split]["map"], "map_50": per_split[split]["map_50"],
+                    "map_75": per_split[split]["map_75"],
+                    "mar_100": per_split[split]["mar_100"]},
+                   latency_ms=per_split[split]["avg_inference_ms"])
         print(f"[{split}] done in {time.time() - t0:.1f}s "
               f"(mAP@50:95 = {per_split[split]['map']:.4f})")
         if anchor_count_global is None:
