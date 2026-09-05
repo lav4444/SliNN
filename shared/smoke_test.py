@@ -24,7 +24,8 @@ import traceback
 import torch
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BM = os.path.join(ROOT, "baseline_models")
+# Skripta je u shared/, mjereni modeli u BASELINE_RAW/, podaci u shared/datasets/.
+BM = os.path.join(ROOT, "BASELINE_RAW")
 
 DEV = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -107,7 +108,7 @@ DATA = [
     ("voc_deeplabv3/data/VOCdevkit/VOC2012/JPEGImages", "mapa"),
     ("midas_depth/data/val", "mapa"),      # 254; train ne ide na edge
 ]
-YOLO_DATA = os.path.join(ROOT, "datasets", "mini_set",
+YOLO_DATA = os.path.join(ROOT, "shared", "datasets", "mini_set",
                          "sub10k_open_images_v7", "images", "val")
 
 

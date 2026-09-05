@@ -37,7 +37,8 @@ SCRIPT_DIR = Path(__file__).parent
 MODEL_NAME = "yolo26l.pt"
 # Relativno na polozaj skripte (baseline_models/<model>/ -> korijen je .parent.parent),
 # da ne ovisi o symlinku /home/tomi/code/dipl na uredjaju.
-DATASET_ROOT = SCRIPT_DIR.parent.parent / "datasets" / "mini_set" / "sub10k_open_images_v7"
+DATASET_ROOT = (SCRIPT_DIR.parent.parent / "shared" / "datasets"
+                / "mini_set" / "sub10k_open_images_v7")
 PRED_ROOT = DATASET_ROOT / "yolo26l"
 
 IMG_SIZE = 640

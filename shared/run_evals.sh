@@ -13,7 +13,9 @@
 
 set -u
 ROOT="$HOME/Documents/code/dipl/EVAL"
-BM="$ROOT/baseline_models"
+# Mjerna mapa: zasad samo BASELINE_RAW (original + eager PyTorch).
+# Kad dodju ostale, ovo postaje argument ili posebna skripta po mapi.
+BM="$ROOT/${EVAL_DIR:-BASELINE_RAW}"
 LIM="${1:-}"
 
 export EVAL_SPLITS="val,test"

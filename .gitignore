@@ -11,8 +11,9 @@
 *.bin
 
 # ---- podaci ----
-datasets/
-baseline_models/*/data/
+shared/datasets/
+*/[a-z]*/data/
+BASELINE_RAW/*/data/
 
 # ---- rezultati mjerenja ----
 # Ovise o uredjaju; u granu ne idu da se Pi i Jetson ne bore oko istih datoteka.
@@ -24,9 +25,9 @@ __pycache__/
 *.log
 
 # ---- alati laptopske strane (ovdje ih ni nema, ali da se ne vrate) ----
-edge/filelists/
-edge/send_to_edge.sh
-edge/make_filelists.py
+shared/filelists/
+shared/send_to_edge.sh
+shared/make_filelists.py
 
 # ---- Privatno: NIKAD u git ----
 # Zive u \/c/Users/tomislavmatanovic, izvan repozitorija; ovo je pojas i tregeri.
