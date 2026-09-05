@@ -157,9 +157,9 @@ def main():
         miou, pix, iou = metrics(conf)
         img0, _ = D.voc(split)[0]
         ms = _median_ms(model, tf(img0).unsqueeze(0).to(dev), dev)
+        n = lim or len(D.voc(split))
         EMIT.write(HERE, "voc_deeplabv3", "VOC2012_segmentation", split, n,
                    {"mIoU": miou, "pixel_acc": pix}, latency_ms=ms)
-        n = lim or len(D.voc(split))
         tag = f" (prvih {lim})" if lim else ""
         L += [f"=========== {split.upper()} ({n} images{tag}) ===========", "",
               "Speed:",

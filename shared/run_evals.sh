@@ -61,8 +61,9 @@ run() {   # run <mapa> <skripta>
          /tmp/eval_$1.log | head -14
     echo "  [OK] puni log: /tmp/eval_$1.log"
   else
+    RC=$?                      # PRIJE svega: dodjela ispod bi $? postavila na 0
     FAILED="$FAILED $1"
-    echo "  [PAD] izlazni kod $? — zadnjih 8 redaka:"
+    echo "  [PAD] izlazni kod $RC — zadnjih 8 redaka:"
     tail -8 /tmp/eval_$1.log | sed 's/^/     /'
   fi
 }
