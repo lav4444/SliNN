@@ -1,0 +1,14 @@
+sst2_distilbert — DistilBERT / SST-2 (GLUE) — eval summary
+================================================================
+datum            : 2026-08-12 23:32:53
+uredaj           : cuda
+model            : distilbert-base-uncased-finetuned-sst-2-english  (PRETRAINED, bez treninga)  parametara=66,955,010
+podaci           : SST-2  train 67349 (eval prvih 4000) / validation 872  [test oznake skrivene]
+klase            : negative, positive  (0=neg, 1=pos)
+
+  split        accuracy  macro-F1
+  train          0.9885    0.9884
+  validation     0.9106    0.9104
+
+prihvat (VAL): accuracy >= 0.9, macro-F1 >= 0.88
+PRIHVAT: PRIHVACEN

@@ -1,0 +1,39 @@
+midas_depth — MiDaS_small / NYU Depth V2 (labeled val)
+======================================================
+
+ZADATAK
+  Monokularna procjena dubine: iz jedne RGB slike predvidi dubinu za SVAKI piksel.
+  Gusta per-piksel REGRESIJA (kontinuirani izlaz), za razliku od segmentacije (diskretne klase).
+  Izlaz = relativna inverzna dubina [B,H,W]. Nova os u zoo-u: dense REGRESIJA.
+
+DATASET  (NYU Depth V2, labeled validation = standardni test split)
+  654 RGB-D para (unutarnje scene), slika 640x480 RGB, depth_map float32 u METRIMA (~0.5-10 m).
+  Sluzbeni NYU host (nyu_depth_v2_labeled.mat, 2.8 GB) je MRTAV -> koristimo isti podatak preko HF-a:
+  `vikhyatk/nyu_depth_v2`, samo 3 VALIDATION parquet fajla (~1 GB) skinuta direktno (hf_hub_download).
+  NAPOMENA: `load_dataset(split="validation")` je bagovit (povlaci i train, 32 GB) -> citamo parquet ravno.
+
+LABELA
+  Per-piksel dubina (float32, metri). -> zadatak je (dense) REGRESIJA.
+
+MODEL  (MiDaS_small, Ranftl et al. / Intel ISL)
+  torch.hub "intel-isl/MiDaS" MiDaS_small; backbone EfficientNet-Lite (treba timm). ~21.3M param, brz.
+  Izlaz = RELATIVNA inverzna dubina (bez apsolutne skale) -> eval uz scale+shift poravnanje na GT.
+
+PRETRAINED?
+  DA (torch.hub, treniran na mjesavini setova). Bez treninga: "build" = dohvati -> eval -> spremi eager.
+
+METRIKE / PRIHVAT
+  Scale-invariant (least-squares poravnanje predikcije na GT u disparity prostoru), pa na dubini (metri):
+    AbsRel = mean(|d-gt|/gt), RMSE (m), delta1 = % piksela s max(d/gt, gt/d) < 1.25.
+  Glavna: delta1 (visa bolja). Prag ~0.70 (MiDaS_small je najslabija MiDaS varijanta). Izmjerimo.
+
+PROBLEM / POANTA
+  ML: robusna monokularna dubina.
+  Za nas (arch_agnostic zoo): NOVO je tip zadatka (dense regresija, kontinuirani per-piksel izlaz).
+  Strukturno je 2D CNN (EfficientNet) -> probe TREBA raditi (pozitivna kontrola, kao DeepLabV3).
+
+FILES
+  data.py          skine 3 val parquet (~1 GB), NYUVal (PIL RGB, np.float32 depth m) + MiDaS transform
+  build.py         MiDaS_small (torch.hub) -> scale-invariant eval -> spremi eager model.pt + train_summary.txt
+  eval_baseline.py baseline evaluacija -> eval_result.txt (AbsRel/RMSE/delta1, brzina, CPU/GPU)
+  model.pt         pun eager modul (gitignore); reload treba MiDaS hub kod na sys.path (data.HUB_DIR)

@@ -1,0 +1,37 @@
+speechcommands_m5 — M5 1D-CNN / SpeechCommands v0.02 (12-klasni KWS) — train summary
+================================================================
+datum            : 2026-08-12 00:01:41
+uredaj           : cuda
+model            : M5 1D-CNN (Conv1d 128/128/256/512 + global avgpool + Linear)  parametara=560,140
+podaci           : train 36921 / val 4443 / test 4888  (sluzbeni split; 12 klasa)
+klase            : yes, no, up, down, left, right, on, off, stop, go, unknown, silence
+hiperparametri   : Adam lr=0.001, wd=0.0001, batch=256, patience=3, max_epochs=60; 1s @ 8kHz
+
+TRENING
+  trajalo epoha  : 13
+  best epoha     : 10  (val_acc=0.8713)
+  razlog prekida : early stop — 3 epoha bez poboljsanja val_acc
+  trajanje       : 689.0 s
+  povijest:
+  ep  1  val_acc=0.7056  val_f1=0.7005  *best
+  ep  2  val_acc=0.7932  val_f1=0.7896  *best
+  ep  3  val_acc=0.8235  val_f1=0.8196  *best
+  ep  4  val_acc=0.8157  val_f1=0.8134
+  ep  5  val_acc=0.8591  val_f1=0.8574  *best
+  ep  6  val_acc=0.8670  val_f1=0.8667  *best
+  ep  7  val_acc=0.8424  val_f1=0.8391
+  ep  8  val_acc=0.8573  val_f1=0.8586
+  ep  9  val_acc=0.8677  val_f1=0.8691  *best
+  ep 10  val_acc=0.8713  val_f1=0.8709  *best
+  ep 11  val_acc=0.8632  val_f1=0.8612
+  ep 12  val_acc=0.8553  val_f1=0.8578
+  ep 13  val_acc=0.8638  val_f1=0.8633
+
+METRIKE po splitu   [accuracy = GLAVNA metrika]
+  split   accuracy  macro-F1
+  train     0.9438    0.9437
+  val       0.8713    0.8709
+  test      0.8595    0.8594
+
+prihvat (TEST): accuracy >= 0.85, macro-F1 >= 0.85
+PRIHVAT: PRIHVACEN

@@ -1,0 +1,50 @@
+# Ovisnosti za BASELINE EVALUACIJU na edge uredjaju (Jetson Orin Nano / RPi 5).
+#
+# torch, torchvision i torchaudio NISU ovdje — instalira ih setup_env.sh iz izvora
+# specificnog za platformu (Jetson: NVIDIA indeks; RPi5: PyPI aarch64 CPU).
+#
+# Verzije s laptopa su navedene kao KOMENTAR, ne kao pin. Na aarch64 dio njih nema
+# wheel pa bi tvrdi pin natjerao gradnju iz izvora (sati na RPi-ju). Pinaj tek ako
+# se pojavi neslaganje rezultata s laptopom.
+
+# --- yolo26n, yolo26l -------------------------------------------------------
+# PINANO: yolo*.pt je full-eager pickle i trazi `ultralytics.nn.tasks.DetectionModel`.
+# Ako se ta klasa u novijem ultralyticsu preimenuje ili premjesti, model se NE UCITA.
+# Torch smije biti noviji (na Pi-ju 2.14 naspram 2.6 na laptopu) — on ne vlasnik klase.
+ultralytics==8.4.48        # (povlaci opencv, pandas, matplotlib)
+
+# --- sst2_distilbert --------------------------------------------------------
+# PINANO iz istog razloga: pickle trazi transformers.models.distilbert.modeling_distilbert
+transformers==5.15.0
+tokenizers==0.22.2
+datasets                   # laptop: 5.0.1  (ne vlasnik klase -> ne pina se)
+safetensors                # laptop: 0.8.0
+
+# --- midas_depth ------------------------------------------------------------
+timm                       # laptop: 1.0.28
+geffnet                    # pickle trazi geffnet.* (gen-efficientnet-pytorch)
+# NAPOMENA: midas_depth trazi i modul `midas` iz torch.hub kesa
+#   (intel-isl/MiDaS). Nije na PyPI-ju. Na uredjaju:
+#     python -c "import torch; torch.hub.load('intel-isl/MiDaS','MiDaS_small')"
+#   Taj model NE UCITAVA se ni na laptopu — vidi todo_finish.txt, dio C.
+
+# --- metrike i evaluacija ---------------------------------------------------
+torchmetrics               # laptop: 1.9.0   (mAP za detekciju)
+pycocotools                # mAP backend
+
+# --- opce --------------------------------------------------------------------
+numpy                      # laptop: 2.1.3
+pillow                     # laptop: 12.2.0
+scipy                      # laptop: 1.15.3
+pandas                     # laptop: 2.3.3   (housing_mlp)
+PyYAML                     # laptop: 6.0.3
+tqdm                       # laptop: 4.67.3
+opencv-python-headless     # laptop: 4.13.0.92  (headless = bez GUI ovisnosti)
+
+# =============================================================================
+# NAMJERNO IZOSTAVLJENO — ne pripada ovim uredjajima:
+#   onnxruntime-gpu   gradjen za desktop CUDA-u; Jetson ima vlastitu izvedbu
+#   openvino, nncf    Intelov stog; na aarch64 je to zaseban i ogranicen put
+#   tensorrt          na Jetsonu dolazi s JetPackom, ne preko pipa
+#   torch-pruning     treba tek kad SliNN pocne rezati na uredjaju, ne za baseline
+# =============================================================================

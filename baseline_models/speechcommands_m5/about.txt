@@ -1,0 +1,47 @@
+speechcommands_m5 — M5 1D-CNN / Google Speech Commands v0.02
+============================================================
+
+ZADATAK
+  Keyword spotting: klasificiraj kratki (~1 s) audio isjecak izgovorene rijeci u jednu od 12 klasa.
+  Jednolabelna visesklasna AUDIO klasifikacija na SIROVOM valnom obliku (1D), ne na spektrogramu.
+
+DATASET  (Google Speech Commands v0.02)
+  PUNI skup: 105 829 isjecaka, 35 rijeci, ~1 s, mono, 16 kHz WAV. Skida se auto (torchaudio) u ./data/
+  (~2.3 GB tar, ~5.5 GB na disku). Sluzbeni split (validation_list/testing_list.txt). Downsample na 8 kHz -> [1, 8000].
+
+ZADATAK 12 KLASA  (klasicni Warden setup) — koristi se PODSKUP punog skupa
+  Klase: 10 naredbi (yes, no, up, down, left, right, on, off, stop, go)
+         + 'unknown' (ostalih 25 rijeci, subsample ~ prosjek jedne core klase)
+         + 'silence' (nasumicni 1 s izresci iz _background_noise_).
+  Buduci da se non-core rijeci subsampliraju u 'unknown' a silence generira, koristi se ~46k od 105k isjecaka:
+    KORISTENO:  train 36 921 / val 4 443 / test 4 888   (ukupno ~46 252)
+    balans po klasi (train/val/test): ~3000-3200 / ~350-400 / ~400 svaka -> 12 klasa priblizno izjednaceno.
+
+LABELA
+  Indeks klase 0..11 (jednolabelno). -> zadatak je KLASIFIKACIJA.
+
+MODEL  (M5 1D-CNN, Dai et al. 2017)
+  Radi direktno na valnom obliku. Kanonske sirine 128/128/256/512 (~558k param).
+  Blok: Conv1d -> BatchNorm1d -> ReLU -> MaxPool1d(4); prvi conv k=80 s=16 (velik receptivni prozor);
+  glava = global avg-pool + Linear(512, 12).
+
+PROBLEM / POANTA
+  ML: on-device prepoznavanje glasovnih naredbi iz sirovog zvuka.
+  Za nas (arch_agnostic zoo): prva 1D / Conv1d os - lomi pretpostavku "sve je 2D slika". Stresira:
+    - probe na 1D SIROVOM ulazu (waveform, ne slika),
+    - classify Conv1d / BatchNorm1d / ReLU na 1D,
+    - position tapove na 1D neck-u.
+
+PRETRAINED?
+  Ne - M5 se ne dijeli kao tezine. Treniramo ga (isti model kao sluzbeni torchaudio tutorial).
+
+METRIKE / PRIHVAT
+  Glavna: accuracy (test). Sporedna: macro-F1. Prihvat: accuracy >= 0.88, macro-F1 >= 0.85.
+  (v. train_summary.txt / eval_result.txt)
+
+FILES
+  model_m5.py      definicija M5 (uvozivi modul za eager reload)
+  data.py          skida/materializira ./data/, 12-klasni loader (silence/unknown), 1s @ 8kHz
+  build.py         trening (early-stop patience 7 na val_acc) + model.pt + train_summary.txt
+  eval_baseline.py baseline evaluacija -> eval_result.txt
+  model.pt         istrenirani pun eager modul (gitignore)

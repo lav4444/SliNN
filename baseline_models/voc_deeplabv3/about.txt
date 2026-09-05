@@ -1,0 +1,36 @@
+voc_deeplabv3 — DeepLabV3-MobileNetV3 / Pascal VOC 2012
+=======================================================
+
+ZADATAK
+  Semanticka segmentacija: dodijeli klasu SVAKOM pikselu slike. Gusta per-piksel klasifikacija.
+  Izlaz [B, 21, H, W] -> argmax po pikselu = mapa segmentacije. Prva dense per-piksel os u zoo-u.
+
+DATASET  (Pascal VOC 2012, segmentacijski podskup)
+  21 klasa: __background__ + 20 VOC (aeroplane, bicycle, bird, ... tvmonitor); 255 = void/ignore.
+  Splitovi: train 1464 / val 1449. Skida se auto (torchvision VOCSegmentation, ~2 GB tar) u ./data/.
+
+LABELA
+  Per-piksel maska (PIL "P"): indeksi 0..20, 255=void. -> zadatak je SEGMENTACIJA.
+
+MODEL  (DeepLabV3-MobileNetV3-Large)
+  MobileNetV3-Large backbone + DeepLabV3 glava (ASPP = atrous/dilated konvolucije, multi-scale kontekst).
+  ~11M param. torchvision weights COCO_WITH_VOC_LABELS_V1 (reportana mIoU 60.3 / pix-acc 91.2 na COCO-VOC).
+  Izlaz: dict {"out": [B,21,H,W], "aux": ...}.
+
+PRETRAINED?
+  DA. Bez treninga: "build" = dohvati weights -> eval mIoU na VOC val -> spremi eager model.pt.
+
+PROBLEM / POANTA
+  ML: klasicna semanticka segmentacija (scene parsing).
+  Za nas (arch_agnostic zoo): strukturno je 2D CNN (Conv2d/BN/SE + ASPP), pa probe TREBA raditi -> prvi
+  novi model koji pipeline CITA. "Novo" je IZLAZ/decode (dict {out,aux}, per-piksel glava, mIoU metrika)
+  = os za eval-scorer (korak 4), ne strukturni gap. Usput vjezba dilated konvove + ASPP global-pool (1x1) granu.
+
+METRIKE / PRIHVAT
+  Glavna: mIoU (mean IoU, ignorira void 255) + pixel accuracy. Prag ~0.55 (COCO-pretrained na VOC val).
+
+FILES
+  data.py          skine VOC u ./data/ + torchvision transforms; voc(split), classes(), NUM_CLASSES, IGNORE
+  build.py         dohvati pretrained DeepLabV3 -> eval mIoU -> spremi eager model.pt + train_summary.txt
+  eval_baseline.py baseline evaluacija -> eval_result.txt (mIoU, pix-acc, per-class IoU, brzina, CPU/GPU)
+  model.pt         pun eager modul (gitignore)

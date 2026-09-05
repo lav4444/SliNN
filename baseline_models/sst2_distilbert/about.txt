@@ -1,0 +1,42 @@
+sst2_distilbert — DistilBERT / SST-2 (GLUE)
+===========================================
+
+ZADATAK
+  Analiza sentimenta: svrstaj recenicu (recenziju) u pozitivno (1) / negativno (0).
+  Binarna TEKSTUALNA klasifikacija. Prva ne-slikovna/ne-audio/ne-tabularna modalnost + prvi TRANSFORMER.
+
+DATASET  (SST-2, dio GLUE)
+  Recenice iz filmskih recenzija, oznaka 0=neg / 1=pos (Stanford Sentiment Treebank v2).
+  Splitovi: train 67 349 / validation 872 / test 1 821 (TEST oznake skrivene u GLUE).
+  -> za tocnost koristimo validation (872). Skida se preko HuggingFace `datasets` (~7 MB teksta), u ./data/.
+
+LABELA
+  Indeks klase 0/1 (jednolabelno, binarno) -> zadatak je KLASIFIKACIJA.
+
+MODEL  (DistilBERT, fine-tuned na SST-2)
+  `distilbert-base-uncased-finetuned-sst-2-english` (HuggingFace). ~67M param, ~91% val tocnost.
+  DistilBERT = destilirani BERT (6 slojeva umj. 12, ~40% manji, ~97% performansi).
+  Arhitektura: Embedding (vocab 30522) -> 6x [multi-head self-attention + FFN + LayerNorm]
+               -> glava (pre_classifier Linear + classifier Linear -> 2 logita).
+  Ulaz: input_ids [B,L] + attention_mask [B,L]  (token-ID-jevi, ne float; max_len ~64, WordPiece).
+
+PRETRAINED?
+  DA. Nema treninga: "build" = dohvati HF model -> spremi eager model.pt -> evaluiraj na SST-2 val.
+
+PROBLEM / POANTA
+  ML: sentiment recenzija (klasicni NLP baseline).
+  Za nas (arch_agnostic zoo): najtvrdi strukturni slucaj dosad. Stresira ono sto CNN/audio/tabular nemaju:
+    - EMBEDDING (shape[0]=velicina vokabulara -> hazard, ne smije se rezati; vec u registru),
+    - ATTENTION (multi-head; position ga skipa jer tp graf pukne na QKV),
+    - LayerNorm (norm), Linear FFN (prunable),
+    - ULAZ = cijeli token-ID-jevi (integer) + attention_mask -> probe (koji gradi float ulaze) ga
+      zasad NE moze sintetizirati; visesestruko-ulazni forward. (novi gap za razvojnu fazu, kao M5 1D)
+
+METRIKE / PRIHVAT
+  Glavna: accuracy (SST-2 validation). Prag ~0.90 (pretrained daje ~0.91). (v. eval_result.txt)
+
+FILES
+  data.py          skine SST-2 u ./data/ + DistilBERT tokenizer; uniformni loader (input_ids/mask + label)
+  build.py         dohvati pretrained HF model -> spremi eager model.pt + kratki izvjestaj
+  eval_baseline.py baseline evaluacija -> eval_result.txt
+  model.pt         pun eager modul (~268 MB, gitignore); reload treba `transformers` na sys.path

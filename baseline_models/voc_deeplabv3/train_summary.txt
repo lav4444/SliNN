@@ -1,0 +1,36 @@
+voc_deeplabv3 — DeepLabV3-MobileNetV3 / VOC 2012 — eval summary
+================================================================
+datum            : 2026-08-13 20:42:00
+uredaj           : cuda
+model            : deeplabv3_mobilenet_v3_large (DeepLabV3_MobileNet_V3_Large_Weights.COCO_WITH_VOC_LABELS_V1)  PRETRAINED  parametara=11,029,328
+podaci           : VOC 2012 val (1449 slika); 21 klasa; void=255 ignoriran
+metrika          : mIoU (mean IoU) + pixel accuracy
+
+  mIoU        = 0.7269
+  pixel-acc   = 0.9338
+
+per-class IoU:
+  __background__ 0.9255
+  aeroplane      0.8720
+  bicycle        0.3737
+  bird           0.8621
+  boat           0.6541
+  bottle         0.6693
+  bus            0.9070
+  car            0.7275
+  cat            0.8738
+  chair          0.3741
+  cow            0.8610
+  diningtable    0.4815
+  dog            0.8118
+  horse          0.8333
+  motorbike      0.8411
+  person         0.8372
+  pottedplant    0.5277
+  sheep          0.8034
+  sofa           0.5108
+  train          0.8980
+  tvmonitor      0.6194
+
+prihvat: mIoU >= 0.55
+PRIHVAT: PRIHVACEN

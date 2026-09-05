@@ -1,0 +1,29 @@
+# Grana `edge` nosi SAMO KOD. Tezine i podaci idu rsyncom s laptopa — prevelili su za
+# git (2.4 GB), a i nisu nas artefakt nego ulaz.
+
+# ---- tezine i izvedeni modeli ----
+*.pt
+*.pth
+*.onnx
+*.engine
+*.cache
+*_openvino_model/
+*.bin
+
+# ---- podaci ----
+datasets/
+baseline_models/*/data/
+
+# ---- rezultati mjerenja ----
+# Ovise o uredjaju; u granu ne idu da se Pi i Jetson ne bore oko istih datoteka.
+eval_result*.txt
+
+# ---- python ----
+__pycache__/
+*.py[cod]
+*.log
+
+# ---- alati laptopske strane (ovdje ih ni nema, ali da se ne vrate) ----
+edge/filelists/
+edge/send_to_edge.sh
+edge/make_filelists.py

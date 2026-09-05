@@ -1,0 +1,14 @@
+midas_depth — MiDaS_small / NYU Depth V2 (labeled val) — eval summary
+================================================================
+datum            : 2026-08-13 21:26:09
+uredaj           : cuda
+model            : MiDaS_small (intel-isl/MiDaS, torch.hub)  PRETRAINED  parametara=21,320,545
+podaci           : NYU Depth V2 labeled val (654 RGB-D, metri); scale-invariant (least-squares scale+shift)
+metrika          : AbsRel / RMSE (m) / delta1 (max(d/gt,gt/d) < 1.25)
+
+  AbsRel   = 0.2189   (niza bolja)
+  RMSE     = 0.7970 m
+  delta1   = 0.6045   (visa bolja)  [GLAVNA]
+
+prihvat: delta1 >= 0.55
+PRIHVAT: PRIHVACEN
