@@ -44,3 +44,11 @@ eval_result_*.txt
 # konkretan uredjaj i konkretnu verziju torcha, pa u granu ne spada.
 model_onnx.json
 export_log_*.txt
+
+# ---- generirane mjerne mape ----
+# BASELINE_OPTIM/<model>/ je deterministicki izlaz iz make_optim.py nad BASELINE_RAW,
+# a oboje je vec u gitu — kopija ne bi dodala nista sto se ne moze ponovno napraviti.
+# Gore od toga: make_optim.py preskace mape koje POSTOJE, pa bi ispracena kopija na
+# drugom uredjaju sprijecila kopiranje tezina i export.py bi pao na "nema model.pt".
+# .gitkeep ostaje ispracen jer nije u podmapi.
+BASELINE_OPTIM/*/
