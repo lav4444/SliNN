@@ -28,8 +28,12 @@ import torch
 
 _SESS_OPTS = None
 
-# Ime engine datoteke i trenutno aktivan runtime (postavlja ih load_optim).
-ENGINE_NAME = "model_fp16.engine"
+# Imena engine datoteka i trenutno aktivan runtime (postavlja ih load_optim).
+# Redoslijed je i prioritet: INT8 prije FP16. U BASELINE_OPTIM int8 enginea NEMA po
+# konstrukciji (build_engines.py odbija graf s Q/DQ cvorovima), pa ondje ovo nista ne mijenja.
+# U SLINN_OPTIM je int8 upravo ono sto se mjeri.
+ENGINE_NAMES = ("model_int8.engine", "model_fp16.engine")
+ENGINE_NAME = ENGINE_NAMES[-1]           # zadrzano: build_engines.py ga i dalje cita
 _ACTIVE_RUNTIME = "onnxruntime"
 
 
@@ -247,16 +251,17 @@ def load_optim(model_dir, dev=None):
     with open(meta_path, encoding="utf-8") as f:
         meta = json.load(f)
 
-    engine_path = os.path.join(model_dir, ENGINE_NAME)
-    if os.path.isfile(engine_path):
-        _ACTIVE_RUNTIME = "tensorrt"
-        return TrtShim(engine_path, meta)
+    for name in ENGINE_NAMES:
+        engine_path = os.path.join(model_dir, name)
+        if os.path.isfile(engine_path):
+            _ACTIVE_RUNTIME = "tensorrt"
+            return TrtShim(engine_path, meta)
 
     onnx_path = os.path.join(model_dir, "model.onnx")
     if not os.path.isfile(onnx_path):
         raise FileNotFoundError(
-            f"nema ni {ENGINE_NAME} ni model.onnx u {model_dir} — izvoz/gradnja nisu prosli. "
-            f"Pokreni shared/export.py pa shared/build_engines.sh i pogledaj logove.")
+            f"nema ni {' / '.join(ENGINE_NAMES)} ni model.onnx u {model_dir} — izvoz/gradnja "
+            f"nisu prosli. Pokreni shared/export.py pa shared/build_engines.sh i pogledaj logove.")
     _ACTIVE_RUNTIME = "onnxruntime"
     return OrtShim(onnx_path, meta)
 
