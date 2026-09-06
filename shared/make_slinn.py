@@ -27,9 +27,14 @@ IZLAZ:
 isti checkpoint prije kvantizacije; on se gradi samo ako se izrijekom trazi, jer poanta na
 uredjaju je INT8.
 
+DVIJE MJERNE MAPE IZ ISTIH TEZINA. `SLINN_DIR=SLINN_OPTIM` gradi celiju koja mjeri izvezeni
+model (ORT/TRT); `SLINN_DIR=SLINN_RAW` gradi celiju koja mjeri ISTI checkpoint u EAGERU, dakle
+pod istim runtimeom kao BASELINE_RAW. Bez te druge se ne zna koliko je od razlike model a
+koliko runtime. Nacin se bira po imenu mape — `RAW` u imenu znaci eager.
+
 Okolina:
     SLINN_IN=<put>       ulazna mapa       (zadano <korijen>/slinn_in)
-    SLINN_DIR=...        ciljna mjerna mapa (zadano SLINN_OPTIM)
+    SLINN_DIR=...        ciljna mjerna mapa: SLINN_OPTIM (zadano) ili SLINN_RAW
     SLINN_WHICH=qat      qat | fp32 | both  (zadano qat)
     SLINN_ONLY=voc,...   samo navedeni modeli
     FORCE=1              pregradi postojece celije
@@ -52,6 +57,7 @@ WHICH = os.environ.get("SLINN_WHICH", "qat").strip().lower()
 ONLY = [s.strip() for s in os.environ.get("SLINN_ONLY", "").replace(";", ",").split(",")
         if s.strip()]
 FORCE = os.environ.get("FORCE", "").strip() not in ("", "0", "false", "no")
+RAW_MODE = "RAW" in os.path.basename(DST).upper()     # eager celija umjesto izvezene
 
 # Tudja mjerenja i tudji artefakti ne idu u novu celiju.
 SKIP = ("eval_result", "results_", "export_log", "build_log", "model_onnx.json",
@@ -79,6 +85,62 @@ class EMIT(object):                                             # noqa: F811
         cell = os.path.basename(os.path.abspath(str(script_dir)))
         return _EMIT_MOD.write(script_dir, cell, *a, **k)
 """
+
+EMIT_BLOCK_RAW = EMIT_ANCHOR + """
+
+# Ime CELIJE umjesto imena modela: u jednoj mjernoj mapi zivi vise checkpointa istog modela,
+# pa bi im inace svi retci u results.csv bili nerazlucivi. `runtime` se NE dira — ostaje
+# `eager`, jer se ovdje mjeri bas to.
+_EMIT_MOD = EMIT
+
+
+class EMIT(object):                                             # noqa: F811
+    @staticmethod
+    def write(script_dir, model, *a, **k):
+        cell = os.path.basename(os.path.abspath(str(script_dir)))
+        return _EMIT_MOD.write(script_dir, cell, *a, **k)
+"""
+
+# RAW: mijenja se SAMO koja se datoteka ucitava. `torch.load` ostaje, jer je eager runtime
+# upravo ono sto se u ovoj celiji mjeri.
+PT_OLD = 'MODEL_PT = os.path.join(HERE, "model.pt")'
+PT_NEW = ('# SLINN_RAW: prorezan i QAT-om dotjeran checkpoint, ucitan EAGERO — isti runtime\n'
+          '# kao BASELINE_RAW, pa je razlika pripisiva modelu a ne runtimeu.\n'
+          'sys.path.insert(0, HERE)                    # pickle trazi `quant` uz .pt\n'
+          'MODEL_PT = os.path.join(HERE, "slinn_model.pt")')
+
+YOLO_HELPER_RAW = """
+# --- SLINN_RAW: eager forward SliNN checkpointa ------------------------------
+# `YOLO(MODEL_NAME)` nize ucitava ORIGINALNI .pt, ali se on NIKAD NE FORWARDA: sluzi samo
+# pomocnim funkcijama (find_detect_head, imena razreda, NMS). Svaki forward ide kroz `_core()`,
+# tj. kroz SliNN checkpoint, u eageru.
+_CORE = {}
+
+
+def _core():
+    if "m" not in _CORE:
+        d = str(SCRIPT_DIR)
+        if d not in sys.path:
+            sys.path.insert(0, d)                    # pickle trazi `quant` uz .pt
+        m = torch.load(os.path.join(d, "slinn_model.pt"), map_location=DEVICE,
+                       weights_only=False).eval()
+        h = list(m.model)[-1]
+        if getattr(h, "end2end", False):
+            h.end2end = False                        # eval treba gusti pred-NMS izlaz
+        _CORE["m"] = m.to(DEVICE)
+    return _CORE["m"]
+# -----------------------------------------------------------------------------
+"""
+
+YOLO_PATCHES_RAW = [
+    ("        out = model.model(tensor)",
+     "        out = _core()(tensor)                # SLINN_RAW: eager SliNN checkpoint"),
+    ("    torch_model = model.model",
+     "    torch_model = _core()                    # SLINN_RAW: eager SliNN checkpoint"),
+    ('PRED_ROOT = DATASET_ROOT / "yolo26n"', 'PRED_ROOT = DATASET_ROOT / SCRIPT_DIR.name'),
+    ('PRED_ROOT = DATASET_ROOT / "yolo26l"', 'PRED_ROOT = DATASET_ROOT / SCRIPT_DIR.name'),
+]
+
 
 # ---------------------------------------------------------------- zakrpe
 LOAD_OLD = '    model = torch.load(MODEL_PT, map_location=dev, weights_only=False).eval()'
@@ -126,6 +188,27 @@ def _sub(s, old, new, where, optional=False):
     if n != 1:
         raise SystemExit("{}: uzorak nije jedinstven ({}x): {}".format(where, n, old.strip()[:70]))
     return s.replace(old, new), True
+
+
+def patch_raw(path, model):
+    """RAW celija: eval skripta ostaje eager, mijenja se samo koje tezine ucitava."""
+    s = io.open(path, encoding="utf-8").read()
+    if "_EMIT_MOD" in s:
+        return "vec zakrpano"
+    done = []
+    if model.startswith("yolo"):
+        s, _ = _sub(s, EMIT_ANCHOR, EMIT_BLOCK_RAW + YOLO_HELPER_RAW, model)
+        for old, new in YOLO_PATCHES_RAW:
+            opt = old.startswith("PRED_ROOT")
+            s, hit = _sub(s, old, new, model, optional=opt)
+            if hit:
+                done.append(old.strip().split("=")[0].strip()[:24])
+    else:
+        s, _ = _sub(s, EMIT_ANCHOR, EMIT_BLOCK_RAW, model)
+        s, _ = _sub(s, PT_OLD, PT_NEW, model)
+        done.append("MODEL_PT")
+    io.open(path, "w", encoding="utf-8").write(s)
+    return "eager, zakrpano: " + ", ".join(done)
 
 
 def patch(path, model):
@@ -222,7 +305,8 @@ def build(model, pt, src):
               io.open(os.path.join(d_dir, "slinn.json"), "w", encoding="utf-8"), indent=2)
 
     script = "evaluate.py" if model.startswith("yolo") else "eval_baseline.py"
-    note = patch(os.path.join(d_dir, script), model)
+    fn = patch_raw if RAW_MODE else patch
+    note = fn(os.path.join(d_dir, script), model)
     return cell, "{:6.1f} MB aparat + {:7.1f} MB tezine   {}".format(mb, w_mb, note)
 
 
@@ -234,7 +318,8 @@ def main():
                          "(rsync sa slinn/runs/<model>_<pecat>/)".format(IN))
     os.makedirs(DST, exist_ok=True)
     print("### {}  +  {}  ->  {}".format(RAW, IN, DST))
-    print("### checkpointi: {}   datasetovi se NE kopiraju (shared/datasets/)".format(WHICH))
+    print("### checkpointi: {}   runtime: {}   datasetovi se NE kopiraju (shared/datasets/)"
+          .format(WHICH, "eager (RAW)" if RAW_MODE else "izvezeni (ORT/TRT)"))
 
     models = sorted(m for m in os.listdir(IN) if os.path.isdir(os.path.join(IN, m)))
     if ONLY:
@@ -260,7 +345,10 @@ def main():
             n += 1
 
     print("\n### {} celija u {}".format(n, DST))
-    print("### sljedece:  OPTIM_DIR={} python shared/export.py".format(os.path.basename(DST)))
+    if RAW_MODE:
+        print("### sljedece:  EVAL_DIR={} bash shared/run_slinn.sh".format(os.path.basename(DST)))
+    else:
+        print("### sljedece:  OPTIM_DIR={} python shared/export.py".format(os.path.basename(DST)))
     return 0
 
 
