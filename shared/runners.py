@@ -234,6 +234,12 @@ class TrtShim(object):
         return f"TrtShim({os.path.basename(os.path.dirname(self.path))}, {self.style})"
 
 
+def _jetson():
+    """Isti test kojim se uredjaj prepoznaje u setup_env.sh i emit.device_name()."""
+    return (os.path.exists("/etc/nv_tegra_release")
+            or os.path.isdir("/usr/lib/aarch64-linux-gnu/tegra"))
+
+
 def load_optim(model_dir, dev=None):
     """Ucitaj optimizirani model: prvo TensorRT engine, ako ga nema onda ONNX Runtime.
 
@@ -256,6 +262,16 @@ def load_optim(model_dir, dev=None):
         if os.path.isfile(engine_path):
             _ACTIVE_RUNTIME = "tensorrt"
             return TrtShim(engine_path, meta)
+
+    # NA JETSONU ORT-a NEMA. Optimizirani runtime je ondje TensorRT i samo TensorRT: ORT bi
+    # isao na CPU (nema CUDA providera), pa bi u istoj mjernoj celiji mjerio drugi runtime NA
+    # DRUGOM UREĐAJU. Omjer SLINN_OPTIM / BASELINE_OPTIM tada usporedjuje ORT-CPU s TRT-GPU i
+    # ne znaci nista. Prazna celija je nalaz; popunjena krivim runtimeom je greska u rezultatima.
+    if _jetson():
+        raise RuntimeError(
+            f"nema {' / '.join(ENGINE_NAMES)} u {model_dir}. Na Jetsonu se NE pada natrag na "
+            f"ONNX Runtime — optimizirani runtime je TensorRT. Engine se nije sagradio; "
+            f"pogledaj build_log_*.txt u toj mjernoj mapi.")
 
     onnx_path = os.path.join(model_dir, "model.onnx")
     if not os.path.isfile(onnx_path):
