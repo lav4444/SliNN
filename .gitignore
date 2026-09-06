@@ -44,6 +44,7 @@ eval_result_*.txt
 # konkretan uredjaj i konkretnu verziju torcha, pa u granu ne spada.
 model_onnx.json
 export_log_*.txt
+build_log_*.txt
 
 # ---- generirane mjerne mape ----
 # BASELINE_OPTIM/<model>/ je deterministicki izlaz iz make_optim.py nad BASELINE_RAW,
