@@ -1,0 +1,339 @@
+{
+  "meta": {
+    "model": "deeplabv3_mobilenet_v3_large",
+    "task": "semantic-segmentation (VOC2012, 21 kl.)",
+    "weights": "/home/tomi/code/dipl/baseline_models/voc_deeplabv3/model.pt",
+    "num_classes": 21,
+    "ignore_index": 255,
+    "eval_split": "val",
+    "eval_images": "full val (1449)",
+    "calib_images": 128,
+    "quant_engine": "x86",
+    "n_linear_layers": 0,
+    "reference_eval_result": {
+      "miou": 0.7269,
+      "gpu_ms": 6.55,
+      "cpu_ms": 94.32
+    },
+    "conditions": {
+      "cpu_threads": 8,
+      "lat_batch": 1,
+      "lat_size": 520,
+      "lat_warmup": 10,
+      "lat_iters": 50,
+      "lat_slow_iters": 5,
+      "torch": "2.6.0+cu124",
+      "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+      "metric_note": "latencija = medijan; p90/min u 'lat_full'",
+      "eval_note": "FP32/FP16 panel na GPU; int8 panel na CPU (PyTorch quant je CPU-only)"
+    },
+    "note": "Jedini gusti zadatak u setu. Isti backbone kao fasterrcnn (mobilenet_v3_large) ali bez RPN/NMS/dinami\u010dnih oblika -> provjerava je li frcnn pao zbog obitelji ili zbog detekcijskih operacija. INT8-PT-dynamic je kontrola: model gotovo nema Linear slojeva.",
+    "lat_full": {
+      "FP32": {
+        "cpu": {
+          "median_ms": 91.79330749975634,
+          "p90_ms": 96.8567689997144,
+          "mean_ms": 91.36419431240483,
+          "min_ms": 83.14208299998427,
+          "n": 16
+        },
+        "gpu": {
+          "median_ms": 6.295824000517314,
+          "p90_ms": 7.15297799979453,
+          "mean_ms": 6.142421500226192,
+          "min_ms": 5.048263001299347,
+          "n": 50
+        }
+      },
+      "FP16": {
+        "cpu": {
+          "median_ms": 14172.108955001022,
+          "p90_ms": 14193.243536001319,
+          "mean_ms": 14065.685736400337,
+          "min_ms": 13563.800754000113,
+          "n": 5
+        },
+        "gpu": {
+          "median_ms": 6.366971000716148,
+          "p90_ms": 7.120115998986876,
+          "mean_ms": 6.367615079943789,
+          "min_ms": 5.249968999123666,
+          "n": 50
+        }
+      },
+      "INT8-PT-static": {
+        "cpu": {
+          "median_ms": 134.77526800033957,
+          "p90_ms": 137.1853220007324,
+          "mean_ms": 132.99813693777196,
+          "min_ms": 120.79258700032369,
+          "n": 16
+        },
+        "gpu": "N/A (PyTorch quant je CPU-only)"
+      },
+      "INT8-PT-dynamic": {
+        "cpu": {
+          "median_ms": 98.36127549988305,
+          "p90_ms": 102.51888600032544,
+          "mean_ms": 98.73476781240242,
+          "min_ms": 94.05412399974011,
+          "n": 16
+        },
+        "gpu": "N/A (PyTorch quant je CPU-only)"
+      },
+      "FP32-sq520": {
+        "median_ms": 5.478673999277817,
+        "p90_ms": 9.39613599985023,
+        "mean_ms": 6.1538255997948,
+        "min_ms": 4.994603999875835,
+        "n": 50
+      },
+      "FP16-TRT": {
+        "median_ms": 5.081375999907323,
+        "p90_ms": 5.994561999614234,
+        "mean_ms": 4.873632859889767,
+        "min_ms": 1.6514500002813293,
+        "n": 50
+      },
+      "INT8-TRT": {
+        "median_ms": 4.391458000100101,
+        "p90_ms": 4.776599998876918,
+        "mean_ms": 3.904312620034034,
+        "min_ms": 1.2883859999419656,
+        "n": 50
+      }
+    },
+    "tensorrt": {
+      "version": "10.16.1.11",
+      "calib_images": 128,
+      "input": "1x3x520x520",
+      "note": "TRT engine ima FIKSNI kvadratni ulaz, a torchvision preset radi resize kra\u0107eg ruba -> TRT redci se uspore\u0111uju s FP32-sq520 (isti model, isti kvadratni put), ne s FP32 retkom."
+    }
+  },
+  "rows": [
+    {
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 42.2936,
+      "cpu_ms": 91.7933,
+      "gpu_ms": 6.2958,
+      "miou": 0.72687,
+      "pixel_acc": 0.93379,
+      "per_class_iou": {
+        "__background__": 0.9254960560784812,
+        "aeroplane": 0.8720079652230923,
+        "bicycle": 0.37366430903155606,
+        "bird": 0.862130973958001,
+        "boat": 0.6541217651156177,
+        "bottle": 0.6692737009793126,
+        "bus": 0.9069735011881751,
+        "car": 0.7275107242532316,
+        "cat": 0.8737993190672574,
+        "chair": 0.37409300238948134,
+        "cow": 0.8609524603775158,
+        "diningtable": 0.48154779903617523,
+        "dog": 0.8118221432828215,
+        "horse": 0.8333266130173228,
+        "motorbike": 0.8410807410444938,
+        "person": 0.8372096766461702,
+        "pottedplant": 0.5276554409425068,
+        "sheep": 0.8034100818196999,
+        "sofa": 0.5107713484999358,
+        "train": 0.8979693676573519,
+        "tvmonitor": 0.619424205447061
+      }
+    },
+    {
+      "format": "FP16",
+      "backend": "PyTorch",
+      "size_mb": 21.2019,
+      "cpu_ms": 14172.109,
+      "gpu_ms": 6.367,
+      "miou": 0.72702,
+      "pixel_acc": 0.93383,
+      "per_class_iou": {
+        "__background__": 0.9255065031366857,
+        "aeroplane": 0.8718596073870358,
+        "bicycle": 0.37365485796366527,
+        "bird": 0.8621755626455118,
+        "boat": 0.6534534323371332,
+        "bottle": 0.6691559673695722,
+        "bus": 0.9075894339270624,
+        "car": 0.7277842444818052,
+        "cat": 0.8739932834419316,
+        "chair": 0.3743858854504509,
+        "cow": 0.8609950300618406,
+        "diningtable": 0.48134428862391676,
+        "dog": 0.8126088356053581,
+        "horse": 0.8345050407294334,
+        "motorbike": 0.8410855319303,
+        "person": 0.8371601910865025,
+        "pottedplant": 0.5277195636006086,
+        "sheep": 0.8032570006176606,
+        "sofa": 0.5112880617874996,
+        "train": 0.8985044656091239,
+        "tvmonitor": 0.6193159363542953
+      }
+    },
+    {
+      "format": "INT8-PT-static",
+      "backend": "PyTorch x86",
+      "size_mb": 11.0,
+      "cpu_ms": 134.7753,
+      "gpu_ms": "N/A (PyTorch quant je CPU-only)",
+      "miou": 0.67573,
+      "pixel_acc": 0.9212,
+      "per_class_iou": {
+        "__background__": 0.9131681353067564,
+        "aeroplane": 0.8256463983938718,
+        "bicycle": 0.36463962400721844,
+        "bird": 0.7961793636995329,
+        "boat": 0.6210887872437958,
+        "bottle": 0.4828565989311515,
+        "bus": 0.8840301431962576,
+        "car": 0.7053565182709545,
+        "cat": 0.814967933009765,
+        "chair": 0.2764037119438236,
+        "cow": 0.8243599622524647,
+        "diningtable": 0.4405946514886763,
+        "dog": 0.7205235252066349,
+        "horse": 0.7714782969865442,
+        "motorbike": 0.8208704513261199,
+        "person": 0.7984557060362389,
+        "pottedplant": 0.49600018356991865,
+        "sheep": 0.7753893343383382,
+        "sofa": 0.4613650905956621,
+        "train": 0.8325718100888075,
+        "tvmonitor": 0.5643475621875879
+      }
+    },
+    {
+      "format": "INT8-PT-dynamic",
+      "backend": "PyTorch x86 (0 Linear)",
+      "size_mb": 42.2936,
+      "cpu_ms": 98.3613,
+      "gpu_ms": "N/A (PyTorch quant je CPU-only)",
+      "miou": 0.72689,
+      "pixel_acc": 0.9338,
+      "per_class_iou": {
+        "__background__": 0.9254965700227785,
+        "aeroplane": 0.8720381512104262,
+        "bicycle": 0.37365387523979166,
+        "bird": 0.8621541274039964,
+        "boat": 0.654213347926194,
+        "bottle": 0.6693885511070322,
+        "bus": 0.9069785293953329,
+        "car": 0.7274161006865665,
+        "cat": 0.8738533491867111,
+        "chair": 0.3742232844557734,
+        "cow": 0.8608705143145513,
+        "diningtable": 0.48144055988920487,
+        "dog": 0.8119887351954481,
+        "horse": 0.833557106325183,
+        "motorbike": 0.8410900732859476,
+        "person": 0.8372352851023449,
+        "pottedplant": 0.5276480761729896,
+        "sheep": 0.8034035881927308,
+        "sofa": 0.5106710161563424,
+        "train": 0.8979351680269286,
+        "tvmonitor": 0.6194111442130013
+      }
+    },
+    {
+      "format": "FP32-sq520",
+      "backend": "PyTorch (TRT referenca)",
+      "cpu_ms": "N/A (mjereno u ptq_ skriptu)",
+      "gpu_ms": 5.4787,
+      "size_mb": 42.2936,
+      "miou": 0.70971,
+      "pixel_acc": 0.92863,
+      "per_class_iou": {
+        "__background__": 0.9205254484670883,
+        "aeroplane": 0.8615844825408775,
+        "bicycle": 0.3595125843415266,
+        "bird": 0.8473729829650122,
+        "boat": 0.6190173949806248,
+        "bottle": 0.6284972736585344,
+        "bus": 0.880885272467685,
+        "car": 0.7023823213667021,
+        "cat": 0.8867117779579332,
+        "chair": 0.3355165685818669,
+        "cow": 0.8181647915886281,
+        "diningtable": 0.46650860544789485,
+        "dog": 0.8048202110216185,
+        "horse": 0.821767526661505,
+        "motorbike": 0.8102754372232974,
+        "person": 0.8273891418615177,
+        "pottedplant": 0.498640060475523,
+        "sheep": 0.790389992932265,
+        "sofa": 0.49846415173887815,
+        "train": 0.8805304125872513,
+        "tvmonitor": 0.645053471466025
+      }
+    },
+    {
+      "format": "FP16-TRT",
+      "backend": "TensorRT",
+      "cpu_ms": "N/A (TensorRT je GPU-only)",
+      "gpu_ms": 5.0814,
+      "size_mb": 22.6662,
+      "miou": 0.70971,
+      "pixel_acc": 0.92861,
+      "per_class_iou": {
+        "__background__": 0.9205098181339395,
+        "aeroplane": 0.8615486002904437,
+        "bicycle": 0.35953820316400714,
+        "bird": 0.8473791788390418,
+        "boat": 0.6194415673403928,
+        "bottle": 0.6288935880039399,
+        "bus": 0.8803803519143069,
+        "car": 0.7023430741738553,
+        "cat": 0.8869470733373508,
+        "chair": 0.33533195010612343,
+        "cow": 0.8182848681924956,
+        "diningtable": 0.46615004632035134,
+        "dog": 0.8053172875460769,
+        "horse": 0.8214008617475447,
+        "motorbike": 0.8100705591640923,
+        "person": 0.8274685799276051,
+        "pottedplant": 0.49892158275746107,
+        "sheep": 0.790579362931853,
+        "sofa": 0.4980959800136363,
+        "train": 0.8800779804378627,
+        "tvmonitor": 0.6451890056463748
+      }
+    },
+    {
+      "format": "INT8-TRT",
+      "backend": "TensorRT",
+      "cpu_ms": "N/A (TensorRT je GPU-only)",
+      "gpu_ms": 4.3915,
+      "size_mb": 12.7673,
+      "miou": 0.66605,
+      "pixel_acc": 0.91751,
+      "per_class_iou": {
+        "__background__": 0.9110724389391199,
+        "aeroplane": 0.8002980943049673,
+        "bicycle": 0.35320697725424,
+        "bird": 0.8089824840850739,
+        "boat": 0.6179185003953821,
+        "bottle": 0.5040691841469191,
+        "bus": 0.7960322955614585,
+        "car": 0.605088511196288,
+        "cat": 0.8469127215111996,
+        "chair": 0.28339009270922877,
+        "cow": 0.8181725021143363,
+        "diningtable": 0.4284400486946486,
+        "dog": 0.7400320042550572,
+        "horse": 0.7664121956182595,
+        "motorbike": 0.7733131833940795,
+        "person": 0.8140703032699468,
+        "pottedplant": 0.4645798039793966,
+        "sheep": 0.7751853058208302,
+        "sofa": 0.4770699711195262,
+        "train": 0.8162834737446621,
+        "tvmonitor": 0.586448023672108
+      }
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+Model: yolo26l.pt
+Image size: 640
+Device: cuda
+Eval conf threshold: 0.001
+Hard pseudo-label threshold: 0.25
+
+=========== VAL (837 images) ===========
+
+Speed:
+  Inference (model only):       17.97 ms/image  (55.6 FPS)
+  Total (preproc+inf+postproc): 32.61 ms/image  (30.7 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.4734
+  mAP@50    = 0.6852
+  mAP@75    = 0.5212
+  mAR@100   = 0.6719
+
+Per-class mAP@50:95:
+  Person       0.2346
+  Car          0.4106
+  Truck        0.5934
+  Bus          0.7265
+  Motorcycle   0.4799
+  Bicycle      0.3950
+
+=========== TEST (1674 images) ===========
+
+Speed:
+  Inference (model only):       17.70 ms/image  (56.5 FPS)
+  Total (preproc+inf+postproc): 32.50 ms/image  (30.8 FPS)
+
+Combined mAP:
+  mAP@50:95 = 0.4681
+  mAP@50    = 0.6821
+  mAP@75    = 0.5068
+  mAR@100   = 0.6622
+
+Per-class mAP@50:95:
+  Person       0.2062
+  Car          0.3969
+  Truck        0.5242
+  Bus          0.7013
+  Motorcycle   0.5325
+  Bicycle      0.4477
+
+
+================================================================
+CPU vs GPU latency benchmark (10 random val images, seed=42)
+================================================================
+
+CPU per-image times (ms): [  18.96,   17.95,   17.84,   17.88,   18.20,   17.78,   17.77,   18.12,   18.15,   17.78]
+GPU per-image times (ms): [  17.06,   17.08,   17.40,   17.06,   17.41,   17.06,   17.44,   17.05,   17.39,   17.05]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:     17.91 ms/image  (55.8 FPS)
+  GPU:     17.14 ms/image  (58.3 FPS)
+  Speedup (GPU vs CPU):  1.0x

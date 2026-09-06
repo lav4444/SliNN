@@ -1,0 +1,341 @@
+Device: cuda
+Train rootovi: sub10k_open_images_v7, sub10k_open_images_v7_part2
+Val root:      sub10k_open_images_v7  (nepromijenjen -> mAP usporediv s KD_featlogit)
+Train: 14485    Val: 837
+Model parameters: 1,060,310
+Topli start iz: /home/tomi/code/dipl/custom_models/student_1_m/KD_featlogit/checkpoints/best.pt
+  prethodna epoha=22  val_mAP=0.1191
+  optimizer/scheduler NE nastavljaju se; LR krece od 5.00e-04
+Iteracija/epoha: 905  (part1-only run je imao ~366)
+  iter     50 | epoch   1/100 | loss 0.8260 | feat 0.1700 | cls 0.2811 | box 0.3749 | lr 1.41e-05
+  iter    100 | epoch   1/100 | loss 0.8106 | feat 0.1694 | cls 0.2741 | box 0.3671 | lr 2.79e-05
+  iter    150 | epoch   1/100 | loss 0.8078 | feat 0.1689 | cls 0.2735 | box 0.3653 | lr 4.17e-05
+  iter    200 | epoch   1/100 | loss 0.8004 | feat 0.1688 | cls 0.2696 | box 0.3620 | lr 5.55e-05
+  iter    250 | epoch   1/100 | loss 0.7984 | feat 0.1686 | cls 0.2684 | box 0.3614 | lr 6.93e-05
+  iter    300 | epoch   1/100 | loss 0.7954 | feat 0.1686 | cls 0.2665 | box 0.3603 | lr 8.31e-05
+  iter    350 | epoch   1/100 | loss 0.7930 | feat 0.1684 | cls 0.2652 | box 0.3594 | lr 9.70e-05
+  iter    400 | epoch   1/100 | loss 0.7919 | feat 0.1683 | cls 0.2649 | box 0.3587 | lr 1.11e-04
+  iter    450 | epoch   1/100 | loss 0.7913 | feat 0.1682 | cls 0.2644 | box 0.3587 | lr 1.25e-04
+  iter    500 | epoch   1/100 | loss 0.7909 | feat 0.1681 | cls 0.2643 | box 0.3584 | lr 1.38e-04
+  iter    550 | epoch   1/100 | loss 0.7892 | feat 0.1679 | cls 0.2634 | box 0.3579 | lr 1.52e-04
+  iter    600 | epoch   1/100 | loss 0.7882 | feat 0.1678 | cls 0.2627 | box 0.3577 | lr 1.66e-04
+  iter    650 | epoch   1/100 | loss 0.7868 | feat 0.1677 | cls 0.2620 | box 0.3571 | lr 1.80e-04
+  iter    700 | epoch   1/100 | loss 0.7859 | feat 0.1676 | cls 0.2616 | box 0.3567 | lr 1.94e-04
+  iter    750 | epoch   1/100 | loss 0.7851 | feat 0.1675 | cls 0.2612 | box 0.3564 | lr 2.07e-04
+  iter    800 | epoch   1/100 | loss 0.7849 | feat 0.1675 | cls 0.2610 | box 0.3564 | lr 2.21e-04
+  iter    850 | epoch   1/100 | loss 0.7840 | feat 0.1674 | cls 0.2605 | box 0.3560 | lr 2.35e-04
+  iter    900 | epoch   1/100 | loss 0.7839 | feat 0.1674 | cls 0.2605 | box 0.3559 | lr 2.49e-04
+[epoch   1] train_loss=0.7839 feat=0.1674 cls=0.2605 box=0.3560 (165.1s)
+[epoch   1] validating...
+[epoch   1] val_resp=0.6785 (cls=0.2918 box=0.3868) | val_mAP@50:95=0.1410 mAP@50=0.3368 (47.9s)
+[epoch   1] new best (val_mAP@50:95 = 0.1410)
+  iter    950 | epoch   2/100 | loss 0.7735 | feat 0.1651 | cls 0.2561 | box 0.3523 | lr 2.63e-04
+  iter   1000 | epoch   2/100 | loss 0.7716 | feat 0.1655 | cls 0.2546 | box 0.3515 | lr 2.77e-04
+  iter   1050 | epoch   2/100 | loss 0.7691 | feat 0.1660 | cls 0.2531 | box 0.3500 | lr 2.90e-04
+  iter   1100 | epoch   2/100 | loss 0.7697 | feat 0.1663 | cls 0.2530 | box 0.3504 | lr 3.04e-04
+  iter   1150 | epoch   2/100 | loss 0.7705 | feat 0.1664 | cls 0.2534 | box 0.3507 | lr 3.18e-04
+  iter   1200 | epoch   2/100 | loss 0.7718 | feat 0.1665 | cls 0.2539 | box 0.3513 | lr 3.32e-04
+  iter   1250 | epoch   2/100 | loss 0.7725 | feat 0.1663 | cls 0.2545 | box 0.3517 | lr 3.46e-04
+  iter   1300 | epoch   2/100 | loss 0.7716 | feat 0.1662 | cls 0.2540 | box 0.3514 | lr 3.59e-04
+  iter   1350 | epoch   2/100 | loss 0.7717 | feat 0.1661 | cls 0.2543 | box 0.3513 | lr 3.73e-04
+  iter   1400 | epoch   2/100 | loss 0.7721 | feat 0.1661 | cls 0.2546 | box 0.3513 | lr 3.87e-04
+  iter   1450 | epoch   2/100 | loss 0.7726 | feat 0.1661 | cls 0.2548 | box 0.3517 | lr 4.01e-04
+  iter   1500 | epoch   2/100 | loss 0.7737 | feat 0.1662 | cls 0.2554 | box 0.3522 | lr 4.15e-04
+  iter   1550 | epoch   2/100 | loss 0.7742 | feat 0.1663 | cls 0.2557 | box 0.3523 | lr 4.28e-04
+  iter   1600 | epoch   2/100 | loss 0.7739 | feat 0.1663 | cls 0.2555 | box 0.3521 | lr 4.42e-04
+  iter   1650 | epoch   2/100 | loss 0.7751 | feat 0.1663 | cls 0.2562 | box 0.3527 | lr 4.56e-04
+  iter   1700 | epoch   2/100 | loss 0.7757 | feat 0.1662 | cls 0.2565 | box 0.3530 | lr 4.70e-04
+  iter   1750 | epoch   2/100 | loss 0.7762 | feat 0.1662 | cls 0.2568 | box 0.3532 | lr 4.84e-04
+  iter   1800 | epoch   2/100 | loss 0.7763 | feat 0.1662 | cls 0.2568 | box 0.3533 | lr 4.98e-04
+[epoch   2] train_loss=0.7761 feat=0.1662 cls=0.2567 box=0.3532 (163.2s)
+  iter   1850 | epoch   3/100 | loss 0.7635 | feat 0.1654 | cls 0.2523 | box 0.3458 | lr 5.00e-04
+  iter   1900 | epoch   3/100 | loss 0.7660 | feat 0.1659 | cls 0.2512 | box 0.3489 | lr 5.00e-04
+  iter   1950 | epoch   3/100 | loss 0.7718 | feat 0.1662 | cls 0.2544 | box 0.3513 | lr 5.00e-04
+  iter   2000 | epoch   3/100 | loss 0.7703 | feat 0.1660 | cls 0.2534 | box 0.3509 | lr 5.00e-04
+  iter   2050 | epoch   3/100 | loss 0.7710 | feat 0.1662 | cls 0.2533 | box 0.3515 | lr 5.00e-04
+  iter   2100 | epoch   3/100 | loss 0.7711 | feat 0.1663 | cls 0.2534 | box 0.3514 | lr 5.00e-04
+  iter   2150 | epoch   3/100 | loss 0.7708 | feat 0.1664 | cls 0.2530 | box 0.3514 | lr 5.00e-04
+  iter   2200 | epoch   3/100 | loss 0.7704 | feat 0.1663 | cls 0.2531 | box 0.3511 | lr 5.00e-04
+  iter   2250 | epoch   3/100 | loss 0.7709 | feat 0.1665 | cls 0.2529 | box 0.3515 | lr 5.00e-04
+  iter   2300 | epoch   3/100 | loss 0.7714 | feat 0.1664 | cls 0.2537 | box 0.3514 | lr 5.00e-04
+  iter   2350 | epoch   3/100 | loss 0.7717 | feat 0.1663 | cls 0.2539 | box 0.3515 | lr 5.00e-04
+  iter   2400 | epoch   3/100 | loss 0.7709 | feat 0.1663 | cls 0.2535 | box 0.3512 | lr 5.00e-04
+  iter   2450 | epoch   3/100 | loss 0.7709 | feat 0.1661 | cls 0.2538 | box 0.3510 | lr 5.00e-04
+  iter   2500 | epoch   3/100 | loss 0.7709 | feat 0.1660 | cls 0.2539 | box 0.3509 | lr 5.00e-04
+  iter   2550 | epoch   3/100 | loss 0.7708 | feat 0.1660 | cls 0.2540 | box 0.3509 | lr 5.00e-04
+  iter   2600 | epoch   3/100 | loss 0.7710 | feat 0.1659 | cls 0.2540 | box 0.3510 | lr 5.00e-04
+  iter   2650 | epoch   3/100 | loss 0.7717 | feat 0.1658 | cls 0.2544 | box 0.3514 | lr 5.00e-04
+  iter   2700 | epoch   3/100 | loss 0.7715 | feat 0.1658 | cls 0.2543 | box 0.3514 | lr 5.00e-04
+[epoch   3] train_loss=0.7714 feat=0.1657 cls=0.2543 box=0.3513 (169.7s)
+  iter   2750 | epoch   4/100 | loss 0.7597 | feat 0.1648 | cls 0.2502 | box 0.3446 | lr 5.00e-04
+  iter   2800 | epoch   4/100 | loss 0.7568 | feat 0.1659 | cls 0.2470 | box 0.3439 | lr 5.00e-04
+  iter   2850 | epoch   4/100 | loss 0.7520 | feat 0.1657 | cls 0.2443 | box 0.3420 | lr 5.00e-04
+  iter   2900 | epoch   4/100 | loss 0.7525 | feat 0.1656 | cls 0.2445 | box 0.3424 | lr 5.00e-04
+  iter   2950 | epoch   4/100 | loss 0.7522 | feat 0.1654 | cls 0.2445 | box 0.3422 | lr 5.00e-04
+  iter   3000 | epoch   4/100 | loss 0.7517 | feat 0.1654 | cls 0.2440 | box 0.3422 | lr 5.00e-04
+  iter   3050 | epoch   4/100 | loss 0.7527 | feat 0.1655 | cls 0.2445 | box 0.3427 | lr 5.00e-04
+  iter   3100 | epoch   4/100 | loss 0.7520 | feat 0.1654 | cls 0.2443 | box 0.3423 | lr 5.00e-04
+  iter   3150 | epoch   4/100 | loss 0.7525 | feat 0.1653 | cls 0.2448 | box 0.3424 | lr 5.00e-04
+  iter   3200 | epoch   4/100 | loss 0.7519 | feat 0.1652 | cls 0.2447 | box 0.3419 | lr 5.00e-04
+  iter   3250 | epoch   4/100 | loss 0.7533 | feat 0.1651 | cls 0.2456 | box 0.3426 | lr 5.00e-04
+  iter   3300 | epoch   4/100 | loss 0.7531 | feat 0.1650 | cls 0.2457 | box 0.3424 | lr 5.00e-04
+  iter   3350 | epoch   4/100 | loss 0.7538 | feat 0.1650 | cls 0.2460 | box 0.3427 | lr 5.00e-04
+  iter   3400 | epoch   4/100 | loss 0.7532 | feat 0.1649 | cls 0.2457 | box 0.3425 | lr 5.00e-04
+  iter   3450 | epoch   4/100 | loss 0.7537 | feat 0.1649 | cls 0.2460 | box 0.3429 | lr 5.00e-04
+  iter   3500 | epoch   4/100 | loss 0.7538 | feat 0.1648 | cls 0.2459 | box 0.3430 | lr 5.00e-04
+  iter   3550 | epoch   4/100 | loss 0.7542 | feat 0.1648 | cls 0.2461 | box 0.3433 | lr 5.00e-04
+  iter   3600 | epoch   4/100 | loss 0.7537 | feat 0.1647 | cls 0.2458 | box 0.3432 | lr 4.99e-04
+[epoch   4] train_loss=0.7534 feat=0.1647 cls=0.2457 box=0.3430 (175.9s)
+[epoch   4] validating...
+[epoch   4] val_resp=0.6713 (cls=0.2880 box=0.3833) | val_mAP@50:95=0.1467 mAP@50=0.3522 (46.6s)
+[epoch   4] new best (val_mAP@50:95 = 0.1467)
+  iter   3650 | epoch   5/100 | loss 0.7409 | feat 0.1650 | cls 0.2425 | box 0.3334 | lr 4.99e-04
+  iter   3700 | epoch   5/100 | loss 0.7377 | feat 0.1644 | cls 0.2397 | box 0.3335 | lr 4.99e-04
+  iter   3750 | epoch   5/100 | loss 0.7317 | feat 0.1643 | cls 0.2353 | box 0.3320 | lr 4.99e-04
+  iter   3800 | epoch   5/100 | loss 0.7321 | feat 0.1643 | cls 0.2356 | box 0.3322 | lr 4.99e-04
+  iter   3850 | epoch   5/100 | loss 0.7322 | feat 0.1643 | cls 0.2349 | box 0.3330 | lr 4.99e-04
+  iter   3900 | epoch   5/100 | loss 0.7336 | feat 0.1644 | cls 0.2351 | box 0.3341 | lr 4.99e-04
+  iter   3950 | epoch   5/100 | loss 0.7368 | feat 0.1644 | cls 0.2371 | box 0.3353 | lr 4.99e-04
+  iter   4000 | epoch   5/100 | loss 0.7362 | feat 0.1643 | cls 0.2373 | box 0.3345 | lr 4.99e-04
+  iter   4050 | epoch   5/100 | loss 0.7346 | feat 0.1642 | cls 0.2363 | box 0.3340 | lr 4.99e-04
+  iter   4100 | epoch   5/100 | loss 0.7346 | feat 0.1643 | cls 0.2361 | box 0.3342 | lr 4.99e-04
+  iter   4150 | epoch   5/100 | loss 0.7361 | feat 0.1642 | cls 0.2371 | box 0.3347 | lr 4.99e-04
+  iter   4200 | epoch   5/100 | loss 0.7367 | feat 0.1642 | cls 0.2373 | box 0.3351 | lr 4.99e-04
+  iter   4250 | epoch   5/100 | loss 0.7375 | feat 0.1642 | cls 0.2380 | box 0.3353 | lr 4.99e-04
+  iter   4300 | epoch   5/100 | loss 0.7380 | feat 0.1642 | cls 0.2382 | box 0.3356 | lr 4.99e-04
+  iter   4350 | epoch   5/100 | loss 0.7382 | feat 0.1642 | cls 0.2381 | box 0.3359 | lr 4.99e-04
+  iter   4400 | epoch   5/100 | loss 0.7383 | feat 0.1642 | cls 0.2381 | box 0.3360 | lr 4.99e-04
+  iter   4450 | epoch   5/100 | loss 0.7383 | feat 0.1642 | cls 0.2381 | box 0.3360 | lr 4.99e-04
+  iter   4500 | epoch   5/100 | loss 0.7390 | feat 0.1642 | cls 0.2383 | box 0.3365 | lr 4.99e-04
+[epoch   5] train_loss=0.7389 feat=0.1642 cls=0.2383 box=0.3364 (168.5s)
+  iter   4550 | epoch   6/100 | loss 0.7220 | feat 0.1635 | cls 0.2300 | box 0.3284 | lr 4.99e-04
+  iter   4600 | epoch   6/100 | loss 0.7226 | feat 0.1639 | cls 0.2290 | box 0.3297 | lr 4.99e-04
+  iter   4650 | epoch   6/100 | loss 0.7163 | feat 0.1640 | cls 0.2248 | box 0.3276 | lr 4.99e-04
+  iter   4700 | epoch   6/100 | loss 0.7156 | feat 0.1638 | cls 0.2248 | box 0.3270 | lr 4.99e-04
+  iter   4750 | epoch   6/100 | loss 0.7155 | feat 0.1639 | cls 0.2245 | box 0.3270 | lr 4.99e-04
+  iter   4800 | epoch   6/100 | loss 0.7162 | feat 0.1639 | cls 0.2251 | box 0.3272 | lr 4.99e-04
+  iter   4850 | epoch   6/100 | loss 0.7184 | feat 0.1639 | cls 0.2268 | box 0.3276 | lr 4.99e-04
+  iter   4900 | epoch   6/100 | loss 0.7179 | feat 0.1639 | cls 0.2265 | box 0.3275 | lr 4.99e-04
+  iter   4950 | epoch   6/100 | loss 0.7191 | feat 0.1639 | cls 0.2271 | box 0.3281 | lr 4.98e-04
+  iter   5000 | epoch   6/100 | loss 0.7203 | feat 0.1638 | cls 0.2280 | box 0.3285 | lr 4.98e-04
+  iter   5050 | epoch   6/100 | loss 0.7217 | feat 0.1637 | cls 0.2289 | box 0.3291 | lr 4.98e-04
+  iter   5100 | epoch   6/100 | loss 0.7223 | feat 0.1638 | cls 0.2292 | box 0.3292 | lr 4.98e-04
+  iter   5150 | epoch   6/100 | loss 0.7232 | feat 0.1638 | cls 0.2296 | box 0.3297 | lr 4.98e-04
+  iter   5200 | epoch   6/100 | loss 0.7239 | feat 0.1637 | cls 0.2301 | box 0.3300 | lr 4.98e-04
+  iter   5250 | epoch   6/100 | loss 0.7236 | feat 0.1637 | cls 0.2300 | box 0.3300 | lr 4.98e-04
+  iter   5300 | epoch   6/100 | loss 0.7250 | feat 0.1637 | cls 0.2309 | box 0.3305 | lr 4.98e-04
+  iter   5350 | epoch   6/100 | loss 0.7252 | feat 0.1637 | cls 0.2310 | box 0.3306 | lr 4.98e-04
+  iter   5400 | epoch   6/100 | loss 0.7259 | feat 0.1636 | cls 0.2314 | box 0.3309 | lr 4.98e-04
+[epoch   6] train_loss=0.7260 feat=0.1636 cls=0.2315 box=0.3309 (169.7s)
+  iter   5450 | epoch   7/100 | loss 0.7069 | feat 0.1630 | cls 0.2214 | box 0.3225 | lr 4.98e-04
+  iter   5500 | epoch   7/100 | loss 0.7136 | feat 0.1648 | cls 0.2239 | box 0.3249 | lr 4.98e-04
+  iter   5550 | epoch   7/100 | loss 0.7176 | feat 0.1648 | cls 0.2252 | box 0.3275 | lr 4.98e-04
+  iter   5600 | epoch   7/100 | loss 0.7161 | feat 0.1647 | cls 0.2243 | box 0.3272 | lr 4.98e-04
+  iter   5650 | epoch   7/100 | loss 0.7154 | feat 0.1644 | cls 0.2247 | box 0.3263 | lr 4.98e-04
+  iter   5700 | epoch   7/100 | loss 0.7160 | feat 0.1642 | cls 0.2253 | box 0.3265 | lr 4.98e-04
+  iter   5750 | epoch   7/100 | loss 0.7158 | feat 0.1640 | cls 0.2252 | box 0.3265 | lr 4.98e-04
+  iter   5800 | epoch   7/100 | loss 0.7156 | feat 0.1641 | cls 0.2250 | box 0.3265 | lr 4.98e-04
+  iter   5850 | epoch   7/100 | loss 0.7174 | feat 0.1641 | cls 0.2260 | box 0.3273 | lr 4.97e-04
+  iter   5900 | epoch   7/100 | loss 0.7175 | feat 0.1640 | cls 0.2260 | box 0.3276 | lr 4.97e-04
+  iter   5950 | epoch   7/100 | loss 0.7166 | feat 0.1639 | cls 0.2254 | box 0.3274 | lr 4.97e-04
+  iter   6000 | epoch   7/100 | loss 0.7160 | feat 0.1637 | cls 0.2252 | box 0.3270 | lr 4.97e-04
+  iter   6050 | epoch   7/100 | loss 0.7162 | feat 0.1637 | cls 0.2255 | box 0.3270 | lr 4.97e-04
+  iter   6100 | epoch   7/100 | loss 0.7153 | feat 0.1636 | cls 0.2252 | box 0.3265 | lr 4.97e-04
+  iter   6150 | epoch   7/100 | loss 0.7148 | feat 0.1635 | cls 0.2249 | box 0.3264 | lr 4.97e-04
+  iter   6200 | epoch   7/100 | loss 0.7150 | feat 0.1635 | cls 0.2251 | box 0.3264 | lr 4.97e-04
+  iter   6250 | epoch   7/100 | loss 0.7153 | feat 0.1635 | cls 0.2253 | box 0.3266 | lr 4.97e-04
+  iter   6300 | epoch   7/100 | loss 0.7152 | feat 0.1634 | cls 0.2253 | box 0.3264 | lr 4.97e-04
+[epoch   7] train_loss=0.7151 feat=0.1634 cls=0.2253 box=0.3263 (168.3s)
+[epoch   7] validating...
+[epoch   7] val_resp=0.6654 (cls=0.2902 box=0.3752) | val_mAP@50:95=0.1574 mAP@50=0.3661 (47.0s)
+[epoch   7] new best (val_mAP@50:95 = 0.1574)
+  iter   6350 | epoch   8/100 | loss 0.6923 | feat 0.1651 | cls 0.2102 | box 0.3171 | lr 4.97e-04
+  iter   6400 | epoch   8/100 | loss 0.6940 | feat 0.1635 | cls 0.2137 | box 0.3168 | lr 4.97e-04
+  iter   6450 | epoch   8/100 | loss 0.6984 | feat 0.1634 | cls 0.2165 | box 0.3185 | lr 4.97e-04
+  iter   6500 | epoch   8/100 | loss 0.6942 | feat 0.1632 | cls 0.2143 | box 0.3167 | lr 4.97e-04
+  iter   6550 | epoch   8/100 | loss 0.6933 | feat 0.1633 | cls 0.2137 | box 0.3163 | lr 4.96e-04
+  iter   6600 | epoch   8/100 | loss 0.6955 | feat 0.1632 | cls 0.2148 | box 0.3175 | lr 4.96e-04
+  iter   6650 | epoch   8/100 | loss 0.6969 | feat 0.1633 | cls 0.2152 | box 0.3184 | lr 4.96e-04
+  iter   6700 | epoch   8/100 | loss 0.6982 | feat 0.1633 | cls 0.2158 | box 0.3191 | lr 4.96e-04
+  iter   6750 | epoch   8/100 | loss 0.6981 | feat 0.1631 | cls 0.2159 | box 0.3190 | lr 4.96e-04
+  iter   6800 | epoch   8/100 | loss 0.6985 | feat 0.1631 | cls 0.2163 | box 0.3191 | lr 4.96e-04
+  iter   6850 | epoch   8/100 | loss 0.6984 | feat 0.1630 | cls 0.2162 | box 0.3192 | lr 4.96e-04
+  iter   6900 | epoch   8/100 | loss 0.6985 | feat 0.1629 | cls 0.2163 | box 0.3193 | lr 4.96e-04
+  iter   6950 | epoch   8/100 | loss 0.6996 | feat 0.1629 | cls 0.2169 | box 0.3197 | lr 4.96e-04
+  iter   7000 | epoch   8/100 | loss 0.6995 | feat 0.1629 | cls 0.2171 | box 0.3195 | lr 4.96e-04
+  iter   7050 | epoch   8/100 | loss 0.6995 | feat 0.1628 | cls 0.2171 | box 0.3196 | lr 4.96e-04
+  iter   7100 | epoch   8/100 | loss 0.7001 | feat 0.1628 | cls 0.2174 | box 0.3199 | lr 4.96e-04
+  iter   7150 | epoch   8/100 | loss 0.7001 | feat 0.1628 | cls 0.2175 | box 0.3199 | lr 4.96e-04
+  iter   7200 | epoch   8/100 | loss 0.7011 | feat 0.1628 | cls 0.2181 | box 0.3203 | lr 4.95e-04
+[epoch   8] train_loss=0.7024 feat=0.1628 cls=0.2188 box=0.3208 (170.1s)
+  iter   7250 | epoch   9/100 | loss 0.6942 | feat 0.1626 | cls 0.2106 | box 0.3210 | lr 4.95e-04
+  iter   7300 | epoch   9/100 | loss 0.6842 | feat 0.1630 | cls 0.2079 | box 0.3133 | lr 4.95e-04
+  iter   7350 | epoch   9/100 | loss 0.6844 | feat 0.1629 | cls 0.2090 | box 0.3126 | lr 4.95e-04
+  iter   7400 | epoch   9/100 | loss 0.6850 | feat 0.1629 | cls 0.2095 | box 0.3126 | lr 4.95e-04
+  iter   7450 | epoch   9/100 | loss 0.6862 | feat 0.1628 | cls 0.2099 | box 0.3135 | lr 4.95e-04
+  iter   7500 | epoch   9/100 | loss 0.6877 | feat 0.1628 | cls 0.2104 | box 0.3144 | lr 4.95e-04
+  iter   7550 | epoch   9/100 | loss 0.6867 | feat 0.1628 | cls 0.2100 | box 0.3139 | lr 4.95e-04
+  iter   7600 | epoch   9/100 | loss 0.6860 | feat 0.1627 | cls 0.2098 | box 0.3136 | lr 4.95e-04
+  iter   7650 | epoch   9/100 | loss 0.6863 | feat 0.1627 | cls 0.2100 | box 0.3136 | lr 4.95e-04
+  iter   7700 | epoch   9/100 | loss 0.6867 | feat 0.1628 | cls 0.2098 | box 0.3141 | lr 4.95e-04
+  iter   7750 | epoch   9/100 | loss 0.6893 | feat 0.1628 | cls 0.2113 | box 0.3152 | lr 4.94e-04
+  iter   7800 | epoch   9/100 | loss 0.6890 | feat 0.1627 | cls 0.2111 | box 0.3152 | lr 4.94e-04
+  iter   7850 | epoch   9/100 | loss 0.6898 | feat 0.1627 | cls 0.2116 | box 0.3156 | lr 4.94e-04
+  iter   7900 | epoch   9/100 | loss 0.6904 | feat 0.1626 | cls 0.2118 | box 0.3159 | lr 4.94e-04
+  iter   7950 | epoch   9/100 | loss 0.6906 | feat 0.1626 | cls 0.2121 | box 0.3159 | lr 4.94e-04
+  iter   8000 | epoch   9/100 | loss 0.6914 | feat 0.1626 | cls 0.2126 | box 0.3162 | lr 4.94e-04
+  iter   8050 | epoch   9/100 | loss 0.6924 | feat 0.1627 | cls 0.2130 | box 0.3167 | lr 4.94e-04
+  iter   8100 | epoch   9/100 | loss 0.6930 | feat 0.1627 | cls 0.2133 | box 0.3170 | lr 4.94e-04
+[epoch   9] train_loss=0.6932 feat=0.1628 cls=0.2133 box=0.3171 (167.8s)
+  iter   8150 | epoch  10/100 | loss 0.6535 | feat 0.1602 | cls 0.1946 | box 0.2988 | lr 4.94e-04
+  iter   8200 | epoch  10/100 | loss 0.6705 | feat 0.1619 | cls 0.2004 | box 0.3083 | lr 4.94e-04
+  iter   8250 | epoch  10/100 | loss 0.6679 | feat 0.1621 | cls 0.1987 | box 0.3071 | lr 4.94e-04
+  iter   8300 | epoch  10/100 | loss 0.6717 | feat 0.1625 | cls 0.2011 | box 0.3081 | lr 4.93e-04
+  iter   8350 | epoch  10/100 | loss 0.6716 | feat 0.1624 | cls 0.2011 | box 0.3080 | lr 4.93e-04
+  iter   8400 | epoch  10/100 | loss 0.6728 | feat 0.1625 | cls 0.2019 | box 0.3084 | lr 4.93e-04
+  iter   8450 | epoch  10/100 | loss 0.6751 | feat 0.1625 | cls 0.2033 | box 0.3093 | lr 4.93e-04
+  iter   8500 | epoch  10/100 | loss 0.6752 | feat 0.1625 | cls 0.2032 | box 0.3095 | lr 4.93e-04
+  iter   8550 | epoch  10/100 | loss 0.6766 | feat 0.1625 | cls 0.2040 | box 0.3101 | lr 4.93e-04
+  iter   8600 | epoch  10/100 | loss 0.6779 | feat 0.1625 | cls 0.2048 | box 0.3106 | lr 4.93e-04
+  iter   8650 | epoch  10/100 | loss 0.6784 | feat 0.1626 | cls 0.2048 | box 0.3110 | lr 4.93e-04
+  iter   8700 | epoch  10/100 | loss 0.6792 | feat 0.1625 | cls 0.2053 | box 0.3114 | lr 4.93e-04
+  iter   8750 | epoch  10/100 | loss 0.6802 | feat 0.1625 | cls 0.2058 | box 0.3118 | lr 4.92e-04
+  iter   8800 | epoch  10/100 | loss 0.6812 | feat 0.1625 | cls 0.2063 | box 0.3124 | lr 4.92e-04
+  iter   8850 | epoch  10/100 | loss 0.6809 | feat 0.1625 | cls 0.2062 | box 0.3122 | lr 4.92e-04
+  iter   8900 | epoch  10/100 | loss 0.6809 | feat 0.1625 | cls 0.2063 | box 0.3121 | lr 4.92e-04
+  iter   8950 | epoch  10/100 | loss 0.6809 | feat 0.1625 | cls 0.2063 | box 0.3122 | lr 4.92e-04
+  iter   9000 | epoch  10/100 | loss 0.6819 | feat 0.1624 | cls 0.2068 | box 0.3127 | lr 4.92e-04
+  iter   9050 | epoch  10/100 | loss 0.6825 | feat 0.1624 | cls 0.2073 | box 0.3129 | lr 4.92e-04
+[epoch  10] train_loss=0.6825 feat=0.1624 cls=0.2073 box=0.3129 (167.4s)
+[epoch  10] validating...
+[epoch  10] val_resp=0.6763 (cls=0.2999 box=0.3764) | val_mAP@50:95=0.1564 mAP@50=0.3554 (46.4s)
+[epoch  10] no improvement (3/9 patience)
+  iter   9100 | epoch  11/100 | loss 0.6626 | feat 0.1611 | cls 0.1969 | box 0.3046 | lr 4.92e-04
+  iter   9150 | epoch  11/100 | loss 0.6628 | feat 0.1612 | cls 0.1961 | box 0.3055 | lr 4.92e-04
+  iter   9200 | epoch  11/100 | loss 0.6605 | feat 0.1614 | cls 0.1946 | box 0.3045 | lr 4.91e-04
+  iter   9250 | epoch  11/100 | loss 0.6644 | feat 0.1619 | cls 0.1967 | box 0.3058 | lr 4.91e-04
+  iter   9300 | epoch  11/100 | loss 0.6645 | feat 0.1618 | cls 0.1968 | box 0.3059 | lr 4.91e-04
+  iter   9350 | epoch  11/100 | loss 0.6652 | feat 0.1618 | cls 0.1971 | box 0.3063 | lr 4.91e-04
+  iter   9400 | epoch  11/100 | loss 0.6708 | feat 0.1625 | cls 0.2000 | box 0.3084 | lr 4.91e-04
+  iter   9450 | epoch  11/100 | loss 0.6743 | feat 0.1628 | cls 0.2019 | box 0.3097 | lr 4.91e-04
+  iter   9500 | epoch  11/100 | loss 0.6763 | feat 0.1630 | cls 0.2029 | box 0.3104 | lr 4.91e-04
+  iter   9550 | epoch  11/100 | loss 0.6762 | feat 0.1631 | cls 0.2029 | box 0.3102 | lr 4.91e-04
+  iter   9600 | epoch  11/100 | loss 0.6758 | feat 0.1631 | cls 0.2028 | box 0.3099 | lr 4.91e-04
+  iter   9650 | epoch  11/100 | loss 0.6755 | feat 0.1631 | cls 0.2029 | box 0.3095 | lr 4.90e-04
+  iter   9700 | epoch  11/100 | loss 0.6755 | feat 0.1630 | cls 0.2029 | box 0.3096 | lr 4.90e-04
+  iter   9750 | epoch  11/100 | loss 0.6755 | feat 0.1630 | cls 0.2030 | box 0.3095 | lr 4.90e-04
+  iter   9800 | epoch  11/100 | loss 0.6754 | feat 0.1630 | cls 0.2029 | box 0.3095 | lr 4.90e-04
+  iter   9850 | epoch  11/100 | loss 0.6760 | feat 0.1630 | cls 0.2033 | box 0.3097 | lr 4.90e-04
+  iter   9900 | epoch  11/100 | loss 0.6756 | feat 0.1630 | cls 0.2031 | box 0.3095 | lr 4.90e-04
+  iter   9950 | epoch  11/100 | loss 0.6760 | feat 0.1630 | cls 0.2033 | box 0.3098 | lr 4.90e-04
+[epoch  11] train_loss=0.6760 feat=0.1630 cls=0.2032 box=0.3097 (166.5s)
+  iter  10000 | epoch  12/100 | loss 0.6537 | feat 0.1625 | cls 0.1903 | box 0.3009 | lr 4.90e-04
+  iter  10050 | epoch  12/100 | loss 0.6494 | feat 0.1620 | cls 0.1882 | box 0.2991 | lr 4.89e-04
+  iter  10100 | epoch  12/100 | loss 0.6500 | feat 0.1621 | cls 0.1883 | box 0.2996 | lr 4.89e-04
+  iter  10150 | epoch  12/100 | loss 0.6521 | feat 0.1621 | cls 0.1899 | box 0.3001 | lr 4.89e-04
+  iter  10200 | epoch  12/100 | loss 0.6542 | feat 0.1620 | cls 0.1909 | box 0.3013 | lr 4.89e-04
+  iter  10250 | epoch  12/100 | loss 0.6563 | feat 0.1620 | cls 0.1921 | box 0.3022 | lr 4.89e-04
+  iter  10300 | epoch  12/100 | loss 0.6564 | feat 0.1621 | cls 0.1923 | box 0.3020 | lr 4.89e-04
+  iter  10350 | epoch  12/100 | loss 0.6564 | feat 0.1620 | cls 0.1924 | box 0.3020 | lr 4.89e-04
+  iter  10400 | epoch  12/100 | loss 0.6575 | feat 0.1620 | cls 0.1930 | box 0.3025 | lr 4.89e-04
+  iter  10450 | epoch  12/100 | loss 0.6588 | feat 0.1620 | cls 0.1936 | box 0.3032 | lr 4.88e-04
+  iter  10500 | epoch  12/100 | loss 0.6588 | feat 0.1620 | cls 0.1937 | box 0.3031 | lr 4.88e-04
+  iter  10550 | epoch  12/100 | loss 0.6594 | feat 0.1620 | cls 0.1941 | box 0.3033 | lr 4.88e-04
+  iter  10600 | epoch  12/100 | loss 0.6602 | feat 0.1620 | cls 0.1944 | box 0.3038 | lr 4.88e-04
+  iter  10650 | epoch  12/100 | loss 0.6607 | feat 0.1620 | cls 0.1948 | box 0.3039 | lr 4.88e-04
+  iter  10700 | epoch  12/100 | loss 0.6621 | feat 0.1620 | cls 0.1955 | box 0.3046 | lr 4.88e-04
+  iter  10750 | epoch  12/100 | loss 0.6628 | feat 0.1620 | cls 0.1959 | box 0.3049 | lr 4.88e-04
+  iter  10800 | epoch  12/100 | loss 0.6635 | feat 0.1620 | cls 0.1964 | box 0.3052 | lr 4.87e-04
+  iter  10850 | epoch  12/100 | loss 0.6638 | feat 0.1620 | cls 0.1965 | box 0.3053 | lr 4.87e-04
+[epoch  12] train_loss=0.6641 feat=0.1620 cls=0.1966 box=0.3055 (166.7s)
+  iter  10900 | epoch  13/100 | loss 0.6506 | feat 0.1607 | cls 0.1877 | box 0.3022 | lr 4.87e-04
+  iter  10950 | epoch  13/100 | loss 0.6477 | feat 0.1618 | cls 0.1857 | box 0.3002 | lr 4.87e-04
+  iter  11000 | epoch  13/100 | loss 0.6446 | feat 0.1616 | cls 0.1851 | box 0.2979 | lr 4.87e-04
+  iter  11050 | epoch  13/100 | loss 0.6463 | feat 0.1616 | cls 0.1859 | box 0.2988 | lr 4.87e-04
+  iter  11100 | epoch  13/100 | loss 0.6455 | feat 0.1616 | cls 0.1857 | box 0.2982 | lr 4.87e-04
+  iter  11150 | epoch  13/100 | loss 0.6448 | feat 0.1616 | cls 0.1855 | box 0.2978 | lr 4.86e-04
+  iter  11200 | epoch  13/100 | loss 0.6453 | feat 0.1616 | cls 0.1862 | box 0.2975 | lr 4.86e-04
+  iter  11250 | epoch  13/100 | loss 0.6468 | feat 0.1615 | cls 0.1872 | box 0.2981 | lr 4.86e-04
+  iter  11300 | epoch  13/100 | loss 0.6479 | feat 0.1617 | cls 0.1877 | box 0.2986 | lr 4.86e-04
+  iter  11350 | epoch  13/100 | loss 0.6484 | feat 0.1617 | cls 0.1880 | box 0.2988 | lr 4.86e-04
+  iter  11400 | epoch  13/100 | loss 0.6493 | feat 0.1618 | cls 0.1884 | box 0.2992 | lr 4.86e-04
+  iter  11450 | epoch  13/100 | loss 0.6500 | feat 0.1617 | cls 0.1887 | box 0.2996 | lr 4.86e-04
+  iter  11500 | epoch  13/100 | loss 0.6508 | feat 0.1617 | cls 0.1892 | box 0.2999 | lr 4.85e-04
+  iter  11550 | epoch  13/100 | loss 0.6514 | feat 0.1617 | cls 0.1896 | box 0.3002 | lr 4.85e-04
+  iter  11600 | epoch  13/100 | loss 0.6524 | feat 0.1617 | cls 0.1902 | box 0.3005 | lr 4.85e-04
+  iter  11650 | epoch  13/100 | loss 0.6532 | feat 0.1617 | cls 0.1907 | box 0.3008 | lr 4.85e-04
+  iter  11700 | epoch  13/100 | loss 0.6541 | feat 0.1618 | cls 0.1912 | box 0.3011 | lr 4.85e-04
+  iter  11750 | epoch  13/100 | loss 0.6553 | feat 0.1618 | cls 0.1917 | box 0.3018 | lr 4.85e-04
+[epoch  13] train_loss=0.6559 feat=0.1618 cls=0.1920 box=0.3021 (166.6s)
+[epoch  13] validating...
+[epoch  13] val_resp=0.6854 (cls=0.3107 box=0.3747) | val_mAP@50:95=0.1470 mAP@50=0.3454 (39.7s)
+[epoch  13] no improvement (6/9 patience)
+[epoch  13] LR reduced (x0.6): 4.85e-04 -> 2.91e-04
+  iter  11800 | epoch  14/100 | loss 0.6279 | feat 0.1611 | cls 0.1780 | box 0.2888 | lr 2.91e-04
+  iter  11850 | epoch  14/100 | loss 0.6277 | feat 0.1610 | cls 0.1771 | box 0.2896 | lr 2.91e-04
+  iter  11900 | epoch  14/100 | loss 0.6250 | feat 0.1610 | cls 0.1752 | box 0.2888 | lr 2.91e-04
+  iter  11950 | epoch  14/100 | loss 0.6253 | feat 0.1610 | cls 0.1750 | box 0.2893 | lr 2.90e-04
+  iter  12000 | epoch  14/100 | loss 0.6257 | feat 0.1609 | cls 0.1756 | box 0.2891 | lr 2.90e-04
+  iter  12050 | epoch  14/100 | loss 0.6267 | feat 0.1608 | cls 0.1761 | box 0.2898 | lr 2.90e-04
+  iter  12100 | epoch  14/100 | loss 0.6258 | feat 0.1608 | cls 0.1757 | box 0.2892 | lr 2.90e-04
+  iter  12150 | epoch  14/100 | loss 0.6259 | feat 0.1609 | cls 0.1760 | box 0.2890 | lr 2.90e-04
+  iter  12200 | epoch  14/100 | loss 0.6259 | feat 0.1609 | cls 0.1760 | box 0.2890 | lr 2.90e-04
+  iter  12250 | epoch  14/100 | loss 0.6260 | feat 0.1610 | cls 0.1761 | box 0.2888 | lr 2.90e-04
+  iter  12300 | epoch  14/100 | loss 0.6271 | feat 0.1611 | cls 0.1766 | box 0.2894 | lr 2.90e-04
+  iter  12350 | epoch  14/100 | loss 0.6267 | feat 0.1611 | cls 0.1766 | box 0.2890 | lr 2.90e-04
+  iter  12400 | epoch  14/100 | loss 0.6275 | feat 0.1611 | cls 0.1770 | box 0.2893 | lr 2.90e-04
+  iter  12450 | epoch  14/100 | loss 0.6282 | feat 0.1611 | cls 0.1774 | box 0.2896 | lr 2.89e-04
+  iter  12500 | epoch  14/100 | loss 0.6284 | feat 0.1612 | cls 0.1774 | box 0.2898 | lr 2.89e-04
+  iter  12550 | epoch  14/100 | loss 0.6289 | feat 0.1613 | cls 0.1777 | box 0.2900 | lr 2.89e-04
+  iter  12600 | epoch  14/100 | loss 0.6285 | feat 0.1613 | cls 0.1775 | box 0.2897 | lr 2.89e-04
+  iter  12650 | epoch  14/100 | loss 0.6285 | feat 0.1612 | cls 0.1776 | box 0.2898 | lr 2.89e-04
+[epoch  14] train_loss=0.6286 feat=0.1612 cls=0.1776 box=0.2898 (166.2s)
+  iter  12700 | epoch  15/100 | loss 0.6169 | feat 0.1599 | cls 0.1717 | box 0.2852 | lr 2.89e-04
+  iter  12750 | epoch  15/100 | loss 0.6155 | feat 0.1606 | cls 0.1711 | box 0.2837 | lr 2.89e-04
+  iter  12800 | epoch  15/100 | loss 0.6158 | feat 0.1605 | cls 0.1708 | box 0.2844 | lr 2.89e-04
+  iter  12850 | epoch  15/100 | loss 0.6134 | feat 0.1607 | cls 0.1693 | box 0.2833 | lr 2.89e-04
+  iter  12900 | epoch  15/100 | loss 0.6123 | feat 0.1609 | cls 0.1687 | box 0.2827 | lr 2.89e-04
+  iter  12950 | epoch  15/100 | loss 0.6133 | feat 0.1610 | cls 0.1694 | box 0.2830 | lr 2.88e-04
+  iter  13000 | epoch  15/100 | loss 0.6137 | feat 0.1610 | cls 0.1697 | box 0.2830 | lr 2.88e-04
+  iter  13050 | epoch  15/100 | loss 0.6143 | feat 0.1609 | cls 0.1699 | box 0.2835 | lr 2.88e-04
+  iter  13100 | epoch  15/100 | loss 0.6150 | feat 0.1610 | cls 0.1702 | box 0.2838 | lr 2.88e-04
+  iter  13150 | epoch  15/100 | loss 0.6158 | feat 0.1609 | cls 0.1705 | box 0.2844 | lr 2.88e-04
+  iter  13200 | epoch  15/100 | loss 0.6164 | feat 0.1609 | cls 0.1707 | box 0.2847 | lr 2.88e-04
+  iter  13250 | epoch  15/100 | loss 0.6172 | feat 0.1609 | cls 0.1711 | box 0.2852 | lr 2.88e-04
+  iter  13300 | epoch  15/100 | loss 0.6174 | feat 0.1610 | cls 0.1712 | box 0.2852 | lr 2.88e-04
+  iter  13350 | epoch  15/100 | loss 0.6180 | feat 0.1610 | cls 0.1714 | box 0.2855 | lr 2.88e-04
+  iter  13400 | epoch  15/100 | loss 0.6192 | feat 0.1610 | cls 0.1720 | box 0.2862 | lr 2.88e-04
+  iter  13450 | epoch  15/100 | loss 0.6194 | feat 0.1609 | cls 0.1722 | box 0.2863 | lr 2.87e-04
+  iter  13500 | epoch  15/100 | loss 0.6194 | feat 0.1609 | cls 0.1723 | box 0.2862 | lr 2.87e-04
+  iter  13550 | epoch  15/100 | loss 0.6202 | feat 0.1610 | cls 0.1727 | box 0.2866 | lr 2.87e-04
+[epoch  15] train_loss=0.6203 feat=0.1609 cls=0.1728 box=0.2865 (166.6s)
+  iter  13600 | epoch  16/100 | loss 0.6069 | feat 0.1606 | cls 0.1663 | box 0.2800 | lr 2.87e-04
+  iter  13650 | epoch  16/100 | loss 0.6087 | feat 0.1610 | cls 0.1664 | box 0.2813 | lr 2.87e-04
+  iter  13700 | epoch  16/100 | loss 0.6084 | feat 0.1609 | cls 0.1656 | box 0.2819 | lr 2.87e-04
+  iter  13750 | epoch  16/100 | loss 0.6085 | feat 0.1609 | cls 0.1656 | box 0.2820 | lr 2.87e-04
+  iter  13800 | epoch  16/100 | loss 0.6093 | feat 0.1609 | cls 0.1662 | box 0.2822 | lr 2.87e-04
+  iter  13850 | epoch  16/100 | loss 0.6092 | feat 0.1609 | cls 0.1661 | box 0.2822 | lr 2.87e-04
+  iter  13900 | epoch  16/100 | loss 0.6102 | feat 0.1610 | cls 0.1668 | box 0.2824 | lr 2.86e-04
+  iter  13950 | epoch  16/100 | loss 0.6108 | feat 0.1610 | cls 0.1670 | box 0.2828 | lr 2.86e-04
+  iter  14000 | epoch  16/100 | loss 0.6113 | feat 0.1610 | cls 0.1676 | box 0.2828 | lr 2.86e-04
+  iter  14050 | epoch  16/100 | loss 0.6119 | feat 0.1610 | cls 0.1680 | box 0.2829 | lr 2.86e-04
+  iter  14100 | epoch  16/100 | loss 0.6124 | feat 0.1609 | cls 0.1682 | box 0.2833 | lr 2.86e-04
+  iter  14150 | epoch  16/100 | loss 0.6119 | feat 0.1609 | cls 0.1680 | box 0.2830 | lr 2.86e-04
+  iter  14200 | epoch  16/100 | loss 0.6128 | feat 0.1608 | cls 0.1687 | box 0.2834 | lr 2.86e-04
+  iter  14250 | epoch  16/100 | loss 0.6128 | feat 0.1608 | cls 0.1686 | box 0.2834 | lr 2.86e-04
+  iter  14300 | epoch  16/100 | loss 0.6135 | feat 0.1608 | cls 0.1691 | box 0.2837 | lr 2.86e-04
+  iter  14350 | epoch  16/100 | loss 0.6139 | feat 0.1609 | cls 0.1692 | box 0.2839 | lr 2.85e-04
+  iter  14400 | epoch  16/100 | loss 0.6141 | feat 0.1609 | cls 0.1693 | box 0.2839 | lr 2.85e-04
+  iter  14450 | epoch  16/100 | loss 0.6140 | feat 0.1608 | cls 0.1694 | box 0.2838 | lr 2.85e-04
+[epoch  16] train_loss=0.6142 feat=0.1608 cls=0.1695 box=0.2840 (166.6s)
+[epoch  16] validating...
+[epoch  16] val_resp=0.7128 (cls=0.3357 box=0.3772) | val_mAP@50:95=0.1445 mAP@50=0.3386 (46.2s)
+[epoch  16] no improvement (9/9 patience)
+
+Early stopping at epoch 16.
+
+Stopped early.
+Best val_mAP@50:95 = 0.1574  (epoch 7)
+Best checkpoint: /home/tomi/code/dipl/custom_models/student_1_m/KD_featlogit_20k/checkpoints/best.pt
+Saved: /home/tomi/code/dipl/custom_models/student_1_m/KD_featlogit_20k/training_history.json
+Saved: /home/tomi/code/dipl/custom_models/student_1_m/KD_featlogit_20k/training_plots.png

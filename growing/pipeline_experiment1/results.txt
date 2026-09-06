@@ -1,0 +1,66 @@
+==============================================================================
+NETWORK GROWING pipeline_experiment1 — GradMax, A-PARADIGMA (kontinuirani rast)
+Polaziste: pruned taylor.pt (50%) | dataset: sub10k_open_images_v7
+==============================================================================
+Device: cuda (NVIDIA GeForce RTX 4070 Laptop GPU)
+Optimizer: AdamW lr=1.0e-03 wd=5e-04 | warmup 2 ep + cosine (kontinuiran)
+Rast: cilj +30% GFLOPs | faza rasta 10 ep (<= +3%/ep, per-layer cap +25%/event) | konsolidacija do 35 ep (early-stop patience 8)
+
+------------------------------------------------------------------------------
+START (pruned taylor 50%)
+  params=1,035,222  GFLOPs=6.335  val mAP=0.0819  test mAP=0.0975  cilj GFLOPs=8.235
+
+  [GROW ep 1] +85 filtera u 22 slojeva -> GFLOPs 6.335->6.495 (cilj 8.235) params 1,104,993 | budget 0.190 | overhead 8.7 ms/img
+  [ep 1/35 rast         ] loss=0.7997 (cls=0.2747 box=0.3877) | val_mAP=0.0379 | GFLOPs=6.495 | lr=5.01e-04 | 64s  *best
+  [GROW ep 2] +94 filtera u 22 slojeva -> GFLOPs 6.495->6.661 (cilj 8.235) params 1,180,731 | budget 0.193 | overhead 7.9 ms/img
+  [ep 2/35 rast         ] loss=0.6809 (cls=0.2391 box=0.3222) | val_mAP=0.0446 | GFLOPs=6.661 | lr=1.00e-03 | 60s  *best
+  [GROW ep 3] +86 filtera u 23 slojeva -> GFLOPs 6.661->6.854 (cilj 8.235) params 1,254,964 | budget 0.197 | overhead 7.9 ms/img
+  [ep 3/35 rast         ] loss=0.6282 (cls=0.2246 box=0.2913) | val_mAP=0.0494 | GFLOPs=6.854 | lr=9.98e-04 | 62s  *best
+  [GROW ep 4] +79 filtera u 21 slojeva -> GFLOPs 6.854->7.028 (cilj 8.235) params 1,332,793 | budget 0.197 | overhead 8.0 ms/img
+  [ep 4/35 rast         ] loss=0.5711 (cls=0.2077 box=0.2596) | val_mAP=0.0692 | GFLOPs=7.028 | lr=9.91e-04 | 61s  *best
+  [GROW ep 5] +76 filtera u 23 slojeva -> GFLOPs 7.028->7.225 (cilj 8.235) params 1,408,375 | budget 0.201 | overhead 7.3 ms/img
+  [ep 5/35 rast         ] loss=0.5325 (cls=0.1946 box=0.2406) | val_mAP=0.0618 | GFLOPs=7.225 | lr=9.80e-04 | 61s
+  [GROW ep 6] +64 filtera u 23 slojeva -> GFLOPs 7.225->7.420 (cilj 8.235) params 1,475,919 | budget 0.202 | overhead 8.3 ms/img
+  [ep 6/35 rast         ] loss=0.4951 (cls=0.1828 box=0.2208) | val_mAP=0.0854 | GFLOPs=7.420 | lr=9.64e-04 | 61s  *best
+  [GROW ep 7] +63 filtera u 23 slojeva -> GFLOPs 7.420->7.626 (cilj 8.235) params 1,549,157 | budget 0.204 | overhead 7.8 ms/img
+  [ep 7/35 rast         ] loss=0.4746 (cls=0.1760 box=0.2106) | val_mAP=0.0829 | GFLOPs=7.626 | lr=9.44e-04 | 63s
+  [GROW ep 8] +62 filtera u 23 slojeva -> GFLOPs 7.626->7.830 (cilj 8.235) params 1,622,577 | budget 0.203 | overhead 8.9 ms/img
+  [ep 8/35 rast         ] loss=0.4460 (cls=0.1656 box=0.1976) | val_mAP=0.0803 | GFLOPs=7.830 | lr=9.21e-04 | 64s
+  [GROW ep 9] +68 filtera u 22 slojeva -> GFLOPs 7.830->8.017 (cilj 8.235) params 1,703,354 | budget 0.203 | overhead 8.1 ms/img
+  [ep 9/35 rast         ] loss=0.4251 (cls=0.1585 box=0.1874) | val_mAP=0.0929 | GFLOPs=8.017 | lr=8.93e-04 | 64s  *best
+  [GROW ep10] +60 filtera u 23 slojeva -> GFLOPs 8.017->8.227 (cilj 8.235) params 1,777,919 | budget 0.218 | overhead 8.2 ms/img
+  [ep10/35 rast         ] loss=0.4079 (cls=0.1523 box=0.1795) | val_mAP=0.1090 | GFLOPs=8.227 | lr=8.62e-04 | 65s  *best
+  [ep11/35 konsolidacija] loss=0.3799 (cls=0.1428 box=0.1657) | val_mAP=0.0831 | GFLOPs=8.227 | lr=8.27e-04 | 66s
+  [ep12/35 konsolidacija] loss=0.3610 (cls=0.1361 box=0.1568) | val_mAP=0.0941 | GFLOPs=8.227 | lr=7.90e-04 | 66s
+  [ep13/35 konsolidacija] loss=0.3433 (cls=0.1293 box=0.1493) | val_mAP=0.1030 | GFLOPs=8.227 | lr=7.50e-04 | 66s
+  [ep14/35 konsolidacija] loss=0.3268 (cls=0.1235 box=0.1415) | val_mAP=0.1001 | GFLOPs=8.227 | lr=7.08e-04 | 66s
+  [ep15/35 konsolidacija] loss=0.3166 (cls=0.1201 box=0.1365) | val_mAP=0.1054 | GFLOPs=8.227 | lr=6.64e-04 | 67s
+  [ep16/35 konsolidacija] loss=0.3045 (cls=0.1159 box=0.1306) | val_mAP=0.1062 | GFLOPs=8.227 | lr=6.18e-04 | 66s
+  [ep17/35 konsolidacija] loss=0.2894 (cls=0.1103 box=0.1240) | val_mAP=0.1117 | GFLOPs=8.227 | lr=5.71e-04 | 66s  *best
+  [ep18/35 konsolidacija] loss=0.2783 (cls=0.1063 box=0.1188) | val_mAP=0.1087 | GFLOPs=8.227 | lr=5.24e-04 | 64s
+  [ep19/35 konsolidacija] loss=0.2668 (cls=0.1025 box=0.1131) | val_mAP=0.1046 | GFLOPs=8.227 | lr=4.76e-04 | 62s
+  [ep20/35 konsolidacija] loss=0.2563 (cls=0.0988 box=0.1081) | val_mAP=0.1073 | GFLOPs=8.227 | lr=4.29e-04 | 62s
+  [ep21/35 konsolidacija] loss=0.2504 (cls=0.0968 box=0.1052) | val_mAP=0.1119 | GFLOPs=8.227 | lr=3.82e-04 | 63s  *best
+  [ep22/35 konsolidacija] loss=0.2413 (cls=0.0938 box=0.1007) | val_mAP=0.1091 | GFLOPs=8.227 | lr=3.36e-04 | 63s
+  [ep23/35 konsolidacija] loss=0.2340 (cls=0.0912 box=0.0972) | val_mAP=0.1122 | GFLOPs=8.227 | lr=2.92e-04 | 62s  *best
+  [ep24/35 konsolidacija] loss=0.2269 (cls=0.0888 box=0.0938) | val_mAP=0.1098 | GFLOPs=8.227 | lr=2.50e-04 | 63s
+  [ep25/35 konsolidacija] loss=0.2205 (cls=0.0868 box=0.0902) | val_mAP=0.1156 | GFLOPs=8.227 | lr=2.10e-04 | 62s  *best
+  [ep26/35 konsolidacija] loss=0.2158 (cls=0.0851 box=0.0881) | val_mAP=0.1142 | GFLOPs=8.227 | lr=1.73e-04 | 65s
+  [ep27/35 konsolidacija] loss=0.2104 (cls=0.0833 box=0.0855) | val_mAP=0.1130 | GFLOPs=8.227 | lr=1.38e-04 | 64s
+  [ep28/35 konsolidacija] loss=0.2062 (cls=0.0820 box=0.0832) | val_mAP=0.1133 | GFLOPs=8.227 | lr=1.07e-04 | 66s
+  [ep29/35 konsolidacija] loss=0.2031 (cls=0.0810 box=0.0817) | val_mAP=0.1140 | GFLOPs=8.227 | lr=7.94e-05 | 63s
+  [ep30/35 konsolidacija] loss=0.2008 (cls=0.0802 box=0.0806) | val_mAP=0.1104 | GFLOPs=8.227 | lr=5.56e-05 | 66s
+  [ep31/35 konsolidacija] loss=0.1986 (cls=0.0796 box=0.0793) | val_mAP=0.1129 | GFLOPs=8.227 | lr=3.58e-05 | 64s
+  [ep32/35 konsolidacija] loss=0.1971 (cls=0.0791 box=0.0785) | val_mAP=0.1128 | GFLOPs=8.227 | lr=2.03e-05 | 65s
+  [ep33/35 konsolidacija] loss=0.1972 (cls=0.0792 box=0.0783) | val_mAP=0.1126 | GFLOPs=8.227 | lr=9.04e-06 | 65s
+  >>> early-stop (konsolidacija): val mAP ne raste 8 ep
+
+==============================================================================
+FINALNO (GradMax-pipeline) — best val mAP
+==============================================================================
+  params=1,777,919  GFLOPs=8.227  val mAP=0.1156  test mAP=0.1106
+  GPU=18.65 ms/img  CPU=40.18 ms/img  mrtvi filteri=0/2480
+  reference: start(50%) 6.335 GFLOPs/test 0.0975 | unpruned 11.553/0.1858
+
+UKUPNO VRIJEME: 38.5 min
+Spremljeno: /home/tomi/code/dipl/growing/pipeline_experiment1/results.txt | /home/tomi/code/dipl/growing/pipeline_experiment1/summary.json | /home/tomi/code/dipl/growing/pipeline_experiment1/pipeline.png

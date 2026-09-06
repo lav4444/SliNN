@@ -1,0 +1,105 @@
+==============================================================================
+STRUCTURED PRUNING — usporedba kriterija vaznosti kanala/filtera
+Model: StudentYOLO (pure_KD) 2 mil  |  dataset: sub10k_open_images_v7
+==============================================================================
+Device: cuda (NVIDIA GeForce RTX 4070 Laptop GPU)
+Kriteriji: magnitude, gradient, taylor, hessian
+Ciljani budzet: zadrzi 50% params (izbaci 50%) | alokacija: global | min_keep=2
+Vaznost na 32 batcheva (batch=16) | FT (oporavak, NE od nule): max 5 epoha, LR=0.0001, early-stop kao u KD treningu
+No-FT eval: raw=False, BN-recalib=True | splitovi: val, test
+Napomena: StudentYOLO je cisto konvolucijski -> rezu se conv filteri (kanali).
+Napomena: 'hessian' = dijagonala aproksimirana empirijskim Fisherom (OBD).
+
+------------------------------------------------------------------------------
+BASELINE (bez rezanja)
+  params=2,071,166  GFLOPs=11.553  size=8.28 MB
+  (baseline eval preskocen -> referenca: pure_KD/eval_result.txt)
+
+==============================================================================
+METODA: MAGNITUDE
+  Slozenost: O(#params); data-free; bez backward-a (najjeftiniji).
+  [vaznost] vrijeme=0.029s (0.000 ms/slika, n=0) | peak GPU mem=59.9 MB | backward=False
+  [rezanje] params 2,071,166 -> 1,034,558 (50.0% zadrzano) | GFLOPs 11.553 -> 9.813 | izbor=15.2 ms
+  [po sloju zadrzano] stem:32/32  dark2.0:64/64  dark2.1:64/64  dark3.0:96/96  dark3.1:96/96  dark3.2:96/96  dark3.3:96/96  dark4.0:58/128  dark4.1:69/128  dark4.2:73/128  dark4.3:69/128  dark5.0:2/192  dark5.1:2/192  sppf.conv1:96/96  sppf.conv2:2/192  lat_p3:64/64  lat_p4:64/64  lat_p5:64/64  fuse_td_p4:64/64  fuse_td_p3:64/64  down_p3:64/64  fuse_bu_p4:64/64  down_p4:64/64  fuse_bu_p5:64/64  head_p3.0:64/64  head_p4.0:64/64  head_p5.0:64/64
+  --- NAKON REZANJA, BEZ FT (BN rekalibriran) ---
+  split    mAP50:95    mAP50    mAP75   mAR100   inf ms
+  val        0.0009   0.0034   0.0000   0.0442    16.62
+  test       0.0006   0.0029   0.0001   0.0493    18.18
+  --- FINE-TUNE: epoha=5 (27.5 s/epoha, ukupno 3.9 min) | best val mAP=0.0567 @ 4 ---
+  --- NAKON FINE-TUNEA ---
+  split    mAP50:95    mAP50    mAP75   mAR100   inf ms
+  val        0.0570   0.1644   0.0207   0.2791    16.25
+  test       0.0529   0.1625   0.0166   0.2893    18.13
+  [brzina nakon FT] GPU=17.45 ms/img  CPU=33.09 ms/img
+  [per-class mAP test, FT] Person:0.042  Car:0.066  Truck:0.040  Bus:0.064  Motorcycle:0.055  Bicycle:0.050
+
+==============================================================================
+METODA: GRADIENT
+  Slozenost: 1 backward prolaz po batchu; O(#params) memorije za grad.
+  [vaznost] vrijeme=4.090s (7.989 ms/slika, n=512) | peak GPU mem=2590.6 MB | backward=True
+  [rezanje] params 2,071,166 -> 1,034,572 (50.0% zadrzano) | GFLOPs 11.553 -> 7.008 | izbor=14.3 ms
+  [po sloju zadrzano] stem:13/32  dark2.0:52/64  dark2.1:61/64  dark3.0:84/96  dark3.1:80/96  dark3.2:75/96  dark3.3:69/96  dark4.0:87/128  dark4.1:87/128  dark4.2:104/128  dark4.3:96/128  dark5.0:107/192  dark5.1:110/192  sppf.conv1:70/96  sppf.conv2:67/192  lat_p3:41/64  lat_p4:60/64  lat_p5:59/64  fuse_td_p4:52/64  fuse_td_p3:52/64  down_p3:40/64  fuse_bu_p4:43/64  down_p4:35/64  fuse_bu_p5:41/64  head_p3.0:54/64  head_p4.0:34/64  head_p5.0:45/64
+  --- NAKON REZANJA, BEZ FT (BN rekalibriran) ---
+  split    mAP50:95    mAP50    mAP75   mAR100   inf ms
+  val        0.0001   0.0006   0.0000   0.0257    14.59
+  test       0.0003   0.0015   0.0000   0.0305    15.90
+  --- FINE-TUNE: epoha=5 (25.9 s/epoha, ukupno 4.2 min) | best val mAP=0.0772 @ 4 ---
+  --- NAKON FINE-TUNEA ---
+  split    mAP50:95    mAP50    mAP75   mAR100   inf ms
+  val        0.0803   0.2251   0.0303   0.2863    14.74
+  test       0.0900   0.2446   0.0343   0.2961    16.20
+  [brzina nakon FT] GPU=14.84 ms/img  CPU=26.65 ms/img
+  [per-class mAP test, FT] Person:0.029  Car:0.055  Truck:0.105  Bus:0.172  Motorcycle:0.112  Bicycle:0.067
+
+==============================================================================
+METODA: TAYLOR
+  Slozenost: 1 backward (g*W); slican trosak kao gradient.
+  [vaznost] vrijeme=4.049s (7.908 ms/slika, n=512) | peak GPU mem=2589.5 MB | backward=True
+  [rezanje] params 2,071,166 -> 1,035,222 (50.0% zadrzano) | GFLOPs 11.553 -> 6.335 | izbor=10.7 ms
+  [po sloju zadrzano] stem:25/32  dark2.0:52/64  dark2.1:50/64  dark3.0:67/96  dark3.1:80/96  dark3.2:66/96  dark3.3:68/96  dark4.0:98/128  dark4.1:98/128  dark4.2:101/128  dark4.3:81/128  dark5.0:146/192  dark5.1:118/192  sppf.conv1:74/96  sppf.conv2:113/192  lat_p3:42/64  lat_p4:55/64  lat_p5:44/64  fuse_td_p4:46/64  fuse_td_p3:41/64  down_p3:40/64  fuse_bu_p4:34/64  down_p4:38/64  fuse_bu_p5:44/64  head_p3.0:47/64  head_p4.0:26/64  head_p5.0:49/64
+  --- NAKON REZANJA, BEZ FT (BN rekalibriran) ---
+  split    mAP50:95    mAP50    mAP75   mAR100   inf ms
+  val        0.0003   0.0015   0.0001   0.0197    16.47
+  test       0.0002   0.0009   0.0000   0.0211    17.90
+  --- FINE-TUNE: epoha=5 (27.1 s/epoha, ukupno 4.4 min) | best val mAP=0.0839 @ 4 ---
+  --- NAKON FINE-TUNEA ---
+  split    mAP50:95    mAP50    mAP75   mAR100   inf ms
+  val        0.0861   0.2274   0.0484   0.2670    16.61
+  test       0.0896   0.2379   0.0445   0.2820    18.14
+  [brzina nakon FT] GPU=13.49 ms/img  CPU=27.29 ms/img
+  [per-class mAP test, FT] Person:0.033  Car:0.041  Truck:0.104  Bus:0.214  Motorcycle:0.097  Bicycle:0.049
+
+==============================================================================
+METODA: HESSIAN
+  Slozenost: 1 backward + g^2 (empirijski Fisher ~ dijag. Hessiana); ~ kao gradient.
+  [vaznost] vrijeme=3.723s (7.271 ms/slika, n=512) | peak GPU mem=2590.7 MB | backward=True
+  [rezanje] params 2,071,166 -> 1,033,692 (49.9% zadrzano) | GFLOPs 11.553 -> 6.682 | izbor=11.4 ms
+  [po sloju zadrzano] stem:9/32  dark2.0:46/64  dark2.1:56/64  dark3.0:89/96  dark3.1:87/96  dark3.2:84/96  dark3.3:81/96  dark4.0:98/128  dark4.1:103/128  dark4.2:104/128  dark4.3:95/128  dark5.0:106/192  dark5.1:117/192  sppf.conv1:80/96  sppf.conv2:91/192  lat_p3:28/64  lat_p4:53/64  lat_p5:52/64  fuse_td_p4:46/64  fuse_td_p3:37/64  down_p3:35/64  fuse_bu_p4:40/64  down_p4:20/64  fuse_bu_p5:22/64  head_p3.0:38/64  head_p4.0:29/64  head_p5.0:34/64
+  --- NAKON REZANJA, BEZ FT (BN rekalibriran) ---
+  split    mAP50:95    mAP50    mAP75   mAR100   inf ms
+  val        0.0001   0.0003   0.0000   0.0116    14.22
+  test       0.0001   0.0004   0.0000   0.0122    15.43
+  --- FINE-TUNE: epoha=5 (25.0 s/epoha, ukupno 4.2 min) | best val mAP=0.0645 @ 4 ---
+  --- NAKON FINE-TUNEA ---
+  split    mAP50:95    mAP50    mAP75   mAR100   inf ms
+  val        0.0676   0.1903   0.0245   0.2549    14.70
+  test       0.0613   0.1864   0.0159   0.2582    15.80
+  [brzina nakon FT] GPU=14.13 ms/img  CPU=26.51 ms/img
+  [per-class mAP test, FT] Person:0.027  Car:0.035  Truck:0.059  Bus:0.105  Motorcycle:0.089  Bicycle:0.053
+
+==============================================================================
+USPOREDNA TABLICA (head-to-head)
+==============================================================================
+metoda        params  GFLOPs impMS/img noFT val  FT val FT test s/epoha  GPUms  CPUms
+------------------------------------------------------------------------------
+baseline      2.071M   11.55         -        -     nan     nan       -    nan    nan
+magnitude     1.035M    9.81     0.000   0.0009  0.0570  0.0529    27.5  17.45  33.09
+gradient      1.035M    7.01     7.989   0.0001  0.0803  0.0900    25.9  14.84  26.65
+taylor        1.035M    6.33     7.908   0.0003  0.0861  0.0896    27.1  13.49  27.29
+hessian       1.034M    6.68     7.271   0.0001  0.0676  0.0613    25.0  14.13  26.51
+------------------------------------------------------------------------------
+Legenda: noFT val = val mAP@50:95 nakon rezanja (BN rekalib, bez FT); FT val/test = nakon fine-tunea; impMS/img = overhead izracuna vaznosti.
+
+Spremljeno: /home/tomi/code/dipl/pruning/critereum_experiment/results.txt
+Spremljeno: /home/tomi/code/dipl/pruning/critereum_experiment/summary.json
+Spremljeni modeli: /home/tomi/code/dipl/pruning/critereum_experiment/pruned_models/<metoda>.pt

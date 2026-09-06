@@ -1,0 +1,108 @@
+================================================================================
+STRUCTURED PRUNING exp3 — production detektor (Torch-Pruning + nasi kriteriji)
+Model: fasterrcnn_mobilenet_v3_large_320_fpn | dataset: sub10k_open_images_v7 (6 kl)
+================================================================================
+Device: cuda (NVIDIA GeForce RTX 4070 Laptop GPU)
+Kriteriji: magnitude, gradient, taylor, hessian (preko tp group-aware importancea)
+Scope: backbone.body + roi_heads.box_head | ignored: FPN izlaz, RPN, box_predictor
+Param-target: zadrzi 70% total params (binarna pretraga ratija) | global=True | calib batcheva: 128 (batch 4)
+FT: max 2 ep, LR=0.0005, early-stop patience 3 (val mAP) | eval cap 1000/split
+Metrika: mAP@50:95 / mAP@50 / mAP@75 / mAR@100 (torchmetrics)
+
+--------------------------------------------------------------------------------
+BASELINE (COCO-mapped na 6 klasa, zero-shot, BEZ treninga)
+  params=18,980,254  backbone GMACs=0.606  size=75.92 MB
+  GPU=14.52 ms/img  CPU=90.26 ms/img
+  mrtvi filteri=718/12016  mrtvi neuroni=0/2048
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.3150   0.5174   0.3242   0.4233
+  test      0.3316   0.5383   0.3453   0.4437
+
+PARAM-TARGET: zadrzi 70% total params (~13,286,177) | ratio se trazi binarno po metodi
+
+================================================================================
+METODA: MAGNITUDE  (data-free, bez backward-a (najjeftiniji).)
+  [param-target] nadeni channel-ratio=0.261 za ~70% params
+  [vaznost+rez] vrijeme=0.17s (0.00 ms/slika, n=0) | peak GPU=1417 MB
+  [rezanje] params 18,980,254 -> 13,396,190 (70.6%) | backbone GMACs 0.606 -> 0.436
+  fc6: 12544->728 | fc7: 728->744
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0161   0.0392   0.0111   0.0977
+  test      0.0213   0.0491   0.0164   0.1003
+  --- FINE-TUNE: epoha=2 (128.7 s/ep, ukupno 4.8 min) | best val mAP=0.2152 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2152   0.3908   0.2118   0.3272
+  test      0.2313   0.3960   0.2430   0.3401
+  [brzina nakon FT] GPU=15.56 ms/img  CPU=66.59 ms/img
+  [mrtve jedinice] filteri=38/8712  neuroni=0/1472
+
+================================================================================
+METODA: GRADIENT  (akumulirani backward (|grad|).)
+  [param-target] nadeni channel-ratio=0.134 za ~70% params
+  [vaznost+rez] vrijeme=10.20s (19.92 ms/slika, n=512) | peak GPU=2809 MB
+  [rezanje] params 18,980,254 -> 13,196,302 (69.5%) | backbone GMACs 0.606 -> 0.511
+  fc6: 12544->640 | fc7: 640->768
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0261   0.0627   0.0174   0.1412
+  test      0.0340   0.0761   0.0237   0.1508
+  --- FINE-TUNE: epoha=2 (121.2 s/ep, ukupno 4.5 min) | best val mAP=0.2366 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2366   0.4127   0.2340   0.3467
+  test      0.2553   0.4317   0.2658   0.3680
+  [brzina nakon FT] GPU=13.80 ms/img  CPU=60.93 ms/img
+  [mrtve jedinice] filteri=66/10792  neuroni=0/1408
+
+================================================================================
+METODA: TAYLOR  (akumulirani backward (g*w).)
+  [param-target] nadeni channel-ratio=0.141 za ~70% params
+  [vaznost+rez] vrijeme=10.51s (20.52 ms/slika, n=512) | peak GPU=4395 MB
+  [rezanje] params 18,980,254 -> 13,018,110 (68.6%) | backbone GMACs 0.606 -> 0.574
+  fc6: 12544->640 | fc7: 640->744
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0755   0.1569   0.0660   0.1918
+  test      0.0865   0.1740   0.0771   0.2198
+  --- FINE-TUNE: epoha=2 (128.9 s/ep, ukupno 4.7 min) | best val mAP=0.2741 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2741   0.4612   0.2877   0.3803
+  test      0.2901   0.4781   0.3045   0.3960
+  [brzina nakon FT] GPU=12.04 ms/img  CPU=60.04 ms/img
+  [mrtve jedinice] filteri=301/10848  neuroni=0/1384
+
+================================================================================
+METODA: HESSIAN  (per-batch Fisher (g^2) akumulacija.)
+  [param-target] nadeni channel-ratio=0.148 za ~70% params
+  [vaznost+rez] vrijeme=11.64s (22.73 ms/slika, n=512) | peak GPU=1889 MB
+  [rezanje] params 18,980,254 -> 13,365,222 (70.4%) | backbone GMACs 0.606 -> 0.508
+  fc6: 12544->664 | fc7: 664->792
+  --- BEZ FT (BN rekalibriran) ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.0150   0.0349   0.0114   0.1216
+  test      0.0125   0.0320   0.0080   0.1264
+  --- FINE-TUNE: epoha=2 (125.2 s/ep, ukupno 4.5 min) | best val mAP=0.2152 @ 2 ---
+  --- NAKON FINE-TUNEA ---
+  split        mAP    mAP50    mAP75   mAR100
+  val       0.2152   0.3811   0.2124   0.3257
+  test      0.2271   0.3959   0.2332   0.3409
+  [brzina nakon FT] GPU=11.54 ms/img  CPU=57.42 ms/img
+  [mrtve jedinice] filteri=62/10552  neuroni=0/1456
+
+================================================================================
+USPOREDNA TABLICA (head-to-head)
+================================================================================
+metoda        params  bbGMACs  impMS noFTval  FTval  FTtest  GPUms  CPUms    deadF    deadN
+----------------------------------------------------------------------------------------
+baseline      18.98M    0.606      -       -  0.315   0.332   14.5   90.3 718/12016   0/2048
+magnitude     13.40M    0.436    0.0   0.016  0.215   0.231   15.6   66.6  38/8712   0/1472
+gradient      13.20M    0.511   19.9   0.026  0.237   0.255   13.8   60.9  66/10792   0/1408
+taylor        13.02M    0.574   20.5   0.076  0.274   0.290   12.0   60.0 301/10848   0/1384
+hessian       13.37M    0.508   22.7   0.015  0.215   0.227   11.5   57.4  62/10552   0/1456
+----------------------------------------------------------------------------------------
+
+UKUPNO VRIJEME SKRIPTE: 24.9 min
+Spremljeno: /home/tomi/code/dipl/pruning/critereum_experiment3/results.txt | /home/tomi/code/dipl/pruning/critereum_experiment3/summary.json

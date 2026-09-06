@@ -1,0 +1,28 @@
+===== FAZA 5.5 — 1D-engine generalizacija (speechcommands_m5, Conv1d) =====
+mode=seq  taps=1  kd_mode=feature+logit  out_kind=kl  prunable=['body.0.0', 'body.1.0', 'body.2.0']
+shim: A.weighted_leaves=weighted_leaves (leaves=5, uklj. Conv1d)  _try_grow_layer=_ag_try_grow_layer
+
+[C] GFLOPs (Conv1d vidljiv preko WL-patcha) = 0.03160  (>0 OK)
+
+[A] morph_loop na Conv1d — baseline GFLOPs=0.03160
+korak  GFLOPs      ušteda%   params     rez kan  grow   KD       
+--------------------------------------------------------------
+0      0.03160     0.00      560,140    0        0      -        
+1      0.03105     1.73      555,520    4        0      0.0409   
+2      0.03057     3.28      541,780    8        0      0.0467   
+3      0.03002     5.01      530,785    7        0      0.2185   
+4      0.02952     6.58      504,241    14       0      0.2594   
+5      0.02898     8.30      486,955    10       0      0.2712   
+6      0.02845     9.97      482,719    4        0      0.2519   
+7      0.02789     11.74     476,617    5        0      0.4855   
+8      0.02737     13.40     472,393    4        0      0.4390   
+9      0.02684     15.06     468,169    4        0      0.4324   
+  ukupno rezano kanala (Conv1d): 60  |  forward-ok=DA
+
+[B] izravni +1 rast po Conv1d sloju (_try_grow_layer adapter-verzija):
+    body.0.0: +1 -> OK (|Δ|=0.00e+00)
+    body.1.0: +1 -> OK (|Δ|=0.00e+00)
+    body.2.0: +1 -> OK (|Δ|=0.00e+00)
+
+--------------------------------------------------------------
+VERDIKT: gflops>0=DA  1D-PRUNE(rezano 60 kan, fwd)=DA  1D-GROW(3 slojeva function-preserving)=DA  ->  PROLAZI

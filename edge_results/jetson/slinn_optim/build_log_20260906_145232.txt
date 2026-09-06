@@ -1,0 +1,12 @@
+### TensorRT -> /home/tomislav/Documents/code/dipl/EVAL/SLINN_OPTIM   (9 celija)
+### workspace 2 GB   batch 1   preciznost odlucuje graf
+  housing_mlp__best_quality_model_qat OK  INT8   16 Q/DQ       0.1 MB      3.5s   dinamican: input
+  housing_mlp__ckpt_1_qat            OK  INT8   16 Q/DQ       0.1 MB      2.8s   dinamican: input
+  housing_mlp__ckpt_2_qat            OK  INT8   16 Q/DQ       0.1 MB      2.7s   dinamican: input
+  speechcommands_m5__best_quality_model_qat OK  INT8   16 Q/DQ       0.3 MB      9.1s   dinamican: input
+  speechcommands_m5__ckpt_1_qat      OK  INT8   16 Q/DQ       0.2 MB      8.3s   dinamican: input
+  speechcommands_m5__ckpt_2_qat      OK  INT8   16 Q/DQ       0.2 MB      8.2s   dinamican: input
+  yolo26n__best_quality_model_qat    PAO   RuntimeError: build pada na sloju koji je vec popusten (/m/model.8/m.0/cv1/conv); popusteno 1
+  yolo26n__ckpt_1_qat                PAO   RuntimeError: build pada na sloju koji je vec popusten (/m/model.8/m.0/cv1/conv); popusteno 1
+  yolo26n__ckpt_2_qat                PAO   RuntimeError: build pada na sloju koji je vec popusten (/m/model.8/m.0/cv1/conv); popusteno 1
+### 6/9 enginea

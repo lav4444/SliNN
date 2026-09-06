@@ -1,0 +1,25 @@
+===== 6.1 HEADLESS BACKEND (housing_mlp, subprocess launch) =====
+config.json: {"model_path": "/home/tomi/code/dipl/baseline_models/housing_mlp/model.pt", "dataset_path": "/home/tomi/code/dipl/baseline_models/housing_mlp/data", "code_dirs": ["/home/tomi/code/dipl/baseline_models/housing_mlp"], "target_frac": 0.15, "ft_steps": 4, "max_steps": 6, "metric_tol": 0.9}
+
+--- PREP (subprocess prep_worker.py) ---
+rc=0
+prep state = ready
+  gpu    [green] NVIDIA GeForce RTX 4070 Laptop GPU · zauzeto 14%
+  task   [green] task=regression · mode=full · enhaneri=ne
+  batch  [green] TRAIN=64
+  plan   [green] 14464 uzoraka (226 batcheva) · cache 0.00 GB / slobodno 637 GB
+  perf   [green] {'gflops': 0.00021721600000000003, 'params': 110721, 'metric_name': 'r2', 'metric': 0.756543556318505, 'task': 'regression', 'mode': 'full', 'enhancers': False}
+
+--- COMPRESS (subprocess worker.py) ---
+rc=0
+worker state = done  phase=final
+  metric=r2  g0=0.0002  best_gflops=0.0002  best_step=6  baseline=0.7565
+  trajektorija:
+   step 0  GFLOPs=0.000217  params=110721  rez=0  metric=0.7565
+   step 1  GFLOPs=0.000214  params=108852  rez=7  metric=0.7563
+   step 2  GFLOPs=0.000210  params=107072  rez=5  metric=0.7553
+   step 3  GFLOPs=0.000206  params=105182  rez=5  metric=0.7551
+   step 4  GFLOPs=0.000202  params=103292  rez=5  metric=0.7562
+   step 5  GFLOPs=0.000199  params=101402  rez=5  metric=0.7549
+   step 6  GFLOPs=0.000195  params=99512  rez=5  metric=0.7503
+  compressed.pt spremljen: True

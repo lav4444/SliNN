@@ -1,0 +1,60 @@
+Model: model.pt
+Task: keyword spotting (audio classification, 12 classes)
+Input: raw waveform [1, 8000] (1 s @ 8 kHz)
+Classes: yes, no, up, down, left, right, on, off, stop, go, unknown, silence
+Device: cpu
+
+=========== VAL (4443 samples) ===========
+
+Speed:
+  Inference (batch=1):   0.6785 ms/sample  (1,474 samples/s)
+
+Classification metrics:
+  Accuracy  = 0.8733
+  macro-F1  = 0.8731
+
+Per-class accuracy (recall):
+  yes        0.8791
+  no         0.8374
+  up         0.7971
+  down       0.8382
+  left       0.9403
+  right      0.8650
+  on         0.8705
+  off        0.8820
+  stop       0.9429
+  go         0.8898
+  unknown    0.7459
+  silence    0.9973
+
+=========== TEST (4888 samples) ===========
+
+Speed:
+  Inference (batch=1):   0.6779 ms/sample  (1,475 samples/s)
+
+Classification metrics:
+  Accuracy  = 0.8580
+  macro-F1  = 0.8579
+
+Per-class accuracy (recall):
+  yes        0.8473
+  no         0.8370
+  up         0.7882
+  down       0.8399
+  left       0.9272
+  right      0.8586
+  on         0.8939
+  off        0.8284
+  stop       0.9367
+  go         0.8806
+  unknown    0.6609
+  silence    1.0000
+
+================================================================
+CPU vs GPU latency benchmark (10 random train samples, seed=42, batch=1)
+================================================================
+
+CPU per-sample times (ms): [  1.108,   0.180,   0.100,   0.069,   0.060,   0.062,   0.073,   0.070,   0.060,   0.069]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    0.0704 ms/sample  (14,205 samples/s)

@@ -1,0 +1,191 @@
+{
+  "defaults": {
+    "unlisted": "rules_decide"
+  },
+  "types": {
+    "midas.blocks.Interpolate": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.activation.Hardsigmoid": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.activation.Hardswish": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.activation.ReLU": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.activation.ReLU6": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.activation.SiLU": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.batchnorm.BatchNorm1d": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": true
+    },
+    "torch.nn.modules.batchnorm.BatchNorm2d": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": true
+    },
+    "torch.nn.modules.conv.Conv1d": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": true
+    },
+    "torch.nn.modules.conv.Conv2d": {
+      "frozen": false,
+      "growable": true,
+      "prunable": true,
+      "status": "verified",
+      "trainable": true
+    },
+    "torch.nn.modules.conv.ConvTranspose2d": {
+      "out_axis": 1,
+      "reason": "weight.shape[0] je IN kanala, ne OUT — pipeline svugdje pretpostavlja shape[0]=izlazna sirina; tp rewiring nije verificiran",
+      "status": "hazard"
+    },
+    "torch.nn.modules.dropout.Dropout": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.linear.Identity": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.linear.Linear": {
+      "frozen": false,
+      "growable": true,
+      "prunable": true,
+      "status": "verified",
+      "trainable": true
+    },
+    "torch.nn.modules.normalization.LayerNorm": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": true
+    },
+    "torch.nn.modules.padding.ZeroPad2d": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.pooling.AdaptiveAvgPool2d": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.pooling.MaxPool1d": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.pooling.MaxPool2d": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torch.nn.modules.sparse.Embedding": {
+      "reason": "shape[0] je velicina vokabulara, nije izlazna sirina — rez bi brisao unose rjecnika",
+      "status": "hazard"
+    },
+    "torch.nn.modules.upsampling.Upsample": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torchvision.models.detection.anchor_utils.AnchorGenerator": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torchvision.models.detection.transform.GeneralizedRCNNTransform": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torchvision.ops.feature_pyramid_network.LastLevelMaxPool": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "torchvision.ops.poolers.MultiScaleRoIAlign": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "transformers.activations.GELUActivation": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    },
+    "ultralytics.nn.modules.conv.Concat": {
+      "frozen": false,
+      "growable": false,
+      "prunable": false,
+      "status": "verified",
+      "trainable": false
+    }
+  }
+}

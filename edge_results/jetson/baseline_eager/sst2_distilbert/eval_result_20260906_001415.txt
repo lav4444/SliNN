@@ -1,0 +1,30 @@
+Model: model.pt (distilbert-base-uncased-finetuned-sst-2-english)
+Task: sentiment classification (text, 2 classes)
+Input: token ids + attention_mask (WordPiece, max_len 64)
+Classes: negative, positive  (0=neg, 1=pos)
+Device: cuda
+
+=========== VALIDATION (872 samples) ===========
+
+Speed:
+  Inference (batch=1):   9.3785 ms/sample  (107 samples/s)
+
+Classification metrics:
+  Accuracy  = 0.9106
+  macro-F1  = 0.9104
+
+Per-class accuracy (recall):
+  negative   0.8902
+  positive   0.9302
+
+================================================================
+CPU vs GPU latency benchmark (10 validation sentences, batch=1)
+================================================================
+
+CPU per-sample times (ms): [ 107.81,   75.64,   84.04,   92.25,   83.12,   96.30,   75.09,   54.50,   69.58,   67.14]
+GPU per-sample times (ms): [  10.61,    9.66,    9.76,    9.64,    9.61,    9.80,    9.76,    9.66,    9.64,    9.66]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    75.170 ms/sample  (13 samples/s)
+  GPU:     9.675 ms/sample  (103 samples/s)
+  Speedup (GPU vs CPU):  7.8x

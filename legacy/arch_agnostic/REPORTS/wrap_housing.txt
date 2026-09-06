@@ -1,0 +1,8 @@
+ucitan model: HousingMLP  (vec umotan=False)
+goli HousingMLP na SIROVOM X_val: r2=-2155.6630  (ocekivano besmisleno -> treba standardizaciju)
+backup -> model_prewrap.pt.bak
+spremljen umotani self-contained model -> /home/tomi/code/dipl/baseline_models/housing_mlp/model.pt
+reload OK: NormalizedRegressor  probe mode=vector in_ch=8 (vektor dim-8 ocuvan)
+umotani model na SIROVOM X_val: r2=0.7565  rmse=0.5632  (ocekivano ~0.79)
+
+VERDIKT B (baked-norm housing): PROLAZI (self-contained, sirovi X->y, r2 smislen)

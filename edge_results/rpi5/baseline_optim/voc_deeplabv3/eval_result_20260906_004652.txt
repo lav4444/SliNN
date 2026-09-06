@@ -1,0 +1,46 @@
+Model: model.pt (deeplabv3_mobilenet_v3_large)
+Task: semantic segmentation (21 classes, void=255 ignored)
+Input: RGB image (resize smaller-edge 520 + ImageNet norm)
+Metric: mIoU (mean IoU) + pixel accuracy
+Device: cpu
+
+=========== VAL (1449 images) ===========
+
+Speed:
+  Inference (batch=1):   443.45 ms/image  (2.3 images/s)
+
+Segmentation metrics:
+  mIoU        = 0.7269
+  pixel-acc   = 0.9338
+
+Per-class IoU:
+  __background__ 0.9255
+  aeroplane      0.8720
+  bicycle        0.3737
+  bird           0.8622
+  boat           0.6542
+  bottle         0.6694
+  bus            0.9070
+  car            0.7274
+  cat            0.8739
+  chair          0.3742
+  cow            0.8609
+  diningtable    0.4814
+  dog            0.8120
+  horse          0.8336
+  motorbike      0.8411
+  person         0.8372
+  pottedplant    0.5276
+  sheep          0.8034
+  sofa           0.5107
+  train          0.8979
+  tvmonitor      0.6194
+
+================================================================
+CPU vs GPU latency benchmark (fixed 1x3x520x520 input, batch=1)
+================================================================
+
+CPU per-run times (ms): [  366.0,   313.2,   311.5,   312.2,   311.6,   312.3,   311.5,   363.7,   311.9,   311.8]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    312.01 ms/run  (3.2 runs/s)

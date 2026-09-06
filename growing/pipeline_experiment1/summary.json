@@ -1,0 +1,236 @@
+{
+  "start": {
+    "params": 1035222,
+    "gflops": 6.3346752,
+    "val_map": 0.08185756951570511,
+    "test_map": 0.09749314934015274
+  },
+  "final": {
+    "params": 1777919,
+    "gflops": 8.2274648,
+    "val_map": 0.11560055613517761,
+    "test_map": 0.11059768497943878,
+    "gpu_ms": 18.65457175335905,
+    "cpu_ms": 40.176799999244395,
+    "dead": 0,
+    "total": 2480,
+    "best_val_map": 0.11560055613517761
+  },
+  "config": {
+    "technique": "GradMax-pipeline",
+    "paradigm": "A-continuous",
+    "target_factor": 1.3,
+    "total_epochs": 35,
+    "grow_epochs": 10,
+    "max_grow_pct": 0.03,
+    "per_layer_cap": 0.25,
+    "optimizer": "AdamW",
+    "lr": 0.001
+  },
+  "trajectory": [
+    {
+      "epoch": 0,
+      "gflops": 6.3346752,
+      "val_map": 0.08185756951570511,
+      "grew": false
+    },
+    {
+      "epoch": 1,
+      "gflops": 6.4949432,
+      "val_map": 0.03794451057910919,
+      "grew": true
+    },
+    {
+      "epoch": 2,
+      "gflops": 6.6610432,
+      "val_map": 0.044563062489032745,
+      "grew": true
+    },
+    {
+      "epoch": 3,
+      "gflops": 6.8543872,
+      "val_map": 0.04937809705734253,
+      "grew": true
+    },
+    {
+      "epoch": 4,
+      "gflops": 7.0275648,
+      "val_map": 0.069237619638443,
+      "grew": true
+    },
+    {
+      "epoch": 5,
+      "gflops": 7.2252128,
+      "val_map": 0.06177127733826637,
+      "grew": true
+    },
+    {
+      "epoch": 6,
+      "gflops": 7.4201096,
+      "val_map": 0.08538874238729477,
+      "grew": true
+    },
+    {
+      "epoch": 7,
+      "gflops": 7.6258752,
+      "val_map": 0.08294875919818878,
+      "grew": true
+    },
+    {
+      "epoch": 8,
+      "gflops": 7.8298104,
+      "val_map": 0.08028436452150345,
+      "grew": true
+    },
+    {
+      "epoch": 9,
+      "gflops": 8.0172128,
+      "val_map": 0.09291635453701019,
+      "grew": true
+    },
+    {
+      "epoch": 10,
+      "gflops": 8.2274648,
+      "val_map": 0.1090160459280014,
+      "grew": true
+    },
+    {
+      "epoch": 11,
+      "gflops": 8.2274648,
+      "val_map": 0.08314903825521469,
+      "grew": false
+    },
+    {
+      "epoch": 12,
+      "gflops": 8.2274648,
+      "val_map": 0.09406235814094543,
+      "grew": false
+    },
+    {
+      "epoch": 13,
+      "gflops": 8.2274648,
+      "val_map": 0.10304573178291321,
+      "grew": false
+    },
+    {
+      "epoch": 14,
+      "gflops": 8.2274648,
+      "val_map": 0.10010716319084167,
+      "grew": false
+    },
+    {
+      "epoch": 15,
+      "gflops": 8.2274648,
+      "val_map": 0.1054074764251709,
+      "grew": false
+    },
+    {
+      "epoch": 16,
+      "gflops": 8.2274648,
+      "val_map": 0.10616086423397064,
+      "grew": false
+    },
+    {
+      "epoch": 17,
+      "gflops": 8.2274648,
+      "val_map": 0.1117028146982193,
+      "grew": false
+    },
+    {
+      "epoch": 18,
+      "gflops": 8.2274648,
+      "val_map": 0.1087007001042366,
+      "grew": false
+    },
+    {
+      "epoch": 19,
+      "gflops": 8.2274648,
+      "val_map": 0.10460887849330902,
+      "grew": false
+    },
+    {
+      "epoch": 20,
+      "gflops": 8.2274648,
+      "val_map": 0.107329823076725,
+      "grew": false
+    },
+    {
+      "epoch": 21,
+      "gflops": 8.2274648,
+      "val_map": 0.11188477277755737,
+      "grew": false
+    },
+    {
+      "epoch": 22,
+      "gflops": 8.2274648,
+      "val_map": 0.10905968397855759,
+      "grew": false
+    },
+    {
+      "epoch": 23,
+      "gflops": 8.2274648,
+      "val_map": 0.11221971362829208,
+      "grew": false
+    },
+    {
+      "epoch": 24,
+      "gflops": 8.2274648,
+      "val_map": 0.10978621989488602,
+      "grew": false
+    },
+    {
+      "epoch": 25,
+      "gflops": 8.2274648,
+      "val_map": 0.11560055613517761,
+      "grew": false
+    },
+    {
+      "epoch": 26,
+      "gflops": 8.2274648,
+      "val_map": 0.11418035626411438,
+      "grew": false
+    },
+    {
+      "epoch": 27,
+      "gflops": 8.2274648,
+      "val_map": 0.1130104660987854,
+      "grew": false
+    },
+    {
+      "epoch": 28,
+      "gflops": 8.2274648,
+      "val_map": 0.11327232420444489,
+      "grew": false
+    },
+    {
+      "epoch": 29,
+      "gflops": 8.2274648,
+      "val_map": 0.11400582641363144,
+      "grew": false
+    },
+    {
+      "epoch": 30,
+      "gflops": 8.2274648,
+      "val_map": 0.11042484641075134,
+      "grew": false
+    },
+    {
+      "epoch": 31,
+      "gflops": 8.2274648,
+      "val_map": 0.11291555315256119,
+      "grew": false
+    },
+    {
+      "epoch": 32,
+      "gflops": 8.2274648,
+      "val_map": 0.11280999332666397,
+      "grew": false
+    },
+    {
+      "epoch": 33,
+      "gflops": 8.2274648,
+      "val_map": 0.1126142218708992,
+      "grew": false
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+format,backend,cpu_ms,gpu_ms,size_mb,miou,pixel_acc
+FP32,PyTorch,91.7933,6.2958,42.2936,0.72687,0.93379
+FP16,PyTorch,14172.109,6.367,21.2019,0.72702,0.93383
+INT8-PT-static,PyTorch x86,134.7753,N/A (PyTorch quant je CPU-only),11.0,0.67573,0.9212
+INT8-PT-dynamic,PyTorch x86 (0 Linear),98.3613,N/A (PyTorch quant je CPU-only),42.2936,0.72689,0.9338
+FP32-sq520,PyTorch (TRT referenca),N/A (mjereno u ptq_ skriptu),5.4787,42.2936,0.70971,0.92863
+FP16-TRT,TensorRT,N/A (TensorRT je GPU-only),5.0814,22.6662,0.70971,0.92861
+INT8-TRT,TensorRT,N/A (TensorRT je GPU-only),4.3915,12.7673,0.66605,0.91751

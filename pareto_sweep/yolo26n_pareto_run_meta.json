@@ -1,0 +1,33 @@
+{
+  "model": "yolo26n",
+  "model_spec": "/home/tomi/code/dipl/baseline_models/yolo26n/yolo26n.pt",
+  "kind": "yolo",
+  "device": "cuda",
+  "dataset_root": "/home/tomi/code/dipl/datasets/mini_set/sub10k_open_images_v7",
+  "dev_data_subset": null,
+  "quality_metric": "map",
+  "baseline_gflops": 5.958374399999993,
+  "baseline_quality": 0.41256654262542725,
+  "baseline_map": 0.41256654262542725,
+  "baseline_mar_100": 0.615644633769989,
+  "baseline_params": 2572280,
+  "params": {
+    "prune_step_frac": 0.03,
+    "reinvest_frac": 0.1,
+    "min_gflops_frac": 0.1,
+    "ft_epochs_per_morph": 1,
+    "prune_layer_cap": 0.15,
+    "min_alive_frac": 1e-05,
+    "churn_cooldown": 2,
+    "align_m": 32,
+    "val_cap": 1000,
+    "train_batch": 8
+  },
+  "n_steps": 33,
+  "final_gflops": 2.5540096000000005,
+  "final_gflops_pct": 42.864201349952154,
+  "end_reason": "nema vi\u0161e rezivih kandidata (off-limits/unsafe/floor/cap odbili sve)",
+  "total_time_s": 5707.8,
+  "csv": "/home/tomi/code/dipl/pareto_sweep/pareto_run.csv",
+  "final_model": "/home/tomi/code/dipl/pareto_sweep/pareto_final.pt"
+}

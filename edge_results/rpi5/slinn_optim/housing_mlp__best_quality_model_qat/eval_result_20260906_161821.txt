@@ -1,0 +1,50 @@
+Model: model.pt
+Task: regression (tabular)
+Input: 8 features (vector), StandardScaler on train
+Target: median house value ($100k), range 0.15-5.0
+Device: cpu
+
+=========== VAL (3096 samples) ===========
+
+Speed:
+  Inference (batch=1):   0.0629 ms/sample  (15,887 samples/s)
+
+Regression metrics (original scale, $100k):
+  R2   = 0.6496
+  RMSE = 0.6756
+  MAE  = 0.5072
+
+Error breakdown (|residual|, $100k):
+  MedAE = 0.4159
+  P90   = 1.0140
+  Max   = 3.9692
+
+Baseline (linear regression):
+  lin_R2 = 0.5848   gap = +0.0648
+
+=========== TEST (3096 samples) ===========
+
+Speed:
+  Inference (batch=1):   0.0624 ms/sample  (16,019 samples/s)
+
+Regression metrics (original scale, $100k):
+  R2   = 0.6929
+  RMSE = 0.6373
+  MAE  = 0.4902
+
+Error breakdown (|residual|, $100k):
+  MedAE = 0.4085
+  P90   = 0.9712
+  Max   = 3.2415
+
+Baseline (linear regression):
+  lin_R2 = 0.6066   gap = +0.0863
+
+================================================================
+CPU vs GPU latency benchmark (10 random train samples, seed=42, batch=1)
+================================================================
+
+CPU per-sample times (ms): [  0.176,   0.075,   0.069,   0.065,   0.066,   0.065,   0.064,   0.065,   0.062,   0.066]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    0.0651 ms/sample  (15,354 samples/s)

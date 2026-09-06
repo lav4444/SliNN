@@ -1,0 +1,9 @@
+format,backend,cpu_ms,gpu_ms,size_mb,acc,f1_macro,f1_micro,prec_macro,recall_macro,auroc,ce
+FP32,PyTorch,31.9286,3.1016,255.4507,0.91055,0.91043,0.91055,0.91129,0.91018,0.97175,0.3902
+FP16,PyTorch,74.5536,3.2844,127.7442,0.91055,0.91043,0.91055,0.91129,0.91018,0.97173,0.39022
+INT8-PT-dynamic,PyTorch x86,12.7043,N/A (PyTorch quant je CPU-only),132.2877,0.8922,0.89195,0.8922,0.89388,0.89162,0.96502,0.41196
+INT8-PT-static,PyTorch x86,N/A (HF nije fx-traceable: ValueError),N/A (CPU-only),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—)
+INT8-ORT-dynamic,ONNX Runtime,6.1421,N/A (CPUExecutionProvider),64.2325,0.90252,0.9024,0.90252,0.90316,0.90217,0.96867,0.39848
+FP32-TRT,TensorRT,N/A (TensorRT je GPU-only),1.0661,255.8425,0.91055,0.91043,0.91055,0.91129,0.91018,0.97175,0.39007
+FP16-TRT,TensorRT,N/A (TensorRT je GPU-only),1.0171,255.8231,0.91055,0.91043,0.91055,0.91129,0.91018,0.97172,0.39021
+INT8-TRT,TensorRT,N/A (TensorRT je GPU-only),N/A (RuntimeError: ONNX parse failed: In node 1 with name: /m/distilbert/transformer/layer.4/attention/Consta),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—),N/A (—)

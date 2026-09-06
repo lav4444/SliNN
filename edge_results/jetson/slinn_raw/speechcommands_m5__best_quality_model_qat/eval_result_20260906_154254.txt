@@ -1,0 +1,63 @@
+Model: model.pt
+Task: keyword spotting (audio classification, 12 classes)
+Input: raw waveform [1, 8000] (1 s @ 8 kHz)
+Classes: yes, no, up, down, left, right, on, off, stop, go, unknown, silence
+Device: cuda
+
+=========== VAL (4443 samples) ===========
+
+Speed:
+  Inference (batch=1):   2.8455 ms/sample  (351 samples/s)
+
+Classification metrics:
+  Accuracy  = 0.8031
+  macro-F1  = 0.8080
+
+Per-class accuracy (recall):
+  yes        0.7280
+  no         0.7167
+  up         0.8086
+  down       0.6419
+  left       0.9176
+  right      0.8127
+  on         0.8760
+  off        0.8445
+  stop       0.8429
+  go         0.8737
+  unknown    0.7703
+  silence    0.8297
+
+=========== TEST (4888 samples) ===========
+
+Speed:
+  Inference (batch=1):   2.8675 ms/sample  (349 samples/s)
+
+Classification metrics:
+  Accuracy  = 0.8042
+  macro-F1  = 0.8096
+
+Per-class accuracy (recall):
+  yes        0.7709
+  no         0.7531
+  up         0.7906
+  down       0.6478
+  left       0.9029
+  right      0.7854
+  on         0.8788
+  off        0.7861
+  stop       0.8564
+  go         0.8831
+  unknown    0.7543
+  silence    0.8428
+
+================================================================
+CPU vs GPU latency benchmark (10 random train samples, seed=42, batch=1)
+================================================================
+
+CPU per-sample times (ms): [  3.506,   1.767,   1.684,   1.627,   1.649,   1.620,   1.592,   1.541,   1.568,   1.555]
+GPU per-sample times (ms): [  3.700,   2.426,   2.661,   2.679,   2.647,   2.660,   2.649,   2.656,   2.658,   2.647]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    1.6044 ms/sample  (623 samples/s)
+  GPU:    2.6256 ms/sample  (381 samples/s)
+  Speedup (GPU vs CPU):  0.6x

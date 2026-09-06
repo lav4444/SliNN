@@ -1,0 +1,14 @@
+dataset               format          smpl  lbl   mode          n       splits
+------------------------------------------------------------------------------------------------------------
+voc_deeplabv3         voc             True  True  full          22951   None
+      task_hint=segmentation  why: VOC: JPEGImages + SegmentationClass
+speechcommands        folder_per_classTrue  True  full          105835  None
+      task_hint=classification  why: 36 podfoldera-klasa s medijem
+sub10k (yolo/school)  yolo            True  True  full          8371    {'train': 5860, 'test': 1674, 'val': 837}
+      task_hint=detection  why: images/ + labels/ ; label redak = 5 tokena (cls cx cy w h)
+housing               tabular         True  True  full          20640   {'train': 14448, 'val': 3096, 'test': 3096}
+      task_hint=regression  why: tabular 'california_housing.npz'
+sst2 (hf cache)       hf_datasets     True  True  full          70042   {'test': 1821, 'train': 67349, 'val': 872}
+      task_hint=classification  why: hf datasets cache (ClassLabel feature)
+nyu (parquet cache)   sniffed         True  False core_kd_only  654     {'val': 654}
+      task_hint=regression  why: sniffer: ulaz=image x3, oznake=in_table (tablica: label=da (regression), input=image) | oznake nedostupne ovom metodom

@@ -1,0 +1,64 @@
+{
+  "_doc": "Katalog prepoznatih ON-DISK formata dataseta (single source of truth). DatasetProbe (dataset.py) njusi strukturu foldera + SADRZAJ uzorka label-datoteke i vrati format + task_hint. Format = STO JE NA DISKU (npr. YOLO 5-stupcani boxovi); stvarni TASK odredjuje task.py krizanjem s modelom (isti boxes dataset yolo koristi za detection, schoolcnn prenamjenjuje u multilabel). Neprepoznat folder -> unknown_format (glasno stane, ne pogadja). Reader: 'label_sample'=implementiran (vrati uzorak oznaka u memoriji), 'todo'=prepoznaje se ali dekoder jos nije napisan.",
+  "formats": {
+    "hf_datasets": {
+      "fingerprint": "HF `datasets` cache: dataset_info.json (+ *.arrow), tipicno pod datasets/<name>/<config>/<ver>/<hash>/",
+      "disambig": "task_hint iz sheme: ClassLabel feature -> classification; Sequence[ClassLabel] -> token_classification (nepodrzano -> unknown)",
+      "task_hint": "classification",
+      "reader": "label_sample"
+    },
+    "coco": {
+      "fingerprint": "*.json s top-kljucevima images + annotations + categories",
+      "disambig": "annotation ima 'bbox' -> detection; 'segmentation' poligoni -> segmentation",
+      "task_hint": "detection",
+      "reader": "todo"
+    },
+    "yolo": {
+      "fingerprint": "images/ + labels/ (po splitu); label redak 'cls cx cy w h' (5 tokena, normalizirano 0..1)",
+      "disambig": "5 tokena po retku -> box (detection). Model bez detekcijske glave moze prenamijeniti u multilabel (task.py odlucuje).",
+      "task_hint": "detection",
+      "reader": "label_sample"
+    },
+    "voc": {
+      "fingerprint": "VOCdevkit/ ili JPEGImages/ + (SegmentationClass/ | Annotations/)",
+      "disambig": "SegmentationClass/ -> segmentation; samo Annotations/*.xml -> detection",
+      "task_hint": "segmentation",
+      "reader": "label_sample"
+    },
+    "folder_per_class": {
+      "fingerprint": "podfolderi = klase, svaki sadrzi medij (jpg/png/wav/flac); label = ime foldera",
+      "disambig": "jedan folder po uzorku -> classification (visestruko clanstvo se ne moze izraziti ovim layoutom)",
+      "task_hint": "classification",
+      "reader": "label_sample"
+    },
+    "seg_masks": {
+      "fingerprint": "images/ + masks/ (PNG iste velicine, uparene po imenu)",
+      "disambig": "maska int/paleta -> segmentation; maska float/16-bit -> regression (depth)",
+      "task_hint": "segmentation",
+      "reader": "todo"
+    },
+    "tabular": {
+      "fingerprint": "*.csv | *.parquet | *.npz kao glavni sadrzaj",
+      "disambig": "ciljni stupac (zadnji ili 'label'/'target'/'y'): kontinuiran -> regression, kategoricki -> classification",
+      "task_hint": "regression",
+      "reader": "label_sample"
+    },
+    "nlp": {
+      "fingerprint": "*.jsonl ili csv s tekstualnim stupcem + label",
+      "disambig": "per-recenica label -> classification; per-token (BIO) -> unknown (buduci token_classification)",
+      "task_hint": "classification",
+      "reader": "todo"
+    },
+    "sniffed": {
+      "fingerprint": "FALLBACK (agnostic_sniffer) kad kaskada ne prepozna: rekurzivno stablo -> dominantna prava-media kategorija = ULAZI (image/audio/video/tabular)",
+      "disambig": "OZNAKE best-effort strukturno: folder=klasa (classification) | stem-match sidecar (.png=seg/.txt/.xml/.json=det) | paralelni labels-dir | manifest | none. ULAZ i OZNAKA su odvojeni -> i bez oznaka ostaju ulazi za KD feat+logit.",
+      "task_hint": "ovisi o label_method (task.py krizanjem s modelom)",
+      "reader": "label_sample (class_subfolder); ostali best-effort/none"
+    },
+    "unknown_format": {
+      "fingerprint": "ni kaskada ni sniffer ne nalaze nista citljivo (nema medija/tabele)",
+      "task_hint": "unknown",
+      "reader": null
+    }
+  }
+}

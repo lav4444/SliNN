@@ -1,0 +1,13 @@
+model               probe  unk tap     reg  nedostaju tipovi u registru
+------------------------------------------------------------------------------------------------
+yolo26n             YES      0   3     7/7  
+fasterrcnn          YES      0   2   11/11  
+schoolcnn           YES      0   1     5/5  
+housing_mlp         YES      0   1     2/3  BatchNorm1d
+speechcommands_m5   YES      0   1     2/5  BatchNorm1d, Conv1d, MaxPool1d
+sst2_distilbert     YES      0   0     2/5  Dropout, GELUActivation, LayerNorm
+voc_deeplabv3       YES      0   5     6/7  Dropout
+midas_depth         YES      0   1     4/7  Interpolate, ReLU6, ZeroPad2d
+
+reg = koliko UNIKATNIH tipova leaf-slojeva je vec u LAYER_REGISTER.json / ukupno tipova u modelu.
+'nedostaju' = tipovi koje registar jos ne pokriva (rules_decide) -> kandidati za Fazu 3 (populacija registra).

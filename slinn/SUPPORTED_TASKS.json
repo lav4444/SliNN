@@ -1,0 +1,61 @@
+{
+  "_doc": "Katalog podrzanih taskova (single source of truth). Detektor (task.py) cita DEKODIRANE in-memory oznake (data.py parsira YOLO/COCO/VOC/PNG/BIO s diska); ovdje su samo in-memory oblici. Neprepoznat oblik -> unknown (nikad crash/pogadjanje). Arhitektura (B) je format-neovisni backstop. Ljestvica: override > A(label)∩B(arch) > A > B > unknown.",
+  "_kd_core_semantics": "kd_core = GENERICKI KD clanovi (bez decode-a): 'feature' = MSE na tap feature-mapama; 'logit' = KD na TERMINALNOM izlazu s prilagodbom gubitka (softmax-KL kad je distribucija klasa [B,K]/[B,K,H,W] — uklj. segmentaciju per-piksel; MSE inace — kontinuiran izlaz regresije ILI sirova detekcijska glava [B,4+K,N]). enhancers = task-specificni, DECODE-svjesni clanovi na vrhu jezgre (traze poznavanje strukture glave).",
+  "_detection_finding_5_6": "MJERENO (5.6): za detekciju generic 'logit' (raw-head MSE) MEHANICKI radi SAMO na single-stage s tenzorskim izlazom (yolo [B,N,4+K]); two-stage (fasterrcnn) daje listu dict-ova -> generic logit N/A, ostaje samo 'feature'. K tome je raw-head MSE SLAB PROXY za mAP (sirova glava se mijenja u MSE dok mAP nakon decode+NMS ostaje). Zato detekcijska KVALITETA dolazi iz ENHANCERA: 'dense_cls' = logit-KD prilagodjen detekciji (klasni skorovi po okviru/anchoru), 'box_giou' = destilacija okvira, 'objectness'. mAP NIJE KD-clan nego GATE (v. _gate_semantics).",
+  "_gate_semantics": "Quality-gate (best-model selekcija + early-stop) je ODVOJEN od loss-a; GT/labeli ulaze SAMO u gate, NIKAD u backpropagirani loss ([[kd-only-no-gt]]). Ljestvica gate-signala: (1) PRAVA task-metrika (metrics[0], kad su oznake dostupne) -> 'metrika >= tol×baseline'; (2) TEACHER-AGREEMENT (task nepoznat / bez oznaka / detekcijski raw-proxy nepouzdan bez decode) -> slaganje s teacherom (kl=argmax-agreement, mse=R²-vs-teacher, detekcija=mAP preko morphology scorera); (3) KD-proxy (zadnji fallback). Za detekciju gate = mAP-scorer (morphology, decode+NMS), ne raw-head R².",
+  "ladder": ["override", "label∩arch", "label", "arch", "unknown"],
+  "tasks": {
+    "classification": {
+      "label_forms": ["[B] int", "[B,K] one-hot (tocno 1 aktivan)"],
+      "arch_forms": ["logiti [B,K] (dvosmisleno bez oznaka -> B ne odlucuje)"],
+      "decode": false,
+      "metrics": ["f1_macro", "accuracy"],
+      "kd_core": ["logit", "feature"],
+      "enhancers": []
+    },
+    "multilabel": {
+      "label_forms": ["[B,K] multi-hot (>1 aktivan)"],
+      "arch_forms": ["logiti [B,K] (dvosmisleno -> B ne odlucuje)"],
+      "decode": false,
+      "metrics": ["mAP"],
+      "kd_core": ["logit", "feature"],
+      "enhancers": []
+    },
+    "detection": {
+      "label_forms": ["lista po slici: dict{boxes,labels} | tensor [N,4..6] promjenjiv N (yolo/coco/voc dekodirano)"],
+      "arch_forms": ["moduli: AnchorGenerator | RoIHeads | RPN | MultiScaleRoIAlign | (ultralytics) Detect"],
+      "decode": true,
+      "metrics": ["mAP_50_95", "mAR_100"],
+      "kd_core": ["feature", "logit"],
+      "enhancers": ["dense_cls", "box_giou", "objectness"],
+      "_note": "kd_core 'logit' (raw-head MSE) samo single-stage tenzorski izlaz (yolo) i SLAB proxy; two-stage (frcnn) -> feature-only. KVALITETA iz enhancera (dense_cls=klasni logit-KD po okviru, box_giou, objectness). GATE = mAP-scorer (morphology decode+NMS), NE raw-head. V. _detection_finding_5_6 + _gate_semantics."
+    },
+    "segmentation": {
+      "label_forms": ["dense [B,H,W] cjelobrojno (ID klase po pikselu)"],
+      "arch_forms": ["logiti [B,K,H,W], K>1"],
+      "decode": true,
+      "metrics": ["mIoU"],
+      "kd_core": ["logit", "feature"],
+      "enhancers": []
+    },
+    "regression": {
+      "label_forms": ["kontinuirano [B] | [B,D] (skalar/vektor)", "dense [B,*,H,W] float (depth)"],
+      "arch_forms": ["[B,1,H,W] float (depth/dense)"],
+      "decode": false,
+      "metrics": ["r2", "rmse"],
+      "kd_core": ["feature", "logit"],
+      "enhancers": []
+    },
+    "unknown": {
+      "label_forms": ["neprepoznat in-memory oblik", "[B,L] int per-token (NER/BIO) — prepoznato ali jos nepodrzano"],
+      "arch_forms": ["nedistinktivno"],
+      "decode": false,
+      "metrics": ["teacher_agreement"],
+      "kd_core": ["logit", "feature"],
+      "enhancers": []
+    }
+  },
+  "future": {
+    "token_classification": "per-token oznake [B,L] (NER/BIO sekvencijalno oznacavanje) — prepoznaju se strukturno, ali nema zoo modela pa idu u unknown; kandidat za buduci task (metrike: token_f1/seqeval)."
+  }
+}

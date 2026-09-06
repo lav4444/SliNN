@@ -1,0 +1,3 @@
+datum,uredjaj,mjerenje,runtime,model,dataset,split,n_uzoraka,metrika,vrijednost,latencija_ms,dev,torch
+2026-09-06T18:50:49,RPi5,SLINN_OPTIM,onnxruntime,voc_deeplabv3__best_quality_model_qat,VOC2012_segmentation,val,1449,mIoU,0.595369,459.2163,cpu,2.14.0+cpu
+2026-09-06T18:50:49,RPi5,SLINN_OPTIM,onnxruntime,voc_deeplabv3__best_quality_model_qat,VOC2012_segmentation,val,1449,pixel_acc,0.897407,459.2163,cpu,2.14.0+cpu

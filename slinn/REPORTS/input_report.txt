@@ -1,0 +1,7 @@
+model               mode     source           uzorak oblik        forward OK 
+--------------------------------------------------------------------------------------------
+schoolcnn           image    image-files      (3, 320, 320)       DA         
+housing_mlp         vector   tabular          (8,)                DA         
+speechcommands_m5   seq      audio-files      (1, 8000)           DA         
+voc_deeplabv3       image    image-files      (3, 96, 96)         DA         
+midas_depth         image    fallback-random  (3, 96, 96)         DA         

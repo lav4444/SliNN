@@ -1,0 +1,6 @@
+datum,uredjaj,mjerenje,runtime,model,dataset,split,n_uzoraka,metrika,vrijednost,latencija_ms,dev,torch
+2026-09-06T17:28:09,RPi5,SLINN_RAW,eager,voc_deeplabv3__best_quality_model_qat,VOC2012_segmentation,val,1449,mIoU,0.595376,870.306,cpu,2.14.0+cpu
+2026-09-06T17:28:09,RPi5,SLINN_RAW,eager,voc_deeplabv3__best_quality_model_qat,VOC2012_segmentation,val,1449,pixel_acc,0.897533,870.306,cpu,2.14.0+cpu
+2026-09-06T17:30:13,RPi5,SLINN_RAW,eager,midas_depth__best_quality_model_qat,NYU_Depth_V2,val,254,AbsRel,0.142969,343.0288,cpu,2.14.0+cpu
+2026-09-06T17:30:13,RPi5,SLINN_RAW,eager,midas_depth__best_quality_model_qat,NYU_Depth_V2,val,254,RMSE_m,0.550268,343.0288,cpu,2.14.0+cpu
+2026-09-06T17:30:13,RPi5,SLINN_RAW,eager,midas_depth__best_quality_model_qat,NYU_Depth_V2,val,254,delta1,0.79484,343.0288,cpu,2.14.0+cpu

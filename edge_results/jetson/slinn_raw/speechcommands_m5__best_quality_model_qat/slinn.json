@@ -1,0 +1,31 @@
+{
+  "celija": "speechcommands_m5__best_quality_model_qat",
+  "model": "speechcommands_m5",
+  "checkpoint": "best_quality_model_qat.pt",
+  "kvantiziran": true,
+  "izvor": "/home/tomislav/Documents/code/dipl/EVAL/slinn_in/speechcommands_m5",
+  "porijeklo": {
+    "model_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/model.pt",
+    "dataset_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/data",
+    "phase": "12",
+    "metric_name": "f1_macro",
+    "metric_baseline": 0.7075059976195227,
+    "metric_tol": 0.95,
+    "qat": {
+      "steps": 400,
+      "kd": 1.3030167792737484,
+      "monitor_best": 0.6663634680217112,
+      "why": "patience",
+      "wrapped": 4,
+      "fakequant": 4,
+      "folded_bn": 4,
+      "skip": [
+        "fc"
+      ],
+      "metric_name": "f1_macro",
+      "metric_prije": 0.6746407850645375,
+      "metric_poslije": 0.668562540759914,
+      "delta": -0.006078244304623559
+    }
+  }
+}

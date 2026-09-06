@@ -1,0 +1,92 @@
+[
+ {
+  "model": "housing_mlp",
+  "gflops": 0.00021721600000000003,
+  "params": 110721,
+  "prunable": 3,
+  "task": "regression",
+  "mode": "full",
+  "taps": 1,
+  "enh": false,
+  "splits": {
+   "train": 5,
+   "val": 3,
+   "test": 4,
+   "method": 5,
+   "note": 14
+  },
+  "prep_s": 2.0
+ },
+ {
+  "model": "speechcommands_m5",
+  "gflops": 0.20558233599999998,
+  "params": 560140,
+  "prunable": 3,
+  "task": "classification",
+  "mode": "full",
+  "taps": 1,
+  "enh": false,
+  "splits": {
+   "train": 4,
+   "val": 4,
+   "test": 4,
+   "method": 9,
+   "note": 52
+  },
+  "prep_s": 0.9
+ },
+ {
+  "model": "sst2_distilbert",
+  "gflops": 5.559379967999999,
+  "params": 66955010,
+  "prunable": 0,
+  "task": "classification",
+  "mode": "full",
+  "taps": 3,
+  "enh": false,
+  "splits": {
+   "train": 5,
+   "val": 3,
+   "test": 4,
+   "method": 5,
+   "note": 14
+  },
+  "prep_s": 4.5
+ },
+ {
+  "model": "voc_deeplabv3",
+  "gflops": 30.752945920000005,
+  "params": 11029328,
+  "prunable": 30,
+  "task": "segmentation",
+  "mode": "full",
+  "taps": 3,
+  "enh": false,
+  "splits": {
+   "train": 4,
+   "val": 4,
+   "test": 4,
+   "method": 9,
+   "note": 52
+  },
+  "prep_s": 2.2
+ },
+ {
+  "model": "yolo26n",
+  "gflops": 5.958374399999993,
+  "params": 2572280,
+  "prunable": 85,
+  "task": "detection",
+  "mode": "full",
+  "taps": 3,
+  "enh": true,
+  "splits": {
+   "train": 5,
+   "val": 3,
+   "test": 4,
+   "method": 5,
+   "note": 14
+  },
+  "prep_s": 4.7
+ }
+]

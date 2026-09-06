@@ -1,0 +1,4 @@
+datum,uredjaj,mjerenje,runtime,model,dataset,split,n_uzoraka,metrika,vrijednost,latencija_ms,dev,torch
+2026-09-06T17:34:26,RPi5,BASELINE_OPTIM,onnxruntime,midas_depth,NYU_Depth_V2,val,254,AbsRel,0.120075,99.2932,cpu,2.14.0+cpu
+2026-09-06T17:34:26,RPi5,BASELINE_OPTIM,onnxruntime,midas_depth,NYU_Depth_V2,val,254,RMSE_m,0.481029,99.2932,cpu,2.14.0+cpu
+2026-09-06T17:34:26,RPi5,BASELINE_OPTIM,onnxruntime,midas_depth,NYU_Depth_V2,val,254,delta1,0.852628,99.2932,cpu,2.14.0+cpu

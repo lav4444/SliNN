@@ -1,0 +1,143 @@
+===== 6.4 MOVE-LIST: morphology -> slinn =====
+Nacelo: slinn jezgra pobjeduje; iz morphology seli samo ono cega u slinn nema.
+Prati def/class + modul-konstante + lokalne uvoze.
+
+ULAZNE TOCKE (sto slinn zove): 30
+TRANZITIVNO ZATVORENJE:        85 simbola
+
+[analysis ] seli 24/49 simbola  ·   502/1057 redaka  (47%)
+[compress ] seli 21/43 simbola  ·   485/1189 redaka  (41%)
+[profiles ] seli 10/10 simbola  ·   120/120  redaka  (100%)
+[kd       ] seli  9/10 simbola  ·    70/78   redaka  (90%)
+[config   ] seli 21/42 simbola  ·    21/42   redaka  (50%)
+
+UKUPNO SELI: 1198 redaka (od 2486 u tijelima simbola)
+
+--- KOLIZIJE (slinn VEC ima -> koristi slinn, morphology odbaci) ---
+  analysis.eval_classification       15 r  [dep]  slinn: metric.py
+  analysis.weighted_leaves           10 r  [ENTRY]  slinn: classify.py
+  analysis.evaluate                   7 r  [ENTRY]  slinn: metric.py
+  = 3 simbola, 32 redaka
+
+--- SAMO DETEKCIJA -> slinn/plugins/detection/ ---
+  analysis.YoloAdapter              141 r  [dep]
+  analysis.FrcnnAdapter              74 r  [dep]
+  profiles.ProfileAdapter            47 r  [dep]
+  analysis.ModelAdapter              37 r  [dep]
+  analysis._DetDataset               32 r  [dep]
+  profiles._yolo_protect             19 r  [dep]
+  kd._feature_loss                   16 r  [dep]
+  kd._giou                           14 r  [dep]
+  profiles.FRCNN_PROFILE             12 r  [dep/const]
+  profiles._frcnn_student_signals    12 r  [dep]
+  kd._dense_cls_loss                 11 r  [dep]
+  kd.kd_total                        11 r  [dep]
+  analysis.pick_adapter              10 r  [ENTRY]
+  analysis.set_bn_eval                9 r  [dep]
+  profiles.YOLO_PROFILE               8 r  [dep/const]
+  kd._box_giou_loss                   7 r  [dep]
+  profiles.FRCNN_KD_TAPS              7 r  [dep/const]
+  profiles.YOLO_KD_TAPS               5 r  [dep/const]
+  profiles.pick_profile               5 r  [dep]
+  analysis.make_gt_loader             4 r  [ENTRY]
+  kd._box_loss                        4 r  [dep]
+  profiles._yolo_student_signals      4 r  [dep]
+  kd._objectness_loss                 3 r  [dep]
+  analysis._img_dir                   2 r  [dep]
+  analysis._lbl_dir                   2 r  [dep]
+  kd._LOSS                            2 r  [dep/const]
+  kd._logit_loss                      2 r  [dep]
+  analysis.ADAPTERS                   1 r  [dep/const]
+  config.COCO_YOLO_IDS                1 r  [dep/const]
+  config.DATASET_ROOT                 1 r  [dep/const]
+  config.DEV_DATA_SUBSET              1 r  [dep/const]
+  config.GRAD_BATCH                   1 r  [dep/const]
+  config.IMG_EXTS                     1 r  [dep/const]
+  config.USE_PROFILE_ADAPTERS         1 r  [dep/const]
+  profiles.PROFILES                   1 r  [dep/const]
+  = 35 simbola, 508 redaka
+
+--- DIJELJENO (doseze i jezgra i detekcija -> jezgra, plug ga uvozi) ---
+  analysis.eval_map                  18 r  [ENTRY]
+  config.CLASS_NAMES                  1 r  [dep/const]
+  = 2 simbola, 19 redaka
+
+--- SAMO JEZGRA -> slinn/ (agnosticno) ---
+  compress._try_grow_layer           83 r  [ENTRY]
+  compress.coupled_unit_cost         58 r  [dep]
+  compress.remove_dead_neardead      50 r  [ENTRY]
+  analysis.activation_stats          49 r  [dep]
+  compress._grow_decide              48 r  [ENTRY]
+  compress._select_grow_plan         41 r  [dep]
+  analysis.layer_table               38 r  [ENTRY]
+  compress._select_prune_plan        36 r  [ENTRY]
+  compress._apply_prune_plan         33 r  [ENTRY]
+  compress._max_abs_diff             20 r  [ENTRY]
+  compress.align_factors             17 r  [dep]
+  analysis.build_fasterrcnn          16 r  [dep]
+  analysis.load_eager                13 r  [dep]
+  analysis.unfreeze_bn               13 r  [dep]
+  compress._insert_in_zeros          13 r  [ENTRY]
+  compress._forward_ok               12 r  [ENTRY]
+  compress.grow_potential            12 r  [dep]
+  compress._widen_out                10 r  [ENTRY]
+  compress.prune_costs               10 r  [ENTRY]
+  compress._widen_bn                  9 r  [ENTRY]
+  compress.gpu_status                 9 r  [ENTRY]
+  compress._widen_depthwise           8 r  [ENTRY]
+  compress._widen_frozen_bn           8 r  [ENTRY]
+  compress._align_prune_score         5 r  [dep]
+  analysis.gflops_total               3 r  [ENTRY]
+  analysis.load_any                   3 r  [ENTRY]
+  analysis.ACT_TYPES                  2 r  [dep/const]
+  analysis.count_params               2 r  [ENTRY]
+  compress._is_depthwise              2 r  [ENTRY]
+  analysis._EVALUATORS                1 r  [dep/const]
+  compress.GB                         1 r  [dep/const]
+  config.ALIGN_BETA                   1 r  [dep/const]
+  config.ALIGN_M                      1 r  [dep/const]
+  config.ALIGN_POW                    1 r  [dep/const]
+  config.COCO_IDS                     1 r  [dep/const]
+  config.NUM_CLASSES                  1 r  [dep/const]
+  config.PHASE2_CHURN_COOLDOWN        1 r  [ENTRY/const]
+  config.PHASE2_COST_FLOPS_W          1 r  [dep/const]
+  config.PHASE2_GROW_DOM              1 r  [dep/const]
+  config.PHASE2_GROW_MAX_LAYERS       1 r  [dep/const]
+  config.PHASE2_MIN_ALIVE             1 r  [ENTRY/const]
+  config.PHASE2_MIN_ALIVE_FRAC        1 r  [ENTRY/const]
+  config.PHASE2_PRUNE_LAYER_CAP       1 r  [ENTRY/const]
+  config.PHASE2_PRUNE_STEP_FRAC       1 r  [ENTRY/const]
+  config.PHASE2_REINVEST_FRAC         1 r  [ENTRY/const]
+  = 45 simbola, 639 redaka
+
+--- ULAZNE TOCKE po pozivatelju ---
+  analysis.count_params            <- backend.py, engine.py
+  analysis.eval_map                <- backend.py
+  analysis.evaluate                <- metric.py
+  analysis.gflops_total            <- engine.py
+  analysis.layer_table             <- engine.py
+  analysis.load_any                <- backend.py, classify.py, position.py
+  analysis.make_gt_loader          <- backend.py
+  analysis.pick_adapter            <- backend.py
+  analysis.weighted_leaves         <- engine.py
+  compress._apply_prune_plan       <- classify.py, engine.py
+  compress._forward_ok             <- engine.py
+  compress._grow_decide            <- engine.py
+  compress._insert_in_zeros        <- engine.py
+  compress._is_depthwise           <- engine.py
+  compress._max_abs_diff           <- engine.py
+  compress._select_prune_plan      <- engine.py
+  compress._try_grow_layer         <- classify.py, engine.py
+  compress._widen_bn               <- engine.py
+  compress._widen_depthwise        <- engine.py
+  compress._widen_frozen_bn        <- engine.py
+  compress._widen_out              <- engine.py
+  compress.gpu_status              <- prep_worker.py
+  compress.prune_costs             <- engine.py
+  compress.remove_dead_neardead    <- engine.py
+  config.PHASE2_CHURN_COOLDOWN     <- engine.py
+  config.PHASE2_MIN_ALIVE          <- engine.py
+  config.PHASE2_MIN_ALIVE_FRAC     <- engine.py
+  config.PHASE2_PRUNE_LAYER_CAP    <- engine.py
+  config.PHASE2_PRUNE_STEP_FRAC    <- engine.py
+  config.PHASE2_REINVEST_FRAC      <- engine.py

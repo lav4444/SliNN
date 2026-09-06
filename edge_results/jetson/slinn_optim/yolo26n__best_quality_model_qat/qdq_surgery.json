@@ -1,0 +1,16 @@
+{
+  "qdq_before": 384,
+  "qdq_after": 380,
+  "qdq_removed": 4,
+  "dead_nodes_removed": 10,
+  "convs_out_of_int8": [
+    {
+      "conv": "/m/model.8/m.0/cv1/conv/Conv",
+      "out_channels": 20
+    }
+  ],
+  "izvor": "model.onnx",
+  "operirani": "model_trt.onnx",
+  "cell": "yolo26n__best_quality_model_qat",
+  "kada": "2026-09-06 15:41:45"
+}

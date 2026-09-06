@@ -1,0 +1,21 @@
+===== FAZA 5.2 — PREP (adapter-size shim + autobatch) =====
+shim aktivan: layer_table=_ag_layer_table  (adapter-size, ne hardkod 640)
+  voc_deeplabv3        mode=image   GFLOPs=0.6954  autobatch=64
+  housing_mlp          mode=vector  GFLOPs=0.0002  autobatch=64
+  speechcommands_m5    mode=seq     GFLOPs=0.0000  autobatch=64
+
+===== FAZA 5.2 — KONTINUIRANI PRUNE (voc_deeplabv3) =====
+baseline GFLOPs=0.6954  target ušteda=12%  taps=5  prunable=34
+korak  GFLOPs      ušteda%   params      rez kan  KD-loss   banano 
+----------------------------------------------------------------------
+0      0.6954      0.00      11,029,328  0        -         0      
+1      0.6856      1.40      10,842,993  243      0.6141    0      
+2      0.6752      2.90      10,734,784  96       0.5656    0      
+3      0.6643      4.47      10,580,712  219      0.5405    0      
+4      0.6537      5.99      10,447,669  50       0.5209    0      
+5      0.6432      7.50      10,307,785  21       0.5278    0      
+6      0.6323      9.07      10,155,936  30       0.5206    0      
+7      0.6214      10.63     10,005,367  17       0.5143    0      
+8      0.6106      12.19     9,854,798   17       0.5128    0      
+----------------------------------------------------------------------
+VERDIKT: ušteda=12.19%  GFLOPs-monotono-pada=DA  forward-ok=DA  banano=0  ->  PROLAZI

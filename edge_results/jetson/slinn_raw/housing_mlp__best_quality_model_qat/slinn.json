@@ -1,0 +1,31 @@
+{
+  "celija": "housing_mlp__best_quality_model_qat",
+  "model": "housing_mlp",
+  "checkpoint": "best_quality_model_qat.pt",
+  "kvantiziran": true,
+  "izvor": "/home/tomislav/Documents/code/dipl/EVAL/slinn_in/housing_mlp",
+  "porijeklo": {
+    "model_path": "/home/tomi/code/dipl/baseline_models/housing_mlp/model.pt",
+    "dataset_path": "/home/tomi/code/dipl/baseline_models/housing_mlp/data",
+    "phase": "12",
+    "metric_name": "r2",
+    "metric_baseline": 0.75654022715772,
+    "metric_tol": 0.95,
+    "qat": {
+      "steps": 700,
+      "kd": 0.4951701680677278,
+      "monitor_best": 0.648159700386098,
+      "why": "patience",
+      "wrapped": 4,
+      "fakequant": 4,
+      "folded_bn": 4,
+      "skip": [
+        "inner.head"
+      ],
+      "metric_name": "r2",
+      "metric_prije": 0.7318172436001424,
+      "metric_poslije": 0.6498059401913239,
+      "delta": -0.08201130340881857
+    }
+  }
+}

@@ -1,0 +1,4 @@
+datum,uredjaj,mjerenje,runtime,model,dataset,split,n_uzoraka,metrika,vrijednost,latencija_ms,dev,torch
+2026-09-06T17:35:21,RPi5,SLINN_OPTIM,onnxruntime,midas_depth__best_quality_model_qat,NYU_Depth_V2,val,254,AbsRel,0.143056,119.0342,cpu,2.14.0+cpu
+2026-09-06T17:35:21,RPi5,SLINN_OPTIM,onnxruntime,midas_depth__best_quality_model_qat,NYU_Depth_V2,val,254,RMSE_m,0.549905,119.0342,cpu,2.14.0+cpu
+2026-09-06T17:35:21,RPi5,SLINN_OPTIM,onnxruntime,midas_depth__best_quality_model_qat,NYU_Depth_V2,val,254,delta1,0.79492,119.0342,cpu,2.14.0+cpu

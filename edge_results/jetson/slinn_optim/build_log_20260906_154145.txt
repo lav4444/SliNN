@@ -1,0 +1,7 @@
+### TensorRT -> /home/tomislav/Documents/code/dipl/EVAL/SLINN_OPTIM   (3 celija)
+### workspace 2 GB   batch 1   preciznost odlucuje graf
+  housing_mlp__best_quality_model_qat OK  INT8   16 Q/DQ       0.1 MB      3.6s   dinamican: input
+  speechcommands_m5__best_quality_model_qat OK  INT8   16 Q/DQ       0.3 MB      9.2s   dinamican: input
+  yolo26n__best_quality_model_qat    OK  INT8  384 Q/DQ       5.2 MB    806.6s   statican   IZVADJENO IZ INT8: 1 konv.   Q/DQ 384 -> 380
+                                           20 kanala   /m/model.8/m.0/cv1/conv/Conv
+### 3/3 enginea

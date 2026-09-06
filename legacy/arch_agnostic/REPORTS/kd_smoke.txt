@@ -1,0 +1,12 @@
+model               kd_mode         taps out  loss0       lossN       pao?  
+------------------------------------------------------------------------------------------
+schoolcnn           feature+logit   1    mse  0.12358     0.00660     DA    
+      grupe (zadnji korak): feat=0.0054, out=0.0012
+housing_mlp         feature+logit   1    mse  0.05214     0.00181     DA    
+      grupe (zadnji korak): feat=0.0018, out=0.0000
+speechcommands_m5   feature+logit   1    kl   2.67146     0.06989     DA    
+      grupe (zadnji korak): feat=0.0539, out=0.0160
+voc_deeplabv3       feature+logit   5    mse  0.22314     0.00913     DA    
+      grupe (zadnji korak): feat=0.0085, out=0.0007
+midas_depth         feature+logit   1    mse  0.11350     0.00799     DA    
+      grupe (zadnji korak): feat=0.0078, out=0.0001

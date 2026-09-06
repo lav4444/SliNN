@@ -1,0 +1,31 @@
+===== 6.4 PREPOZNAVANJE FORMATA IZLAZA =====
+Nijedan model ispod nije iz ultralytics/torchvision -> ime NE pomaze, samo oblik.
+
+model                        prepoznato     decode         ocekivano
+------------------------------------------------------------------------------------
+DenseNC (yolov8-oblik)       dense_nc       YoloAdapter    OK
+      gusti (1, 10, 8400) — 8400 sidara x 10 kanala (4 koord + ~6 razreda)
+DenseCN (yolov5-oblik)       dense_cn       YoloAdapter    OK
+      gusti (1, 6300, 10) — 6300 sidara x 10 kanala (4 koord + ~6 razreda)
+SetPred (DETR-oblik)         set_pred       None           OK
+      dict s pred_boxes + pred_logits (1, 100, 7)
+BoxesDicts (torchvision)     boxes_dicts    FrcnnAdapter   OK
+      lista dict-ova, kljucevi ['boxes', 'labels', 'scores']
+Multilevel (sirove glave)    multilevel     None           OK
+      3 razina, oblici [(1, 8, 64, 64), (1, 8, 32, 32), (1, 8, 16, 16)]
+Nonsense (nije detekcija)    unknown        None           OK
+      neprepoznata struktura: (1, 7)
+
+--- pick_adapter na nepoznatom modelu (puni put) ---
+   DenseNC -> YoloAdapter
+
+--- pick_adapter kad NEMA decode-a (mora degradirati, ne pasti) ---
+   Nonsense -> None  (None = KD-only, proces se NASTAVLJA)
+
+--- probe_box_layout: konvencija okvira MJERENJEM ---
+   xyxy/px  (rub)       -> xyxy/px  score=1.00 pouzdano=True  OK
+   cxcywh/px (rub)      -> cxcywh/px  score=1.00 pouzdano=True  OK
+   cxcywh/norm (rub)    -> cxcywh/norm  score=1.00 pouzdano=True  OK
+   cxcywh (sve unutra)  -> pouzdano=False ambiguous=['cxcywh/px', 'xywh/px']  OK (priznaje nesigurnost)
+
+VERDIKT: formati=DA  degradacija=DA  konvencija-okvira=DA  ->  PROLAZI

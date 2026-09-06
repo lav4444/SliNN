@@ -1,0 +1,24 @@
+Model: model.pt (MiDaS_small, intel-isl/MiDaS)
+Task: monocular depth estimation (dense regression)
+Input: RGB image (MiDaS small preset)
+Metric: AbsRel / RMSE (m) / delta1 (scale-invariant, LS scale+shift)
+Device: cpu
+
+=========== NYU VAL (254 images) ===========
+
+Speed:
+  Inference (batch=1):   343.03 ms/image  (2.9 images/s)
+
+Depth metrics (scale-invariant):
+  AbsRel   = 0.1430   (lower better)
+  RMSE     = 0.5503 m
+  delta1   = 0.7948   (higher better)
+
+================================================================
+CPU vs GPU latency benchmark (fixed 1x3x256x256 input, batch=1)
+================================================================
+
+CPU per-run times (ms): [  503.7,   433.5,   446.0,   448.8,   477.6,   436.1,   434.7,   434.6,   435.8,   484.9]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    443.38 ms/run  (2.3 runs/s)

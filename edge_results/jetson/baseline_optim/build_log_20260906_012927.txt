@@ -1,0 +1,10 @@
+### TensorRT FP16 -> /home/tomislav/Documents/code/dipl/EVAL/BASELINE_OPTIM
+### workspace 2 GB   batch 1   INT8: nigdje
+  housing_mlp          OK         0.5 MB      5.0s   dinamican: input
+  speechcommands_m5    OK         1.2 MB     11.7s   dinamican: input
+  midas_depth          OK        33.1 MB    320.1s   dinamican: input
+  sst2_distilbert      OK       129.3 MB     46.5s   dinamican: input_ids,attention_mask
+  voc_deeplabv3        OK        22.5 MB    357.7s   dinamican: input
+  yolo26n              OK         8.0 MB    355.4s   statican
+  yolo26l              OK        51.2 MB    405.7s   statican
+### 7/7 enginea

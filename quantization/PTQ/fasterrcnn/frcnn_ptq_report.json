@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "model": "fasterrcnn_mobilenet_v3_large_320_fpn",
+    "task": "detection",
+    "classes": "COCO->6 (Person,Car,Truck,Bus,Motorcycle,Bicycle)",
+    "imgsz": 320,
+    "eval": "full val",
+    "lat_method": "A.bench_speed (median, warmup, drop-worst)",
+    "note": "FP16/INT8-TRT su granice za torchvision detektor; INT8-PT dynamic kvantizira samo Linear glave."
+  },
+  "rows": [
+    {
+      "format": "FP32",
+      "backend": "PyTorch",
+      "cpu_ms": 20.9845,
+      "gpu_ms": 8.1642,
+      "size_mb": 72.6041,
+      "map": 0.31496,
+      "map_50": 0.51739,
+      "map_75": 0.32422,
+      "mar_100": 0.42326
+    },
+    {
+      "format": "FP16",
+      "backend": "PyTorch",
+      "cpu_ms": "N/A (CPU FP16 bez koristi)",
+      "gpu_ms": "N/A (RuntimeError)",
+      "size_mb": "N/A (\u2014)",
+      "map": "N/A (\u2014)",
+      "map_50": "N/A (\u2014)",
+      "map_75": "N/A (\u2014)",
+      "mar_100": "N/A (\u2014)"
+    },
+    {
+      "format": "INT8-PT-dynamic",
+      "backend": "PyTorch",
+      "cpu_ms": 24.1669,
+      "gpu_ms": "N/A (PyTorch quant je CPU-only)",
+      "size_mb": 32.7546,
+      "map": 0.31509,
+      "map_50": 0.51681,
+      "map_75": 0.3252,
+      "mar_100": 0.42298
+    },
+    {
+      "format": "INT8-TRT",
+      "backend": "TensorRT",
+      "cpu_ms": "N/A (TRT GPU-only)",
+      "gpu_ms": "N/A (frcnn ONNX->TRT netrivijalan (RPN/NMS/dyn))",
+      "size_mb": "N/A (\u2014)",
+      "map": "N/A (\u2014)",
+      "map_50": "N/A (\u2014)",
+      "map_75": "N/A (\u2014)",
+      "mar_100": "N/A (\u2014)"
+    }
+  ]
+}

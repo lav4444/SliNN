@@ -1,0 +1,18 @@
+===== FAZA 5.6a — GENERALNOST s pravom metrikom + real-metric gate (voc segmentacija) =====
+original: mIoU=0.4862 (n=100)  GFLOPs=0.6954  out_kind=kl (per-piksel KL)
+
+quality-gate: prava mIoU >= 0.90×baseline (dead-removal OFF; KD-grad prune primaran)
+korak  GFLOPs     ušteda%   rez   grow   mIoU(gate,n=40)  KD      
+------------------------------------------------------------------
+0      0.6954     0.00      0     0      -                -       
+1      0.6844     1.58      244   0      0.4144           0.5492  
+2      0.6739     3.09      69    0      0.4066           0.5541  
+3      0.6630     4.65      32    0      0.4149           0.5896  
+4      0.6521     6.23      21    0      0.3808           0.7597  
+5      0.6412     7.80      19    3      0.3718           0.2806  
+6      0.6303     9.36      17    0      0.3661           0.2295  
+------------------------------------------------------------------
+BEST: korak 3  GFLOPs=0.6630 (ušteda 4.7%)  forward-ok=DA
+mIoU (n=100):  original=0.4862  ->  best=0.4477  (zadržano 92.1%)
+
+VERDIKT 5.6a (voc generalnost, prava metrika): PROLAZI (mIoU zadržan ≥90% uz 5% ušteda GFLOPs)

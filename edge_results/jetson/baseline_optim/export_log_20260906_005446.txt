@@ -1,0 +1,178 @@
+### izvoz -> /home/tomislav/Documents/code/dipl/EVAL/BASELINE_OPTIM
+### opset 17   prag rel 1e-03   uzoraka kroz vrata 3
+  housing_mlp          PAO   OnnxExporterError: Module onnx is not installed!
+Traceback (most recent call last):
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 182, in _add_onnxscript_fn
+    import onnx
+ModuleNotFoundError: No module named 'onnx'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 298, in main
+    one(name, log)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 264, in one
+    _export(mod, xs, names, dyn, onnx_path)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 225, in _export
+    torch.onnx.export(mod, xs[0], path, dynamo=False, **kw)
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/__init__.py", line 408, in export
+    export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 522, in export
+    _export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 1530, in _export
+    proto = onnx_proto_utils._add_onnxscript_fn(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 184, in _add_onnxscript_fn
+    raise errors.OnnxExporterError("Module onnx is not installed!") from e
+torch.onnx.OnnxExporterError: Module onnx is not installed!
+
+  speechcommands_m5    PAO   OnnxExporterError: Module onnx is not installed!
+Traceback (most recent call last):
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 182, in _add_onnxscript_fn
+    import onnx
+ModuleNotFoundError: No module named 'onnx'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 298, in main
+    one(name, log)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 264, in one
+    _export(mod, xs, names, dyn, onnx_path)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 225, in _export
+    torch.onnx.export(mod, xs[0], path, dynamo=False, **kw)
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/__init__.py", line 408, in export
+    export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 522, in export
+    _export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 1530, in _export
+    proto = onnx_proto_utils._add_onnxscript_fn(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 184, in _add_onnxscript_fn
+    raise errors.OnnxExporterError("Module onnx is not installed!") from e
+torch.onnx.OnnxExporterError: Module onnx is not installed!
+
+  midas_depth          PAO   OnnxExporterError: Module onnx is not installed!
+Traceback (most recent call last):
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 182, in _add_onnxscript_fn
+    import onnx
+ModuleNotFoundError: No module named 'onnx'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 298, in main
+    one(name, log)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 264, in one
+    _export(mod, xs, names, dyn, onnx_path)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 225, in _export
+    torch.onnx.export(mod, xs[0], path, dynamo=False, **kw)
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/__init__.py", line 408, in export
+    export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 522, in export
+    _export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 1530, in _export
+    proto = onnx_proto_utils._add_onnxscript_fn(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 184, in _add_onnxscript_fn
+    raise errors.OnnxExporterError("Module onnx is not installed!") from e
+torch.onnx.OnnxExporterError: Module onnx is not installed!
+
+  sst2_distilbert      PAO   OnnxExporterError: Module onnx is not installed!
+Traceback (most recent call last):
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 182, in _add_onnxscript_fn
+    import onnx
+ModuleNotFoundError: No module named 'onnx'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 298, in main
+    one(name, log)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 264, in one
+    _export(mod, xs, names, dyn, onnx_path)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 225, in _export
+    torch.onnx.export(mod, xs[0], path, dynamo=False, **kw)
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/__init__.py", line 408, in export
+    export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 522, in export
+    _export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 1530, in _export
+    proto = onnx_proto_utils._add_onnxscript_fn(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 184, in _add_onnxscript_fn
+    raise errors.OnnxExporterError("Module onnx is not installed!") from e
+torch.onnx.OnnxExporterError: Module onnx is not installed!
+
+  voc_deeplabv3        PAO   OnnxExporterError: Module onnx is not installed!
+Traceback (most recent call last):
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 182, in _add_onnxscript_fn
+    import onnx
+ModuleNotFoundError: No module named 'onnx'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 298, in main
+    one(name, log)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 264, in one
+    _export(mod, xs, names, dyn, onnx_path)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 225, in _export
+    torch.onnx.export(mod, xs[0], path, dynamo=False, **kw)
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/__init__.py", line 408, in export
+    export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 522, in export
+    _export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 1530, in _export
+    proto = onnx_proto_utils._add_onnxscript_fn(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 184, in _add_onnxscript_fn
+    raise errors.OnnxExporterError("Module onnx is not installed!") from e
+torch.onnx.OnnxExporterError: Module onnx is not installed!
+
+  yolo26n              PAO   OnnxExporterError: Module onnx is not installed!
+Traceback (most recent call last):
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 182, in _add_onnxscript_fn
+    import onnx
+ModuleNotFoundError: No module named 'onnx'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 298, in main
+    one(name, log)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 264, in one
+    _export(mod, xs, names, dyn, onnx_path)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 225, in _export
+    torch.onnx.export(mod, xs[0], path, dynamo=False, **kw)
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/__init__.py", line 408, in export
+    export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 522, in export
+    _export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 1530, in _export
+    proto = onnx_proto_utils._add_onnxscript_fn(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 184, in _add_onnxscript_fn
+    raise errors.OnnxExporterError("Module onnx is not installed!") from e
+torch.onnx.OnnxExporterError: Module onnx is not installed!
+
+  yolo26l              PAO   OnnxExporterError: Module onnx is not installed!
+Traceback (most recent call last):
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 182, in _add_onnxscript_fn
+    import onnx
+ModuleNotFoundError: No module named 'onnx'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 298, in main
+    one(name, log)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 264, in one
+    _export(mod, xs, names, dyn, onnx_path)
+  File "/home/tomislav/Documents/code/dipl/EVAL/shared/export.py", line 225, in _export
+    torch.onnx.export(mod, xs[0], path, dynamo=False, **kw)
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/__init__.py", line 408, in export
+    export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 522, in export
+    _export(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/utils.py", line 1530, in _export
+    proto = onnx_proto_utils._add_onnxscript_fn(
+  File "/home/tomislav/dipl-venv/lib/python3.10/site-packages/torch/onnx/_internal/onnx_proto_utils.py", line 184, in _add_onnxscript_fn
+    raise errors.OnnxExporterError("Module onnx is not installed!") from e
+torch.onnx.OnnxExporterError: Module onnx is not installed!
+
+### 0/7 izvezeno   palo:housing_mlp speechcommands_m5 midas_depth sst2_distilbert voc_deeplabv3 yolo26n yolo26l

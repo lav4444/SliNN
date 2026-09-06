@@ -1,0 +1,13 @@
+===== FAZA 5.0 SPIKE — prune + KD-FT kroz arch_agnostic ctx (schoolcnn) =====
+ctx: task=segmentation  mode=full  out_kind=mse  kd_mode=feature+logit  taps=5  prunable=34  train-split=AUTO
+baseline: GFLOPs=0.6954  params=11,029,328
+input_batch: 3 batcha x 4 uzoraka  source=image-files  shape=(3, 96, 96)
+kd_importance: 34 slojeva rangirano  |  prune_costs: 34 slojeva
+_select_prune_plan: target=0.0104 GFLOPs  ->  6 slojeva, 243 kanala, predvidjeno_freed=0.0105
+_apply_prune_plan: n_rem=243 kanala, n_lay=6 slojeva, n_bad=0, banano=0
+post-prune: GFLOPs=0.6856 (+1.40%)  params=10,842,993 (-1.69%)
+forward-ok nakon reza: True
+KD-FT (8 koraka): loss 0.8508 -> 0.2908  recovery=DA
+  trajektorija: 0.851 0.851 0.802 0.742 0.657 0.492 0.412 0.377 0.291
+------------------------------------------------------------------------------
+VERDIKT: prune-smanjenje=DA  forward-ok=DA  kd-ft-recovery=DA  ->  SPIKE PROLAZI

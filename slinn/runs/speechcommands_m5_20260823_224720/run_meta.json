@@ -1,0 +1,30 @@
+{
+ "model_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/model.pt",
+ "dataset_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/data",
+ "code_dirs": null,
+ "phase": "1",
+ "metric_name": "teacher_agreement",
+ "metric_baseline": 1.0,
+ "monitor_baseline": 1.0,
+ "metric_tol": 0.96,
+ "config": {
+  "model_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/model.pt",
+  "dataset_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/data",
+  "code_dirs": null,
+  "align_m": 32,
+  "metric_tol": 0.96,
+  "target_frac": 1.0,
+  "max_steps": 200,
+  "ft_steps": 0,
+  "dead": false,
+  "phase": "1",
+  "batch": {
+   "train": 64
+  }
+ },
+ "produced": [
+  "best_quality_model.pt",
+  "trajectory.jsonl",
+  "worker.log"
+ ]
+}

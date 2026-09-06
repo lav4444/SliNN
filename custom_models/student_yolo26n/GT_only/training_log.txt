@@ -1,0 +1,278 @@
+Device: cuda
+Model parameters: 2,506,140
+Box output format: decoded
+Train: 5860    Val: 837
+[assign probe] avg positives/img over 200: 2.44 (min 1, max 19, zero-GT imgs 0)
+EMA enabled (decay=0.9999, tau=2000) — validating & saving EMA weights
+  iter     50 | epoch   1/100 | loss 4.2031 | cls 1.5969 | box 0.9039 | lr 6.97e-05
+  iter    100 | epoch   1/100 | loss 4.1720 | cls 1.5882 | box 0.8948 | lr 1.38e-04
+  iter    150 | epoch   1/100 | loss 4.1326 | cls 1.5749 | box 0.8852 | lr 2.06e-04
+  iter    200 | epoch   1/100 | loss 4.0037 | cls 1.5129 | box 0.8672 | lr 2.75e-04
+  iter    250 | epoch   1/100 | loss 3.8045 | cls 1.4084 | box 0.8460 | lr 3.43e-04
+  iter    300 | epoch   1/100 | loss 3.6354 | cls 1.3154 | box 0.8311 | lr 4.11e-04
+  iter    350 | epoch   1/100 | loss 3.4829 | cls 1.2343 | box 0.8157 | lr 4.80e-04
+[epoch   1] train_loss=3.4406 cls=1.2117 box=0.8116 (57.2s)
+[epoch   1] validating (EMA weights)...
+[epoch   1] val_gt_loss=2.6454 (cls=0.7974 box=0.7247) | val_mAP@50:95=0.0002 mAP@50=0.0011 (17.8s)
+[epoch   1] new best (val_mAP@50:95 = 0.0002, val_gt_loss = 2.6454)
+  iter    400 | epoch   2/100 | loss 2.4364 | cls 0.6858 | box 0.7039 | lr 5.48e-04
+  iter    450 | epoch   2/100 | loss 2.4005 | cls 0.6801 | box 0.6902 | lr 6.16e-04
+  iter    500 | epoch   2/100 | loss 2.3910 | cls 0.6748 | box 0.6894 | lr 6.84e-04
+  iter    550 | epoch   2/100 | loss 2.3747 | cls 0.6682 | box 0.6862 | lr 7.53e-04
+  iter    600 | epoch   2/100 | loss 2.3610 | cls 0.6671 | box 0.6802 | lr 8.21e-04
+  iter    650 | epoch   2/100 | loss 2.3451 | cls 0.6633 | box 0.6751 | lr 8.89e-04
+  iter    700 | epoch   2/100 | loss 2.3301 | cls 0.6611 | box 0.6692 | lr 9.58e-04
+[epoch   2] train_loss=2.3202 cls=0.6588 box=0.6660 (53.6s)
+  iter    750 | epoch   3/100 | loss 2.1860 | cls 0.6470 | box 0.6078 | lr 1.00e-03
+  iter    800 | epoch   3/100 | loss 2.1978 | cls 0.6300 | box 0.6264 | lr 1.00e-03
+  iter    850 | epoch   3/100 | loss 2.1788 | cls 0.6271 | box 0.6191 | lr 1.00e-03
+  iter    900 | epoch   3/100 | loss 2.1635 | cls 0.6247 | box 0.6133 | lr 1.00e-03
+  iter    950 | epoch   3/100 | loss 2.1581 | cls 0.6247 | box 0.6105 | lr 1.00e-03
+  iter   1000 | epoch   3/100 | loss 2.1454 | cls 0.6219 | box 0.6063 | lr 1.00e-03
+  iter   1050 | epoch   3/100 | loss 2.1375 | cls 0.6202 | box 0.6036 | lr 1.00e-03
+[epoch   3] train_loss=2.1266 cls=0.6153 box=0.6018 (54.7s)
+  iter   1100 | epoch   4/100 | loss 2.0783 | cls 0.5909 | box 0.5960 | lr 1.00e-03
+  iter   1150 | epoch   4/100 | loss 2.0439 | cls 0.5927 | box 0.5774 | lr 1.00e-03
+  iter   1200 | epoch   4/100 | loss 2.0355 | cls 0.5906 | box 0.5748 | lr 1.00e-03
+  iter   1250 | epoch   4/100 | loss 2.0365 | cls 0.5910 | box 0.5750 | lr 9.99e-04
+  iter   1300 | epoch   4/100 | loss 2.0373 | cls 0.5929 | box 0.5740 | lr 9.99e-04
+  iter   1350 | epoch   4/100 | loss 2.0376 | cls 0.5916 | box 0.5751 | lr 9.99e-04
+  iter   1400 | epoch   4/100 | loss 2.0270 | cls 0.5875 | box 0.5728 | lr 9.99e-04
+  iter   1450 | epoch   4/100 | loss 2.0200 | cls 0.5858 | box 0.5706 | lr 9.99e-04
+[epoch   4] train_loss=2.0171 cls=0.5845 box=0.5702 (54.9s)
+[epoch   4] validating (EMA weights)...
+[epoch   4] val_gt_loss=2.0053 (cls=0.5793 box=0.5682) | val_mAP@50:95=0.0177 mAP@50=0.0661 (27.7s)
+[epoch   4] new best (val_mAP@50:95 = 0.0177, val_gt_loss = 2.0053)
+  iter   1500 | epoch   5/100 | loss 1.9449 | cls 0.5717 | box 0.5437 | lr 9.99e-04
+  iter   1550 | epoch   5/100 | loss 1.9400 | cls 0.5586 | box 0.5510 | lr 9.99e-04
+  iter   1600 | epoch   5/100 | loss 1.9279 | cls 0.5546 | box 0.5480 | lr 9.99e-04
+  iter   1650 | epoch   5/100 | loss 1.9399 | cls 0.5595 | box 0.5503 | lr 9.98e-04
+  iter   1700 | epoch   5/100 | loss 1.9435 | cls 0.5593 | box 0.5523 | lr 9.98e-04
+  iter   1750 | epoch   5/100 | loss 1.9417 | cls 0.5577 | box 0.5526 | lr 9.98e-04
+  iter   1800 | epoch   5/100 | loss 1.9374 | cls 0.5567 | box 0.5512 | lr 9.98e-04
+[epoch   5] train_loss=1.9332 cls=0.5563 box=0.5493 (52.9s)
+  iter   1850 | epoch   6/100 | loss 1.8915 | cls 0.5220 | box 0.5542 | lr 9.98e-04
+  iter   1900 | epoch   6/100 | loss 1.8743 | cls 0.5294 | box 0.5401 | lr 9.97e-04
+  iter   1950 | epoch   6/100 | loss 1.8928 | cls 0.5408 | box 0.5408 | lr 9.97e-04
+  iter   2000 | epoch   6/100 | loss 1.8875 | cls 0.5398 | box 0.5389 | lr 9.97e-04
+  iter   2050 | epoch   6/100 | loss 1.8909 | cls 0.5425 | box 0.5386 | lr 9.97e-04
+  iter   2100 | epoch   6/100 | loss 1.8813 | cls 0.5399 | box 0.5357 | lr 9.96e-04
+  iter   2150 | epoch   6/100 | loss 1.8788 | cls 0.5377 | box 0.5361 | lr 9.96e-04
+[epoch   6] train_loss=1.8736 cls=0.5379 box=0.5334 (53.3s)
+  iter   2200 | epoch   7/100 | loss 1.6491 | cls 0.4960 | box 0.4526 | lr 9.96e-04
+  iter   2250 | epoch   7/100 | loss 1.8148 | cls 0.5202 | box 0.5173 | lr 9.96e-04
+  iter   2300 | epoch   7/100 | loss 1.8118 | cls 0.5191 | box 0.5166 | lr 9.95e-04
+  iter   2350 | epoch   7/100 | loss 1.8099 | cls 0.5168 | box 0.5174 | lr 9.95e-04
+  iter   2400 | epoch   7/100 | loss 1.8154 | cls 0.5182 | box 0.5191 | lr 9.95e-04
+  iter   2450 | epoch   7/100 | loss 1.8197 | cls 0.5210 | box 0.5191 | lr 9.94e-04
+  iter   2500 | epoch   7/100 | loss 1.8236 | cls 0.5209 | box 0.5211 | lr 9.94e-04
+  iter   2550 | epoch   7/100 | loss 1.8233 | cls 0.5210 | box 0.5209 | lr 9.94e-04
+[epoch   7] train_loss=1.8233 cls=0.5213 box=0.5207 (56.1s)
+[epoch   7] validating (EMA weights)...
+[epoch   7] val_gt_loss=1.8322 (cls=0.5234 box=0.5235) | val_mAP@50:95=0.0486 mAP@50=0.1328 (31.7s)
+[epoch   7] new best (val_mAP@50:95 = 0.0486, val_gt_loss = 1.8322)
+  iter   2600 | epoch   8/100 | loss 1.7925 | cls 0.4983 | box 0.5225 | lr 9.93e-04
+  iter   2650 | epoch   8/100 | loss 1.7678 | cls 0.4963 | box 0.5116 | lr 9.93e-04
+  iter   2700 | epoch   8/100 | loss 1.7714 | cls 0.5035 | box 0.5080 | lr 9.93e-04
+  iter   2750 | epoch   8/100 | loss 1.7732 | cls 0.5045 | box 0.5082 | lr 9.92e-04
+  iter   2800 | epoch   8/100 | loss 1.7698 | cls 0.5023 | box 0.5081 | lr 9.92e-04
+  iter   2850 | epoch   8/100 | loss 1.7753 | cls 0.5033 | box 0.5102 | lr 9.91e-04
+  iter   2900 | epoch   8/100 | loss 1.7758 | cls 0.5055 | box 0.5088 | lr 9.91e-04
+[epoch   8] train_loss=1.7759 cls=0.5060 box=0.5085 (54.3s)
+  iter   2950 | epoch   9/100 | loss 1.7115 | cls 0.4945 | box 0.4849 | lr 9.91e-04
+  iter   3000 | epoch   9/100 | loss 1.7293 | cls 0.4841 | box 0.5016 | lr 9.90e-04
+  iter   3050 | epoch   9/100 | loss 1.7330 | cls 0.4851 | box 0.5027 | lr 9.90e-04
+  iter   3100 | epoch   9/100 | loss 1.7328 | cls 0.4858 | box 0.5020 | lr 9.89e-04
+  iter   3150 | epoch   9/100 | loss 1.7375 | cls 0.4902 | box 0.5011 | lr 9.89e-04
+  iter   3200 | epoch   9/100 | loss 1.7338 | cls 0.4902 | box 0.4992 | lr 9.88e-04
+  iter   3250 | epoch   9/100 | loss 1.7366 | cls 0.4916 | box 0.4996 | lr 9.88e-04
+[epoch   9] train_loss=1.7324 cls=0.4912 box=0.4978 (53.6s)
+  iter   3300 | epoch  10/100 | loss 1.6346 | cls 0.5028 | box 0.4402 | lr 9.87e-04
+  iter   3350 | epoch  10/100 | loss 1.7104 | cls 0.4857 | box 0.4909 | lr 9.87e-04
+  iter   3400 | epoch  10/100 | loss 1.7031 | cls 0.4816 | box 0.4904 | lr 9.86e-04
+  iter   3450 | epoch  10/100 | loss 1.6973 | cls 0.4825 | box 0.4868 | lr 9.86e-04
+  iter   3500 | epoch  10/100 | loss 1.7023 | cls 0.4814 | box 0.4901 | lr 9.85e-04
+  iter   3550 | epoch  10/100 | loss 1.6918 | cls 0.4798 | box 0.4861 | lr 9.85e-04
+  iter   3600 | epoch  10/100 | loss 1.6942 | cls 0.4807 | box 0.4866 | lr 9.84e-04
+  iter   3650 | epoch  10/100 | loss 1.6972 | cls 0.4813 | box 0.4876 | lr 9.84e-04
+[epoch  10] train_loss=1.6977 cls=0.4813 box=0.4879 (53.8s)
+[epoch  10] validating (EMA weights)...
+[epoch  10] val_gt_loss=1.8561 (cls=0.5402 box=0.5229) | val_mAP@50:95=0.0554 mAP@50=0.1400 (30.9s)
+[epoch  10] new best (val_mAP@50:95 = 0.0554, val_gt_loss = 1.8561)
+  iter   3700 | epoch  11/100 | loss 1.6742 | cls 0.4626 | box 0.4902 | lr 9.83e-04
+  iter   3750 | epoch  11/100 | loss 1.6382 | cls 0.4570 | box 0.4764 | lr 9.83e-04
+  iter   3800 | epoch  11/100 | loss 1.6479 | cls 0.4611 | box 0.4781 | lr 9.82e-04
+  iter   3850 | epoch  11/100 | loss 1.6556 | cls 0.4648 | box 0.4792 | lr 9.81e-04
+  iter   3900 | epoch  11/100 | loss 1.6588 | cls 0.4677 | box 0.4787 | lr 9.81e-04
+  iter   3950 | epoch  11/100 | loss 1.6585 | cls 0.4676 | box 0.4785 | lr 9.80e-04
+  iter   4000 | epoch  11/100 | loss 1.6640 | cls 0.4690 | box 0.4802 | lr 9.80e-04
+[epoch  11] train_loss=1.6643 cls=0.4690 box=0.4804 (54.9s)
+  iter   4050 | epoch  12/100 | loss 1.5961 | cls 0.4516 | box 0.4593 | lr 9.79e-04
+  iter   4100 | epoch  12/100 | loss 1.6180 | cls 0.4566 | box 0.4666 | lr 9.78e-04
+  iter   4150 | epoch  12/100 | loss 1.6273 | cls 0.4546 | box 0.4727 | lr 9.78e-04
+  iter   4200 | epoch  12/100 | loss 1.6254 | cls 0.4562 | box 0.4706 | lr 9.77e-04
+  iter   4250 | epoch  12/100 | loss 1.6243 | cls 0.4554 | box 0.4706 | lr 9.76e-04
+  iter   4300 | epoch  12/100 | loss 1.6201 | cls 0.4541 | box 0.4695 | lr 9.76e-04
+  iter   4350 | epoch  12/100 | loss 1.6247 | cls 0.4565 | box 0.4700 | lr 9.75e-04
+[epoch  12] train_loss=1.6306 cls=0.4572 box=0.4724 (54.6s)
+  iter   4400 | epoch  13/100 | loss 1.5137 | cls 0.4075 | box 0.4512 | lr 9.74e-04
+  iter   4450 | epoch  13/100 | loss 1.5782 | cls 0.4422 | box 0.4574 | lr 9.74e-04
+  iter   4500 | epoch  13/100 | loss 1.5828 | cls 0.4417 | box 0.4601 | lr 9.73e-04
+  iter   4550 | epoch  13/100 | loss 1.5817 | cls 0.4397 | box 0.4611 | lr 9.72e-04
+  iter   4600 | epoch  13/100 | loss 1.5818 | cls 0.4389 | box 0.4617 | lr 9.72e-04
+  iter   4650 | epoch  13/100 | loss 1.5842 | cls 0.4394 | box 0.4625 | lr 9.71e-04
+  iter   4700 | epoch  13/100 | loss 1.5862 | cls 0.4418 | box 0.4618 | lr 9.70e-04
+  iter   4750 | epoch  13/100 | loss 1.5911 | cls 0.4433 | box 0.4630 | lr 9.69e-04
+[epoch  13] train_loss=1.5919 cls=0.4438 box=0.4631 (56.2s)
+[epoch  13] validating (EMA weights)...
+[epoch  13] val_gt_loss=1.7265 (cls=0.4932 box=0.4933) | val_mAP@50:95=0.0671 mAP@50=0.1762 (30.6s)
+[epoch  13] new best (val_mAP@50:95 = 0.0671, val_gt_loss = 1.7265)
+  iter   4800 | epoch  14/100 | loss 1.5615 | cls 0.4321 | box 0.4567 | lr 9.69e-04
+  iter   4850 | epoch  14/100 | loss 1.5503 | cls 0.4324 | box 0.4508 | lr 9.68e-04
+  iter   4900 | epoch  14/100 | loss 1.5516 | cls 0.4309 | box 0.4527 | lr 9.67e-04
+  iter   4950 | epoch  14/100 | loss 1.5497 | cls 0.4291 | box 0.4530 | lr 9.66e-04
+  iter   5000 | epoch  14/100 | loss 1.5608 | cls 0.4326 | box 0.4560 | lr 9.65e-04
+  iter   5050 | epoch  14/100 | loss 1.5632 | cls 0.4329 | box 0.4569 | lr 9.65e-04
+  iter   5100 | epoch  14/100 | loss 1.5649 | cls 0.4327 | box 0.4579 | lr 9.64e-04
+[epoch  14] train_loss=1.5654 cls=0.4343 box=0.4570 (53.8s)
+  iter   5150 | epoch  15/100 | loss 1.4473 | cls 0.3927 | box 0.4291 | lr 9.63e-04
+  iter   5200 | epoch  15/100 | loss 1.4813 | cls 0.4024 | box 0.4389 | lr 9.62e-04
+  iter   5250 | epoch  15/100 | loss 1.5075 | cls 0.4108 | box 0.4456 | lr 9.61e-04
+  iter   5300 | epoch  15/100 | loss 1.5080 | cls 0.4122 | box 0.4449 | lr 9.61e-04
+  iter   5350 | epoch  15/100 | loss 1.5111 | cls 0.4127 | box 0.4460 | lr 9.60e-04
+  iter   5400 | epoch  15/100 | loss 1.5171 | cls 0.4159 | box 0.4466 | lr 9.59e-04
+  iter   5450 | epoch  15/100 | loss 1.5212 | cls 0.4186 | box 0.4467 | lr 9.58e-04
+[epoch  15] train_loss=1.5234 cls=0.4200 box=0.4467 (53.7s)
+  iter   5500 | epoch  16/100 | loss 1.4938 | cls 0.3825 | box 0.4600 | lr 9.57e-04
+  iter   5550 | epoch  16/100 | loss 1.4720 | cls 0.3929 | box 0.4413 | lr 9.56e-04
+  iter   5600 | epoch  16/100 | loss 1.4772 | cls 0.3974 | box 0.4405 | lr 9.55e-04
+  iter   5650 | epoch  16/100 | loss 1.4725 | cls 0.4005 | box 0.4359 | lr 9.54e-04
+  iter   5700 | epoch  16/100 | loss 1.4770 | cls 0.4032 | box 0.4361 | lr 9.53e-04
+  iter   5750 | epoch  16/100 | loss 1.4767 | cls 0.4048 | box 0.4348 | lr 9.52e-04
+  iter   5800 | epoch  16/100 | loss 1.4777 | cls 0.4041 | box 0.4358 | lr 9.52e-04
+  iter   5850 | epoch  16/100 | loss 1.4858 | cls 0.4058 | box 0.4386 | lr 9.51e-04
+[epoch  16] train_loss=1.4870 cls=0.4063 box=0.4388 (52.7s)
+[epoch  16] validating (EMA weights)...
+[epoch  16] val_gt_loss=1.7092 (cls=0.4916 box=0.4859) | val_mAP@50:95=0.0809 mAP@50=0.2064 (31.2s)
+[epoch  16] new best (val_mAP@50:95 = 0.0809, val_gt_loss = 1.7092)
+  iter   5900 | epoch  17/100 | loss 1.4039 | cls 0.3803 | box 0.4167 | lr 9.50e-04
+  iter   5950 | epoch  17/100 | loss 1.4251 | cls 0.3828 | box 0.4255 | lr 9.49e-04
+  iter   6000 | epoch  17/100 | loss 1.4233 | cls 0.3813 | box 0.4257 | lr 9.48e-04
+  iter   6050 | epoch  17/100 | loss 1.4409 | cls 0.3855 | box 0.4313 | lr 9.47e-04
+  iter   6100 | epoch  17/100 | loss 1.4450 | cls 0.3899 | box 0.4301 | lr 9.46e-04
+  iter   6150 | epoch  17/100 | loss 1.4507 | cls 0.3920 | box 0.4313 | lr 9.45e-04
+  iter   6200 | epoch  17/100 | loss 1.4536 | cls 0.3921 | box 0.4327 | lr 9.44e-04
+[epoch  17] train_loss=1.4542 cls=0.3922 box=0.4330 (53.1s)
+  iter   6250 | epoch  18/100 | loss 1.3851 | cls 0.3702 | box 0.4149 | lr 9.43e-04
+  iter   6300 | epoch  18/100 | loss 1.3960 | cls 0.3740 | box 0.4175 | lr 9.42e-04
+  iter   6350 | epoch  18/100 | loss 1.4045 | cls 0.3714 | box 0.4237 | lr 9.41e-04
+  iter   6400 | epoch  18/100 | loss 1.4085 | cls 0.3728 | box 0.4246 | lr 9.40e-04
+  iter   6450 | epoch  18/100 | loss 1.4140 | cls 0.3748 | box 0.4259 | lr 9.39e-04
+  iter   6500 | epoch  18/100 | loss 1.4121 | cls 0.3744 | box 0.4252 | lr 9.38e-04
+  iter   6550 | epoch  18/100 | loss 1.4188 | cls 0.3767 | box 0.4269 | lr 9.36e-04
+[epoch  18] train_loss=1.4172 cls=0.3775 box=0.4255 (52.6s)
+  iter   6600 | epoch  19/100 | loss 1.3397 | cls 0.3691 | box 0.3930 | lr 9.35e-04
+  iter   6650 | epoch  19/100 | loss 1.3615 | cls 0.3618 | box 0.4094 | lr 9.34e-04
+  iter   6700 | epoch  19/100 | loss 1.3616 | cls 0.3600 | box 0.4108 | lr 9.33e-04
+  iter   6750 | epoch  19/100 | loss 1.3676 | cls 0.3600 | box 0.4138 | lr 9.32e-04
+  iter   6800 | epoch  19/100 | loss 1.3710 | cls 0.3625 | box 0.4136 | lr 9.31e-04
+  iter   6850 | epoch  19/100 | loss 1.3772 | cls 0.3624 | box 0.4168 | lr 9.30e-04
+  iter   6900 | epoch  19/100 | loss 1.3810 | cls 0.3632 | box 0.4181 | lr 9.29e-04
+  iter   6950 | epoch  19/100 | loss 1.3798 | cls 0.3640 | box 0.4169 | lr 9.28e-04
+[epoch  19] train_loss=1.3790 cls=0.3641 box=0.4165 (53.0s)
+[epoch  19] validating (EMA weights)...
+[epoch  19] val_gt_loss=1.7276 (cls=0.5164 box=0.4765) | val_mAP@50:95=0.0952 mAP@50=0.2195 (27.3s)
+[epoch  19] new best (val_mAP@50:95 = 0.0952, val_gt_loss = 1.7276)
+  iter   7000 | epoch  20/100 | loss 1.3094 | cls 0.3298 | box 0.4074 | lr 9.27e-04
+  iter   7050 | epoch  20/100 | loss 1.3000 | cls 0.3292 | box 0.4031 | lr 9.25e-04
+  iter   7100 | epoch  20/100 | loss 1.3170 | cls 0.3379 | box 0.4051 | lr 9.24e-04
+  iter   7150 | epoch  20/100 | loss 1.3302 | cls 0.3413 | box 0.4091 | lr 9.23e-04
+  iter   7200 | epoch  20/100 | loss 1.3340 | cls 0.3435 | box 0.4094 | lr 9.22e-04
+  iter   7250 | epoch  20/100 | loss 1.3354 | cls 0.3438 | box 0.4098 | lr 9.21e-04
+  iter   7300 | epoch  20/100 | loss 1.3334 | cls 0.3449 | box 0.4080 | lr 9.20e-04
+[epoch  20] train_loss=1.3340 cls=0.3452 box=0.4081 (53.7s)
+  iter   7350 | epoch  21/100 | loss 1.2633 | cls 0.3084 | box 0.4004 | lr 9.18e-04
+  iter   7400 | epoch  21/100 | loss 1.2634 | cls 0.3121 | box 0.3977 | lr 9.17e-04
+  iter   7450 | epoch  21/100 | loss 1.2739 | cls 0.3159 | box 0.4001 | lr 9.16e-04
+  iter   7500 | epoch  21/100 | loss 1.2828 | cls 0.3221 | box 0.3999 | lr 9.15e-04
+  iter   7550 | epoch  21/100 | loss 1.2889 | cls 0.3250 | box 0.4007 | lr 9.13e-04
+  iter   7600 | epoch  21/100 | loss 1.2874 | cls 0.3253 | box 0.3997 | lr 9.12e-04
+  iter   7650 | epoch  21/100 | loss 1.2959 | cls 0.3276 | box 0.4022 | lr 9.11e-04
+[epoch  21] train_loss=1.2978 cls=0.3293 box=0.4020 (52.8s)
+  iter   7700 | epoch  22/100 | loss 1.2519 | cls 0.2985 | box 0.4021 | lr 9.10e-04
+  iter   7750 | epoch  22/100 | loss 1.2306 | cls 0.2957 | box 0.3935 | lr 9.08e-04
+  iter   7800 | epoch  22/100 | loss 1.2279 | cls 0.2987 | box 0.3899 | lr 9.07e-04
+  iter   7850 | epoch  22/100 | loss 1.2339 | cls 0.3005 | box 0.3916 | lr 9.06e-04
+  iter   7900 | epoch  22/100 | loss 1.2397 | cls 0.3055 | box 0.3907 | lr 9.05e-04
+  iter   7950 | epoch  22/100 | loss 1.2503 | cls 0.3096 | box 0.3930 | lr 9.03e-04
+  iter   8000 | epoch  22/100 | loss 1.2511 | cls 0.3102 | box 0.3929 | lr 9.02e-04
+  iter   8050 | epoch  22/100 | loss 1.2559 | cls 0.3123 | box 0.3937 | lr 9.01e-04
+[epoch  22] train_loss=1.2561 cls=0.3126 box=0.3936 (53.2s)
+[epoch  22] validating (EMA weights)...
+[epoch  22] val_gt_loss=1.7542 (cls=0.5396 box=0.4724) | val_mAP@50:95=0.0857 mAP@50=0.2048 (25.9s)
+[epoch  22] no improvement (3/9 epochs patience)
+  iter   8100 | epoch  23/100 | loss 1.1561 | cls 0.2788 | box 0.3689 | lr 8.99e-04
+  iter   8150 | epoch  23/100 | loss 1.1638 | cls 0.2790 | box 0.3726 | lr 8.98e-04
+  iter   8200 | epoch  23/100 | loss 1.1772 | cls 0.2826 | box 0.3767 | lr 8.97e-04
+  iter   8250 | epoch  23/100 | loss 1.1894 | cls 0.2865 | box 0.3799 | lr 8.95e-04
+  iter   8300 | epoch  23/100 | loss 1.1974 | cls 0.2883 | box 0.3825 | lr 8.94e-04
+  iter   8350 | epoch  23/100 | loss 1.2065 | cls 0.2900 | box 0.3857 | lr 8.93e-04
+  iter   8400 | epoch  23/100 | loss 1.2132 | cls 0.2936 | box 0.3865 | lr 8.91e-04
+[epoch  23] train_loss=1.2147 cls=0.2945 box=0.3865 (53.3s)
+  iter   8450 | epoch  24/100 | loss 1.1114 | cls 0.2538 | box 0.3653 | lr 8.90e-04
+  iter   8500 | epoch  24/100 | loss 1.1160 | cls 0.2528 | box 0.3684 | lr 8.89e-04
+  iter   8550 | epoch  24/100 | loss 1.1301 | cls 0.2554 | box 0.3735 | lr 8.87e-04
+  iter   8600 | epoch  24/100 | loss 1.1429 | cls 0.2589 | box 0.3773 | lr 8.86e-04
+  iter   8650 | epoch  24/100 | loss 1.1489 | cls 0.2628 | box 0.3773 | lr 8.85e-04
+  iter   8700 | epoch  24/100 | loss 1.1571 | cls 0.2666 | box 0.3786 | lr 8.83e-04
+  iter   8750 | epoch  24/100 | loss 1.1621 | cls 0.2704 | box 0.3782 | lr 8.82e-04
+[epoch  24] train_loss=1.1677 cls=0.2732 box=0.3789 (53.9s)
+  iter   8800 | epoch  25/100 | loss 1.0866 | cls 0.2423 | box 0.3616 | lr 8.80e-04
+  iter   8850 | epoch  25/100 | loss 1.1103 | cls 0.2464 | box 0.3704 | lr 8.79e-04
+  iter   8900 | epoch  25/100 | loss 1.1093 | cls 0.2439 | box 0.3717 | lr 8.77e-04
+  iter   8950 | epoch  25/100 | loss 1.1212 | cls 0.2482 | box 0.3745 | lr 8.76e-04
+  iter   9000 | epoch  25/100 | loss 1.1200 | cls 0.2496 | box 0.3728 | lr 8.75e-04
+  iter   9050 | epoch  25/100 | loss 1.1248 | cls 0.2523 | box 0.3732 | lr 8.73e-04
+  iter   9100 | epoch  25/100 | loss 1.1316 | cls 0.2553 | box 0.3743 | lr 8.72e-04
+  iter   9150 | epoch  25/100 | loss 1.1331 | cls 0.2559 | box 0.3746 | lr 8.70e-04
+[epoch  25] train_loss=1.1331 cls=0.2559 box=0.3746 (53.7s)
+[epoch  25] validating (EMA weights)...
+[epoch  25] val_gt_loss=1.8508 (cls=0.6019 box=0.4740) | val_mAP@50:95=0.0874 mAP@50=0.1996 (23.4s)
+[epoch  25] no improvement (6/9 epochs patience)
+[epoch  25] LR reduced (x0.6): 8.70e-04 -> 5.22e-04
+  iter   9200 | epoch  26/100 | loss 1.0113 | cls 0.1999 | box 0.3557 | lr 5.21e-04
+  iter   9250 | epoch  26/100 | loss 1.0088 | cls 0.1968 | box 0.3568 | lr 5.20e-04
+  iter   9300 | epoch  26/100 | loss 1.0000 | cls 0.1941 | box 0.3545 | lr 5.19e-04
+  iter   9350 | epoch  26/100 | loss 0.9906 | cls 0.1938 | box 0.3499 | lr 5.19e-04
+  iter   9400 | epoch  26/100 | loss 0.9947 | cls 0.1959 | box 0.3504 | lr 5.18e-04
+  iter   9450 | epoch  26/100 | loss 0.9934 | cls 0.1958 | box 0.3498 | lr 5.17e-04
+  iter   9500 | epoch  26/100 | loss 0.9971 | cls 0.1964 | box 0.3513 | lr 5.16e-04
+[epoch  26] train_loss=0.9976 cls=0.1963 box=0.3516 (51.6s)
+  iter   9550 | epoch  27/100 | loss 0.9067 | cls 0.1548 | box 0.3372 | lr 5.15e-04
+  iter   9600 | epoch  27/100 | loss 0.9181 | cls 0.1566 | box 0.3416 | lr 5.14e-04
+  iter   9650 | epoch  27/100 | loss 0.9152 | cls 0.1576 | box 0.3394 | lr 5.13e-04
+  iter   9700 | epoch  27/100 | loss 0.9150 | cls 0.1588 | box 0.3384 | lr 5.12e-04
+  iter   9750 | epoch  27/100 | loss 0.9175 | cls 0.1607 | box 0.3382 | lr 5.11e-04
+  iter   9800 | epoch  27/100 | loss 0.9243 | cls 0.1636 | box 0.3395 | lr 5.10e-04
+  iter   9850 | epoch  27/100 | loss 0.9273 | cls 0.1656 | box 0.3394 | lr 5.09e-04
+[epoch  27] train_loss=0.9308 cls=0.1669 box=0.3402 (45.4s)
+  iter   9900 | epoch  28/100 | loss 0.8896 | cls 0.1333 | box 0.3448 | lr 5.08e-04
+  iter   9950 | epoch  28/100 | loss 0.8792 | cls 0.1370 | box 0.3369 | lr 5.07e-04
+  iter  10000 | epoch  28/100 | loss 0.8678 | cls 0.1382 | box 0.3302 | lr 5.06e-04
+  iter  10050 | epoch  28/100 | loss 0.8746 | cls 0.1391 | box 0.3330 | lr 5.06e-04
+  iter  10100 | epoch  28/100 | loss 0.8820 | cls 0.1424 | box 0.3342 | lr 5.05e-04
+  iter  10150 | epoch  28/100 | loss 0.8852 | cls 0.1442 | box 0.3344 | lr 5.04e-04
+  iter  10200 | epoch  28/100 | loss 0.8852 | cls 0.1452 | box 0.3337 | lr 5.03e-04
+[epoch  28] train_loss=0.8902 cls=0.1471 box=0.3347 (45.7s)
+[epoch  28] validating (EMA weights)...
+[epoch  28] val_gt_loss=2.1093 (cls=0.7750 box=0.4734) | val_mAP@50:95=0.0767 mAP@50=0.1780 (19.4s)
+[epoch  28] no improvement (9/9 epochs patience)
+
+Early stopping at epoch 28: val_mAP@50:95 has not improved for 9 consecutive epochs.
+
+Stopped early.
+Best val_mAP@50:95 = 0.0952  (epoch 19)
+Best val_gt_loss   = 1.7276  (same epoch)
+Best checkpoint: /home/tomi/code/dipl/custom_models/student_yolo26n/GT_only/checkpoints/best.pt
+Saved: /home/tomi/code/dipl/custom_models/student_yolo26n/GT_only/training_history.json
+Saved: /home/tomi/code/dipl/custom_models/student_yolo26n/GT_only/training_plots.png

@@ -1,0 +1,10 @@
+### izvoz -> /home/lovepi/Documents/code/dipl/EVAL/BASELINE_OPTIM
+### opset 17   prag rel 1e-03   uzoraka kroz vrata 3
+  housing_mlp          OK       0.4 MB   rel 2.06e-07   abs 2.38e-07      1.6s
+  speechcommands_m5    OK       2.1 MB   rel 5.83e-07   abs 7.63e-06     17.3s
+  midas_depth          OK      63.3 MB   rel 4.08e-06   abs 3.78e-03      6.6s
+  sst2_distilbert      OK     255.5 MB   rel 7.05e-07   abs 2.86e-06     11.4s
+  voc_deeplabv3        OK      42.1 MB   rel 2.45e-06   abs 4.59e-05      6.4s
+  yolo26n              OK       9.3 MB   rel 1.12e-05   abs 7.29e-03      3.4s
+  yolo26l              OK      94.8 MB   rel 6.15e-05   abs 4.39e-02     14.4s
+### 7/7 izvezeno
