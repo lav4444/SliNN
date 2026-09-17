@@ -1,0 +1,14 @@
+postupak,format,backend,cpu_ms,gpu_ms,size_mb,miou,pixel_acc
+ORIG,FP32,PyTorch,124.3397,13.5336,42.2936,0.71353,0.92932
+PTQ,FP32,PyTorch,N/A (—),8.6326,42.073,0.71353,0.92932
+PTQ,FP16,PyTorch,N/A (CPU fp16 bez HW puta),N/A (mjereno u TRT retku),21.0625,0.71358,0.92928
+PTQ,FP32-BE,PyTorch (backend put),N/A (—),N/A (—),N/A (kontrola),0.68902,0.92421
+PTQ,INT8-OV,OpenVINO CPU,12.6536,N/A (OpenVINO je CPU),N/A (QDQ ONNX = opis grafa),0.64117,0.91485
+PTQ,FP16-TRT,TensorRT,N/A (TRT je GPU),2.0015,22.7204,0.68776,0.92397
+PTQ,INT8-TRT,TensorRT,N/A (TRT je GPU),3.2142,12.9315,0.64283,0.91412
+QAT,FP32,PyTorch,N/A (—),9.2381,42.073,0.70659,0.92913
+QAT,FP16,PyTorch,N/A (CPU fp16 bez HW puta),N/A (mjereno u TRT retku),21.0625,0.70641,0.92904
+QAT,FP32-BE,PyTorch (backend put),N/A (—),N/A (—),N/A (kontrola),0.68898,0.92527
+QAT,INT8-OV,OpenVINO CPU,12.5393,N/A (OpenVINO je CPU),N/A (QDQ ONNX = opis grafa),0.66196,0.92098
+QAT,FP16-TRT,TensorRT,N/A (TRT je GPU),2.0202,22.7295,0.68882,0.92523
+QAT,INT8-TRT,TensorRT,N/A (TRT je GPU),3.0709,12.7985,0.66063,0.91963

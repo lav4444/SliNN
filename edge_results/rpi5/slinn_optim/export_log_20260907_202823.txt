@@ -1,0 +1,8 @@
+### izvoz -> /home/lovepi/Documents/code/dipl/EVAL/SLINN_OPTIM   (3 celija)
+### opset 17   prag FP32 1e-03   prag INT8 2e-01   uzoraka kroz vrata 3
+  yolo26l__best_quality_model_qat    OK  INT8  640 Q/DQ     94.7 MB   rel 2.06e-01   abs 1.32e+02     26.8s
+                                     ^ odstupanje iznad 5e-02: ocekivano za int8 kernele, ali presudjuje metrika koju eval izmjeri, ne ova vrata
+  yolo26l__ckpt_1_qat                OK  INT8  640 Q/DQ     55.3 MB   rel 4.62e-02   abs 3.01e+01     17.4s
+  yolo26l__ckpt_2_qat                OK  INT8  640 Q/DQ     36.1 MB   rel 6.16e-02   abs 3.93e+01     12.9s
+                                     ^ odstupanje iznad 5e-02: ocekivano za int8 kernele, ali presudjuje metrika koju eval izmjeri, ne ova vrata
+### 3/3 izvezeno

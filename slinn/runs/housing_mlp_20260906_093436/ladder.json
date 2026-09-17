@@ -1,0 +1,35 @@
+{
+ "g_start": 3.456e-06,
+ "g_min": 3.456e-06,
+ "delta": 0.0,
+ "targets": [
+  3.456e-06,
+  3.456e-06
+ ],
+ "rung_tol": 0.040000000000000036,
+ "min_yield": 0.8,
+ "checkpoints": [
+  {
+   "i": 1,
+   "path": "/home/tomi/code/dipl/slinn/runs/housing_mlp_20260906_093436/ckpt_1.pt",
+   "target": 3.456e-06,
+   "gflops": 3.456e-06,
+   "params": 2065,
+   "metric": 0.7318172436001424,
+   "reached": true,
+   "grow": true
+  },
+  {
+   "i": 2,
+   "path": "/home/tomi/code/dipl/slinn/runs/housing_mlp_20260906_093436/ckpt_2.pt",
+   "target": 3.456e-06,
+   "gflops": 3.456e-06,
+   "params": 2065,
+   "metric": 0.7318172436001424,
+   "reached": true,
+   "grow": false
+  }
+ ],
+ "exhausted": null,
+ "stopped": null
+}

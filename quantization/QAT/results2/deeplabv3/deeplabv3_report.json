@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "model": "deeplabv3",
+    "modes": [
+      "PTQ",
+      "QAT"
+    ],
+    "export": "qdq",
+    "note": "[ORIG] FP32 mjeren JEDNOM i dijeljen -> PTQ2 i QAT2 redci su izravno usporedivi. Velicina je iz FP32 state_dicta, ne iz datoteke (ultralytics sprema fp16).",
+    "detalji": {
+      "PTQ": {
+        "steps": 0,
+        "folded": 54,
+        "wrapped": 72,
+        "export": "qdq",
+        "onnx_verify": {
+          "qdq": {
+            "qdq": 280,
+            "nodes": 568,
+            "domains": [],
+            "mb": 42.224,
+            "ok": true
+          },
+          "fp32": {
+            "qdq": 0,
+            "nodes": 168,
+            "domains": [],
+            "mb": 42.052,
+            "ok": false
+          },
+          "fp16": {
+            "qdq": 0,
+            "nodes": 168,
+            "domains": [],
+            "mb": 21.05,
+            "ok": false
+          }
+        }
+      },
+      "QAT": {
+        "steps": 200,
+        "folded": 54,
+        "wrapped": 72,
+        "export": "qdq",
+        "onnx_verify": {
+          "qdq": {
+            "qdq": 280,
+            "nodes": 568,
+            "domains": [],
+            "mb": 42.224,
+            "ok": true
+          },
+          "fp32": {
+            "qdq": 0,
+            "nodes": 168,
+            "domains": [],
+            "mb": 42.052,
+            "ok": false
+          },
+          "fp16": {
+            "qdq": 0,
+            "nodes": 168,
+            "domains": [],
+            "mb": 21.05,
+            "ok": false
+          }
+        }
+      }
+    },
+    "minutes": 9.88
+  },
+  "rows": [
+    {
+      "postupak": "ORIG",
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 42.2936,
+      "cpu_ms": 124.3397,
+      "gpu_ms": 13.5336,
+      "miou": 0.71353,
+      "pixel_acc": 0.92932
+    },
+    {
+      "postupak": "PTQ",
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 42.073,
+      "cpu_ms": "N/A (\u2014)",
+      "gpu_ms": 8.6326,
+      "miou": 0.71353,
+      "pixel_acc": 0.92932
+    },
+    {
+      "postupak": "PTQ",
+      "format": "FP16",
+      "backend": "PyTorch",
+      "size_mb": 21.0625,
+      "cpu_ms": "N/A (CPU fp16 bez HW puta)",
+      "gpu_ms": "N/A (mjereno u TRT retku)",
+      "miou": 0.71358,
+      "pixel_acc": 0.92928
+    },
+    {
+      "postupak": "PTQ",
+      "format": "FP32-BE",
+      "backend": "PyTorch (backend put)",
+      "size_mb": "N/A (kontrola)",
+      "cpu_ms": "N/A (\u2014)",
+      "gpu_ms": "N/A (\u2014)",
+      "miou": 0.68902,
+      "pixel_acc": 0.92421
+    },
+    {
+      "postupak": "PTQ",
+      "format": "INT8-OV",
+      "backend": "OpenVINO CPU",
+      "size_mb": "N/A (QDQ ONNX = opis grafa)",
+      "cpu_ms": 12.6536,
+      "gpu_ms": "N/A (OpenVINO je CPU)",
+      "miou": 0.64117,
+      "pixel_acc": 0.91485
+    },
+    {
+      "postupak": "PTQ",
+      "format": "FP16-TRT",
+      "backend": "TensorRT",
+      "size_mb": 22.7204,
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 2.0015,
+      "miou": 0.68776,
+      "pixel_acc": 0.92397,
+      "precision_layers": {
+        "Half": 114,
+        "Float": 7
+      }
+    },
+    {
+      "postupak": "PTQ",
+      "format": "INT8-TRT",
+      "backend": "TensorRT",
+      "size_mb": 12.9315,
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 3.2142,
+      "miou": 0.64283,
+      "pixel_acc": 0.91412,
+      "precision_layers": {
+        "Int8": 97,
+        "Float": 21,
+        "Half": 51
+      }
+    },
+    {
+      "postupak": "QAT",
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 42.073,
+      "cpu_ms": "N/A (\u2014)",
+      "gpu_ms": 9.2381,
+      "miou": 0.70659,
+      "pixel_acc": 0.92913
+    },
+    {
+      "postupak": "QAT",
+      "format": "FP16",
+      "backend": "PyTorch",
+      "size_mb": 21.0625,
+      "cpu_ms": "N/A (CPU fp16 bez HW puta)",
+      "gpu_ms": "N/A (mjereno u TRT retku)",
+      "miou": 0.70641,
+      "pixel_acc": 0.92904
+    },
+    {
+      "postupak": "QAT",
+      "format": "FP32-BE",
+      "backend": "PyTorch (backend put)",
+      "size_mb": "N/A (kontrola)",
+      "cpu_ms": "N/A (\u2014)",
+      "gpu_ms": "N/A (\u2014)",
+      "miou": 0.68898,
+      "pixel_acc": 0.92527
+    },
+    {
+      "postupak": "QAT",
+      "format": "INT8-OV",
+      "backend": "OpenVINO CPU",
+      "size_mb": "N/A (QDQ ONNX = opis grafa)",
+      "cpu_ms": 12.5393,
+      "gpu_ms": "N/A (OpenVINO je CPU)",
+      "miou": 0.66196,
+      "pixel_acc": 0.92098
+    },
+    {
+      "postupak": "QAT",
+      "format": "FP16-TRT",
+      "backend": "TensorRT",
+      "size_mb": 22.7295,
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 2.0202,
+      "miou": 0.68882,
+      "pixel_acc": 0.92523,
+      "precision_layers": {
+        "Half": 125,
+        "Float": 2
+      }
+    },
+    {
+      "postupak": "QAT",
+      "format": "INT8-TRT",
+      "backend": "TensorRT",
+      "size_mb": 12.7985,
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 3.0709,
+      "miou": 0.66063,
+      "pixel_acc": 0.91963,
+      "precision_layers": {
+        "Int8": 94,
+        "Float": 44,
+        "Half": 36
+      }
+    }
+  ]
+}

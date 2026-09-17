@@ -1,0 +1,19 @@
+{
+  "input_names": [
+    "input_ids",
+    "attention_mask"
+  ],
+  "out_style": "logits",
+  "opset": 17,
+  "dynamic": true,
+  "gate_rel": 0.017753829299997064,
+  "gate_abs": 0.06413984298706055,
+  "kvantiziran": true,
+  "fakequant": 74,
+  "qdq_cvorova": 148,
+  "batchnorm_cvorova": 0,
+  "cvorova": 1064,
+  "torch": "2.14.0+cpu",
+  "izvezeno": "20260907_133453",
+  "fake_ulaz": false
+}

@@ -1,0 +1,80 @@
+{
+ "model_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/model.pt",
+ "dataset_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/data",
+ "code_dirs": null,
+ "phase": "12",
+ "metric_name": "f1_macro",
+ "metric_baseline": 0.7075059976195227,
+ "monitor_baseline": 0.709623604475495,
+ "metric_tol": 0.95,
+ "qat": [
+  {
+   "file": "best_quality_model_qat.pt",
+   "steps": 400,
+   "kd": 1.3030167792737484,
+   "monitor_best": 0.6663634680217112,
+   "why": "patience",
+   "wrapped": 4,
+   "fakequant": 4,
+   "folded_bn": 4,
+   "skip": [
+    "fc"
+   ],
+   "metric_name": "f1_macro",
+   "metric_prije": 0.6746407850645375,
+   "metric_poslije": 0.668562540759914,
+   "delta": -0.006078244304623559
+  },
+  {
+   "file": "ckpt_1_qat.pt",
+   "steps": 700,
+   "kd": 1.41335997402668,
+   "monitor_best": 0.6738494534712237,
+   "why": "patience",
+   "wrapped": 4,
+   "fakequant": 4,
+   "folded_bn": 4,
+   "skip": [
+    "fc"
+   ],
+   "metric_name": "f1_macro",
+   "metric_prije": 0.6686099216887645,
+   "metric_poslije": 0.6730638892152417,
+   "delta": 0.004453967526477198
+  },
+  {
+   "file": "ckpt_2_qat.pt",
+   "steps": 700,
+   "kd": 1.6029369248662677,
+   "monitor_best": 0.6763628592727717,
+   "why": "patience",
+   "wrapped": 4,
+   "fakequant": 4,
+   "folded_bn": 4,
+   "skip": [
+    "fc"
+   ],
+   "metric_name": "f1_macro",
+   "metric_prije": 0.6586934834577584,
+   "metric_poslije": 0.6761805122789596,
+   "delta": 0.017487028821201234
+  }
+ ],
+ "config": {
+  "model_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/model.pt",
+  "dataset_path": "/home/tomi/code/dipl/baseline_models/speechcommands_m5/data",
+  "code_dirs": null,
+  "phase": "12"
+ },
+ "produced": [
+  "best_quality_model.pt",
+  "best_quality_model_qat.pt",
+  "ckpt_1.pt",
+  "ckpt_1_qat.pt",
+  "ckpt_2.pt",
+  "ckpt_2_qat.pt",
+  "ladder.json",
+  "trajectory.jsonl",
+  "worker.log"
+ ]
+}

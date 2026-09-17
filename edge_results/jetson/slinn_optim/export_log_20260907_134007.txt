@@ -1,0 +1,5 @@
+### izvoz -> /home/tomislav/Documents/code/dipl/EVAL/SLINN_OPTIM   (1 celija)
+### opset 17   prag FP32 1e-03   prag INT8 2e-01   uzoraka kroz vrata 3
+### bez celije: midas_depth yolo26l   (nije sagradjeno — make_optim.py / make_slinn.py)
+  sst2_distilbert__best_quality_model_qat OK  INT8  148 Q/DQ    196.0 MB   rel 4.21e-03   abs 1.79e-02     17.0s
+### 1/1 izvezeno

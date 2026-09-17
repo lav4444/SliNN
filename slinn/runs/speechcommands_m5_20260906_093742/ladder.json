@@ -1,0 +1,35 @@
+{
+ "g_start": 0.002936696,
+ "g_min": 0.001758208,
+ "delta": 0.0005892439999999999,
+ "targets": [
+  0.002347452,
+  0.001758208
+ ],
+ "rung_tol": 0.040000000000000036,
+ "min_yield": 0.8,
+ "checkpoints": [
+  {
+   "i": 1,
+   "path": "/home/tomi/code/dipl/slinn/runs/speechcommands_m5_20260906_093742/ckpt_1.pt",
+   "target": 0.002347452,
+   "gflops": 0.002336128,
+   "params": 46811,
+   "metric": 0.6686099216887645,
+   "reached": true,
+   "grow": true
+  },
+  {
+   "i": 2,
+   "path": "/home/tomi/code/dipl/slinn/runs/speechcommands_m5_20260906_093742/ckpt_2.pt",
+   "target": 0.001758208,
+   "gflops": 0.001974208,
+   "params": 36713,
+   "metric": 0.6586934834577584,
+   "reached": false,
+   "grow": false
+  }
+ ],
+ "exhausted": null,
+ "stopped": "rez oslobodio 49% trazenog (prag 80%) na 0.0020 GFLOPs"
+}

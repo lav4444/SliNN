@@ -1,0 +1,35 @@
+{
+ "g_start": 91.6321752,
+ "g_min": 18.219891200000006,
+ "delta": 36.706142,
+ "targets": [
+  54.926033200000006,
+  18.219891200000006
+ ],
+ "rung_tol": 0.040000000000000036,
+ "min_yield": 0.8,
+ "checkpoints": [
+  {
+   "i": 1,
+   "path": "/home/datice/data/slinna/dipl/slinn/runs/yolo26l_20260907_142500/ckpt_1.pt",
+   "target": 54.926033200000006,
+   "gflops": 54.9418568,
+   "params": 14656971,
+   "metric": 0.39789748191833496,
+   "reached": true,
+   "grow": true
+  },
+  {
+   "i": 2,
+   "path": "/home/datice/data/slinna/dipl/slinn/runs/yolo26l_20260907_142500/ckpt_2.pt",
+   "target": 18.219891200000006,
+   "gflops": 29.87146079999997,
+   "params": 9538356,
+   "metric": 0.2905968725681305,
+   "reached": false,
+   "grow": false
+  }
+ ],
+ "exhausted": null,
+ "stopped": "rez oslobodio 66% trazenog (prag 80%) na 32.8884 GFLOPs"
+}

@@ -1,0 +1,9 @@
+format,backend,cpu_ms,gpu_ms,size_mb,miou,pixel_acc
+[ORIG] FP32,PyTorch,103.9689,8.9425,42.2936,0.71353,0.92932
+QAT-FP32,PyTorch,172.9832,8.9458,42.2936,0.71055,0.92904
+QAT-FP16,PyTorch,N/A (CPU fp16 bez HW puta),8.8428,21.2019,0.71014,0.92899
+QAT-FP32-BE,PyTorch (backend put),N/A (—),N/A (—),N/A (kontrola),0.69205,0.92466
+QAT-FP32-OV,OpenVINO CPU,16.1032,N/A (OpenVINO CPU),N/A (ONNX = opis grafa),0.6921,0.92473
+QAT-INT8-OV,OpenVINO CPU,12.4325,N/A (OpenVINO CPU),N/A (ONNX = opis grafa),0.68271,0.92505
+QAT-FP16-TRT,TensorRT,N/A (TRT je GPU-only),2.252,22.6725,0.69188,0.92468
+QAT-INT8-TRT,TensorRT,N/A (TRT je GPU-only),3.5265,12.711,0.68247,0.92305

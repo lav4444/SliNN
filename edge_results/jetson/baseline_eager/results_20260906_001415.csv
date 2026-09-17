@@ -15,9 +15,6 @@ datum,uredjaj,mjerenje,runtime,model,dataset,split,n_uzoraka,metrika,vrijednost,
 2026-09-06T00:14:37,Jetson,BASELINE_RAW,eager,speechcommands_m5,speech_commands_v0.02,val,4443,f1_macro,0.870325,2.0525,cuda,2.8.0
 2026-09-06T00:14:50,Jetson,BASELINE_RAW,eager,speechcommands_m5,speech_commands_v0.02,test,4888,accuracy,0.864975,2.0498,cuda,2.8.0
 2026-09-06T00:14:50,Jetson,BASELINE_RAW,eager,speechcommands_m5,speech_commands_v0.02,test,4888,f1_macro,0.865469,2.0498,cuda,2.8.0
-2026-09-06T00:15:18,Jetson,BASELINE_RAW,eager,midas_depth,NYU_Depth_V2,val,254,AbsRel,0.218712,29.0079,cuda,2.8.0
-2026-09-06T00:15:18,Jetson,BASELINE_RAW,eager,midas_depth,NYU_Depth_V2,val,254,RMSE_m,0.7896,29.0079,cuda,2.8.0
-2026-09-06T00:15:18,Jetson,BASELINE_RAW,eager,midas_depth,NYU_Depth_V2,val,254,delta1,0.599963,29.0079,cuda,2.8.0
 2026-09-06T00:16:07,Jetson,BASELINE_RAW,eager,sst2_distilbert,SST-2_GLUE,validation,872,accuracy,0.91055,9.3785,cuda,2.8.0
 2026-09-06T00:16:07,Jetson,BASELINE_RAW,eager,sst2_distilbert,SST-2_GLUE,validation,872,f1_macro,0.91043,9.3785,cuda,2.8.0
 2026-09-06T00:17:30,Jetson,BASELINE_RAW,eager,yolo26n,sub10k_open_images_v7,val,837,map,0.412317,38.2264,cuda,2.8.0

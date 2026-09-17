@@ -1,0 +1,11 @@
+### TensorRT -> /home/tomislav/Documents/code/dipl/EVAL/SLINN_OPTIM   (8 celija)
+### workspace 2 GB   batch 1   preciznost odlucuje graf
+  housing_mlp__best_quality_model_qat PRESKOCEN  engine postoji (0.1 MB)   FORCE_BUILD=1 za obnovu
+  speechcommands_m5__best_quality_model_qat PRESKOCEN  engine postoji (0.3 MB)   FORCE_BUILD=1 za obnovu
+  sst2_distilbert__best_quality_model_qat PRESKOCEN  engine postoji (69.1 MB)   FORCE_BUILD=1 za obnovu
+  voc_deeplabv3__best_quality_model_qat PRESKOCEN  engine postoji (13.1 MB)   FORCE_BUILD=1 za obnovu
+  yolo26n__best_quality_model_qat    PRESKOCEN  engine postoji (5.2 MB)   FORCE_BUILD=1 za obnovu
+  yolo26l__best_quality_model_qat    OK  INT8  640 Q/DQ      27.6 MB   1133.7s   statican
+  yolo26l__ckpt_1_qat                OK  INT8  640 Q/DQ      18.7 MB   1175.7s   statican
+  yolo26l__ckpt_2_qat                OK  INT8  640 Q/DQ      14.3 MB   1193.2s   statican
+### 8/8 enginea

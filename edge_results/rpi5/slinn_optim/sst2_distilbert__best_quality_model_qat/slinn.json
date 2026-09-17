@@ -1,0 +1,33 @@
+{
+  "celija": "sst2_distilbert__best_quality_model_qat",
+  "model": "sst2_distilbert",
+  "checkpoint": "best_quality_model_qat.pt",
+  "kvantiziran": true,
+  "izvor": "/home/lovepi/Documents/code/dipl/EVAL/slinn_in/sst2_distilbert",
+  "porijeklo": {
+    "model_path": "/home/datice/data/slinna/dipl/baseline_models/sst2_distilbert/model.pt",
+    "dataset_path": "/home/datice/data/slinna/dipl/baseline_models/sst2_distilbert/data",
+    "phase": "1",
+    "metric_name": "f1_macro",
+    "metric_baseline": 0.9104298356510747,
+    "metric_tol": 0.95,
+    "qat": {
+      "steps": 300,
+      "kd": 0.1403217983370026,
+      "monitor_best": 0.8712887989203779,
+      "why": "patience",
+      "wrapped": 37,
+      "fakequant": 37,
+      "folded_bn": 0,
+      "skip": [
+        "classifier",
+        "distilbert.embeddings.position_embeddings",
+        "distilbert.embeddings.word_embeddings"
+      ],
+      "metric_name": "f1_macro",
+      "metric_prije": 0.8860782044463916,
+      "metric_poslije": 0.8885385109038126,
+      "delta": 0.002460306457421013
+    }
+  }
+}

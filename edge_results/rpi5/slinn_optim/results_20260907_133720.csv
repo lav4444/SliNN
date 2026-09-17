@@ -1,0 +1,3 @@
+datum,uredjaj,mjerenje,runtime,model,dataset,split,n_uzoraka,metrika,vrijednost,latencija_ms,dev,torch
+2026-09-07T13:37:55,RPi5,SLINN_OPTIM,onnxruntime,sst2_distilbert__best_quality_model_qat,SST-2_GLUE,validation,872,accuracy,0.887615,7.6506,cpu,2.14.0+cpu
+2026-09-07T13:37:55,RPi5,SLINN_OPTIM,onnxruntime,sst2_distilbert__best_quality_model_qat,SST-2_GLUE,validation,872,f1_macro,0.887378,7.6506,cpu,2.14.0+cpu

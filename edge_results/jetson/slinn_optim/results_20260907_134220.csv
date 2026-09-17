@@ -1,0 +1,3 @@
+datum,uredjaj,mjerenje,runtime,model,dataset,split,n_uzoraka,metrika,vrijednost,latencija_ms,dev,torch
+2026-09-07T13:42:44,Jetson,SLINN_OPTIM,tensorrt,sst2_distilbert__best_quality_model_qat,SST-2_GLUE,validation,872,accuracy,0.889908,5.3899,cuda,2.8.0
+2026-09-07T13:42:44,Jetson,SLINN_OPTIM,tensorrt,sst2_distilbert__best_quality_model_qat,SST-2_GLUE,validation,872,f1_macro,0.889699,5.3899,cuda,2.8.0

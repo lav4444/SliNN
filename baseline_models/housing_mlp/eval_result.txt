@@ -1,0 +1,71 @@
+Model: model.pt
+Task: regression (tabular)
+Input: 8 features (vector), StandardScaler on train
+Target: median house value ($100k), range 0.15-5.0
+Device: cuda
+
+=========== TRAIN (14448 samples) ===========
+
+Speed:
+  Inference (batch=1):   0.3590 ms/sample  (2,785 samples/s)
+
+Regression metrics (original scale, $100k):
+  R2   = 0.7938
+  RMSE = 0.5255
+  MAE  = 0.3574
+
+Error breakdown (|residual|, $100k):
+  MedAE = 0.2405
+  P90   = 0.7982
+  Max   = 3.7498
+
+Baseline (linear regression):
+  lin_R2 = 0.6093   gap = +0.1845
+
+=========== VAL (3096 samples) ===========
+
+Speed:
+  Inference (batch=1):   0.3694 ms/sample  (2,707 samples/s)
+
+Regression metrics (original scale, $100k):
+  R2   = 0.7565
+  RMSE = 0.5632
+  MAE  = 0.3798
+
+Error breakdown (|residual|, $100k):
+  MedAE = 0.2545
+  P90   = 0.8454
+  Max   = 3.7250
+
+Baseline (linear regression):
+  lin_R2 = 0.5848   gap = +0.1717
+
+=========== TEST (3096 samples) ===========
+
+Speed:
+  Inference (batch=1):   0.3505 ms/sample  (2,853 samples/s)
+
+Regression metrics (original scale, $100k):
+  R2   = 0.7897
+  RMSE = 0.5273
+  MAE  = 0.3635
+
+Error breakdown (|residual|, $100k):
+  MedAE = 0.2437
+  P90   = 0.8138
+  Max   = 3.4314
+
+Baseline (linear regression):
+  lin_R2 = 0.6066   gap = +0.1831
+
+================================================================
+CPU vs GPU latency benchmark (10 random train samples, seed=42, batch=1)
+================================================================
+
+CPU per-sample times (ms): [  4.355,   0.139,   0.098,   0.083,   0.079,   0.078,   0.078,   0.078,   0.077,   0.078]
+GPU per-sample times (ms): [  0.702,   0.365,   0.333,   0.330,   0.395,   0.342,   0.328,   0.390,   0.382,   0.473]
+
+Mean of 8 fastest (2 slowest discarded as warmup):
+  CPU:    0.0810 ms/sample  (12,340 samples/s)
+  GPU:    0.3582 ms/sample  (2,792 samples/s)
+  Speedup (GPU vs CPU):  0.2x   (napomena: za sitni MLP GPU launch overhead moze nadjacati -> speedup < 1 je ocekivan)

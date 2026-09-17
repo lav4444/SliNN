@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "model": "yolo26l",
+    "modes": [
+      "PTQ",
+      "QAT"
+    ],
+    "export": "ultralytics",
+    "note": "[ORIG] FP32 mjeren JEDNOM i dijeljen -> PTQ2 i QAT2 redci su izravno usporedivi. Velicina je iz FP32 state_dicta, ne iz datoteke (ultralytics sprema fp16).",
+    "detalji": {
+      "PTQ": {
+        "steps": 0,
+        "folded": 0,
+        "wrapped": 142,
+        "export": "ultralytics"
+      },
+      "QAT": {
+        "steps": 300,
+        "folded": 0,
+        "wrapped": 142,
+        "export": "ultralytics"
+      }
+    },
+    "minutes": 36.24,
+    "napomena_spoj": "PTQ i ORIG su iz prolaza MODE=both (23.1 min). QAT je iz ponovljenog MODE=qat (13.1 min) jer su u prvom prolazu oba TRT builda pala na CUDA OOM: torchov allocator je jos drzao arenu od 300 QAT koraka, a TRT alocira izvan torcha. Popravljeno s free_gpu() izmedju faza (6.67 GB slobodno prije builda). ORIG mAP je u oba prolaza identican (0.47778); GPU latencija se razlikuje za mjerni sum (19.29 vs 20.00 ms) i uzeta je iz prvog prolaza, isto kao PTQ."
+  },
+  "rows": [
+    {
+      "postupak": "ORIG",
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 100.9468,
+      "cpu_ms": 334.5062,
+      "gpu_ms": 19.2889,
+      "map": 0.47778,
+      "map50": 0.68281,
+      "map75": 0.51521,
+      "mar100": 0.67485
+    },
+    {
+      "postupak": "PTQ",
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 100.9468,
+      "cpu_ms": "N/A (—)",
+      "gpu_ms": 15.595454003496638,
+      "map": 0.46687,
+      "map50": 0.67757,
+      "map75": 0.5152,
+      "mar100": 0.69744
+    },
+    {
+      "postupak": "PTQ",
+      "format": "INT8-OV",
+      "backend": "OpenVINO CPU",
+      "size_mb": 25.2367,
+      "cpu_ms": 53.98678707030241,
+      "gpu_ms": "N/A (OpenVINO je CPU)",
+      "map": 0.46763,
+      "map50": 0.67554,
+      "map75": 0.51334,
+      "mar100": 0.68361
+    },
+    {
+      "postupak": "PTQ",
+      "format": "FP16-TRT",
+      "backend": "TensorRT",
+      "size_mb": 52.06,
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 4.740464299737939,
+      "map": 0.46823,
+      "map50": 0.67993,
+      "map75": 0.51541,
+      "mar100": 0.71291
+    },
+    {
+      "postupak": "PTQ",
+      "format": "INT8-TRT",
+      "backend": "TensorRT",
+      "size_mb": 28.9189,
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 4.110438120749606,
+      "map": 0.45605,
+      "map50": 0.66917,
+      "map75": 0.50009,
+      "mar100": 0.66306
+    },
+    {
+      "postupak": "QAT",
+      "format": "FP32",
+      "backend": "PyTorch",
+      "size_mb": 100.9468,
+      "cpu_ms": "N/A (—)",
+      "gpu_ms": 17.838883078002688,
+      "map": 0.46802,
+      "map50": 0.6797,
+      "map75": 0.51685,
+      "mar100": 0.69516
+    },
+    {
+      "postupak": "QAT",
+      "format": "INT8-OV",
+      "backend": "OpenVINO CPU",
+      "size_mb": 25.2367,
+      "cpu_ms": 66.52618568099778,
+      "gpu_ms": "N/A (OpenVINO je CPU)",
+      "map": 0.46874,
+      "map50": 0.6768,
+      "map75": 0.5132,
+      "mar100": 0.68718
+    },
+    {
+      "postupak": "QAT",
+      "format": "FP16-TRT",
+      "backend": "TensorRT",
+      "size_mb": 51.7269,
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 5.521211909496569,
+      "map": 0.47103,
+      "map50": 0.6827,
+      "map75": 0.51627,
+      "mar100": 0.70011
+    },
+    {
+      "postupak": "QAT",
+      "format": "INT8-TRT",
+      "backend": "TensorRT",
+      "size_mb": 28.8487,
+      "cpu_ms": "N/A (TRT je GPU)",
+      "gpu_ms": 4.840552851744386,
+      "map": 0.45403,
+      "map50": 0.66366,
+      "map75": 0.50117,
+      "mar100": 0.65998
+    }
+  ]
+}

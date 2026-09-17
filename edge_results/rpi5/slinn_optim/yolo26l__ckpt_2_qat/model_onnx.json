@@ -1,0 +1,18 @@
+{
+  "input_names": [
+    "input"
+  ],
+  "out_style": "tensor",
+  "opset": 17,
+  "dynamic": false,
+  "gate_rel": 0.061611185063588064,
+  "gate_abs": 39.25018310546875,
+  "kvantiziran": true,
+  "fakequant": 356,
+  "qdq_cvorova": 640,
+  "batchnorm_cvorova": 0,
+  "cvorova": 2576,
+  "torch": "2.14.0+cpu",
+  "izvezeno": "20260907_202823",
+  "fake_ulaz": false
+}

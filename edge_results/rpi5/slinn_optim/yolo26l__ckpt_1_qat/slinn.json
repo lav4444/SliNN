@@ -1,0 +1,42 @@
+{
+  "celija": "yolo26l__ckpt_1_qat",
+  "model": "yolo26l",
+  "checkpoint": "ckpt_1_qat.pt",
+  "kvantiziran": true,
+  "izvor": "/home/lovepi/Documents/code/dipl/EVAL/slinn_in/yolo26l",
+  "porijeklo": {
+    "model_path": "/home/datice/data/slinna/dipl/baseline_models/yolo26l/yolo26l.pt",
+    "dataset_path": "/home/datice/data/slinna/dipl/datasets/mini_set/sub10k_open_images_v7",
+    "phase": "12",
+    "metric_name": "mAP",
+    "metric_baseline": 0.4734344482421875,
+    "metric_tol": 0.95,
+    "qat": {
+      "steps": 800,
+      "kd": 0.31985827840864656,
+      "monitor_best": 0.42594394087791443,
+      "why": "patience",
+      "wrapped": 178,
+      "fakequant": 178,
+      "folded_bn": 178,
+      "skip": [
+        "model.23.cv2.0.2",
+        "model.23.cv2.1.2",
+        "model.23.cv2.2.2",
+        "model.23.cv3.0.2",
+        "model.23.cv3.1.2",
+        "model.23.cv3.2.2",
+        "model.23.one2one_cv2.0.2",
+        "model.23.one2one_cv2.1.2",
+        "model.23.one2one_cv2.2.2",
+        "model.23.one2one_cv3.0.2",
+        "model.23.one2one_cv3.1.2",
+        "model.23.one2one_cv3.2.2"
+      ],
+      "metric_name": "mAP",
+      "metric_prije": 0.39789748191833496,
+      "metric_poslije": 0.40156805515289307,
+      "delta": 0.0036705732345581055
+    }
+  }
+}

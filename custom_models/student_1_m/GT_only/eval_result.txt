@@ -9,8 +9,8 @@ NMS IoU threshold: 0.6
 =========== VAL (837 images) ===========
 
 Speed:
-  Inference (model only):       12.77 ms/image  (78.3 FPS)
-  Total (preproc+inf+postproc): 72.01 ms/image  (13.9 FPS)
+  Inference (model only):       12.92 ms/image  (77.4 FPS)
+  Total (preproc+inf+postproc): 72.38 ms/image  (13.8 FPS)
 
 Combined mAP:
   mAP@50:95 = 0.0494
@@ -26,35 +26,35 @@ Per-class mAP@50:95:
   Motorcycle   0.0398
   Bicycle      0.0503
 
-=========== TEST (1000 images) ===========
+=========== TEST (1674 images) ===========
 
 Speed:
-  Inference (model only):       13.78 ms/image  (72.6 FPS)
-  Total (preproc+inf+postproc): 72.59 ms/image  (13.8 FPS)
+  Inference (model only):       13.43 ms/image  (74.5 FPS)
+  Total (preproc+inf+postproc): 71.80 ms/image  (13.9 FPS)
 
 Combined mAP:
-  mAP@50:95 = 0.0527
-  mAP@50    = 0.1503
-  mAP@75    = 0.0226
-  mAR@100   = 0.2297
+  mAP@50:95 = 0.0499
+  mAP@50    = 0.1463
+  mAP@75    = 0.0197
+  mAR@100   = 0.2256
 
 Per-class mAP@50:95:
-  Person       0.0226
-  Car          0.0455
-  Truck        0.0345
-  Bus          0.1160
-  Motorcycle   0.0511
-  Bicycle      0.0465
+  Person       0.0219
+  Car          0.0435
+  Truck        0.0337
+  Bus          0.1063
+  Motorcycle   0.0476
+  Bicycle      0.0464
 
 
 ================================================================
 CPU vs GPU latency benchmark (10 random train images, seed=42)
 ================================================================
 
-CPU per-image times (ms): [  76.51,   26.43,   26.96,   23.94,   21.78,   21.97,   19.99,   22.32,   25.58,   20.97]
-GPU per-image times (ms): [  12.50,   18.23,   11.70,   11.06,   14.71,   11.32,   21.23,    8.79,    8.82,    8.87]
+CPU per-image times (ms): [  41.87,   24.33,   23.55,   22.88,   24.51,   26.41,   21.88,   22.97,   25.61,   26.55]
+GPU per-image times (ms): [  16.16,   17.29,   16.21,   16.68,   18.24,   15.31,   13.95,   13.69,   14.78,   11.65]
 
 Mean of 8 fastest (2 slowest discarded as warmup):
-  CPU:     22.87 ms/image  (43.7 FPS)
-  GPU:     10.97 ms/image  (91.1 FPS)
-  Speedup (GPU vs CPU):  2.1x
+  CPU:     24.02 ms/image  (41.6 FPS)
+  GPU:     14.80 ms/image  (67.6 FPS)
+  Speedup (GPU vs CPU):  1.6x

@@ -1,0 +1,113 @@
+{
+ "model_path": "/home/datice/data/slinna/dipl/baseline_models/yolo26l/yolo26l.pt",
+ "dataset_path": "/home/datice/data/slinna/dipl/datasets/mini_set/sub10k_open_images_v7",
+ "code_dirs": null,
+ "phase": "12",
+ "metric_name": "mAP",
+ "metric_baseline": 0.4734344482421875,
+ "monitor_baseline": 0.49407732486724854,
+ "metric_tol": 0.95,
+ "qat": [
+  {
+   "file": "best_quality_model_qat.pt",
+   "steps": 700,
+   "kd": 0.19080259778669903,
+   "monitor_best": 0.4792470932006836,
+   "why": "patience",
+   "wrapped": 178,
+   "fakequant": 178,
+   "folded_bn": 178,
+   "skip": [
+    "model.23.cv2.0.2",
+    "model.23.cv2.1.2",
+    "model.23.cv2.2.2",
+    "model.23.cv3.0.2",
+    "model.23.cv3.1.2",
+    "model.23.cv3.2.2",
+    "model.23.one2one_cv2.0.2",
+    "model.23.one2one_cv2.1.2",
+    "model.23.one2one_cv2.2.2",
+    "model.23.one2one_cv3.0.2",
+    "model.23.one2one_cv3.1.2",
+    "model.23.one2one_cv3.2.2"
+   ],
+   "metric_name": "mAP",
+   "metric_prije": 0.4693269431591034,
+   "metric_poslije": 0.4520573019981384,
+   "delta": -0.017269641160964966
+  },
+  {
+   "file": "ckpt_1_qat.pt",
+   "steps": 800,
+   "kd": 0.31985827840864656,
+   "monitor_best": 0.42594394087791443,
+   "why": "patience",
+   "wrapped": 178,
+   "fakequant": 178,
+   "folded_bn": 178,
+   "skip": [
+    "model.23.cv2.0.2",
+    "model.23.cv2.1.2",
+    "model.23.cv2.2.2",
+    "model.23.cv3.0.2",
+    "model.23.cv3.1.2",
+    "model.23.cv3.2.2",
+    "model.23.one2one_cv2.0.2",
+    "model.23.one2one_cv2.1.2",
+    "model.23.one2one_cv2.2.2",
+    "model.23.one2one_cv3.0.2",
+    "model.23.one2one_cv3.1.2",
+    "model.23.one2one_cv3.2.2"
+   ],
+   "metric_name": "mAP",
+   "metric_prije": 0.39789748191833496,
+   "metric_poslije": 0.40156805515289307,
+   "delta": 0.0036705732345581055
+  },
+  {
+   "file": "ckpt_2_qat.pt",
+   "steps": 400,
+   "kd": 0.5471447375416756,
+   "monitor_best": 0.33397534489631653,
+   "why": "patience",
+   "wrapped": 178,
+   "fakequant": 178,
+   "folded_bn": 178,
+   "skip": [
+    "model.23.cv2.0.2",
+    "model.23.cv2.1.2",
+    "model.23.cv2.2.2",
+    "model.23.cv3.0.2",
+    "model.23.cv3.1.2",
+    "model.23.cv3.2.2",
+    "model.23.one2one_cv2.0.2",
+    "model.23.one2one_cv2.1.2",
+    "model.23.one2one_cv2.2.2",
+    "model.23.one2one_cv3.0.2",
+    "model.23.one2one_cv3.1.2",
+    "model.23.one2one_cv3.2.2"
+   ],
+   "metric_name": "mAP",
+   "metric_prije": 0.2905968725681305,
+   "metric_poslije": 0.3055996596813202,
+   "delta": 0.015002787113189697
+  }
+ ],
+ "config": {
+  "model_path": "/home/datice/data/slinna/dipl/baseline_models/yolo26l/yolo26l.pt",
+  "dataset_path": "/home/datice/data/slinna/dipl/datasets/mini_set/sub10k_open_images_v7",
+  "code_dirs": null,
+  "phase": "12"
+ },
+ "produced": [
+  "best_quality_model.pt",
+  "best_quality_model_qat.pt",
+  "ckpt_1.pt",
+  "ckpt_1_qat.pt",
+  "ckpt_2.pt",
+  "ckpt_2_qat.pt",
+  "ladder.json",
+  "trajectory.jsonl",
+  "worker.log"
+ ]
+}

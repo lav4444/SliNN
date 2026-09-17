@@ -1,0 +1,113 @@
+{
+ "model_path": "/home/tomi/code/dipl/baseline_models/yolo26n/yolo26n.pt",
+ "dataset_path": "/home/tomi/code/dipl/datasets/mini_set/sub10k_open_images_v7",
+ "code_dirs": null,
+ "phase": "12",
+ "metric_name": "mAP",
+ "metric_baseline": 0.4125671982765198,
+ "monitor_baseline": 0.428838849067688,
+ "metric_tol": 0.95,
+ "qat": [
+  {
+   "file": "best_quality_model_qat.pt",
+   "steps": 400,
+   "kd": 0.23656829860061407,
+   "monitor_best": 0.40925565361976624,
+   "why": "patience",
+   "wrapped": 114,
+   "fakequant": 114,
+   "folded_bn": 114,
+   "skip": [
+    "model.23.cv2.0.2",
+    "model.23.cv2.1.2",
+    "model.23.cv2.2.2",
+    "model.23.cv3.0.2",
+    "model.23.cv3.1.2",
+    "model.23.cv3.2.2",
+    "model.23.one2one_cv2.0.2",
+    "model.23.one2one_cv2.1.2",
+    "model.23.one2one_cv2.2.2",
+    "model.23.one2one_cv3.0.2",
+    "model.23.one2one_cv3.1.2",
+    "model.23.one2one_cv3.2.2"
+   ],
+   "metric_name": "mAP",
+   "metric_prije": 0.39274466037750244,
+   "metric_poslije": 0.3907068073749542,
+   "delta": -0.0020378530025482178
+  },
+  {
+   "file": "ckpt_1_qat.pt",
+   "steps": 800,
+   "kd": 0.38130229685455563,
+   "monitor_best": 0.3467647135257721,
+   "why": "patience",
+   "wrapped": 114,
+   "fakequant": 114,
+   "folded_bn": 114,
+   "skip": [
+    "model.23.cv2.0.2",
+    "model.23.cv2.1.2",
+    "model.23.cv2.2.2",
+    "model.23.cv3.0.2",
+    "model.23.cv3.1.2",
+    "model.23.cv3.2.2",
+    "model.23.one2one_cv2.0.2",
+    "model.23.one2one_cv2.1.2",
+    "model.23.one2one_cv2.2.2",
+    "model.23.one2one_cv3.0.2",
+    "model.23.one2one_cv3.1.2",
+    "model.23.one2one_cv3.2.2"
+   ],
+   "metric_name": "mAP",
+   "metric_prije": 0.32723912596702576,
+   "metric_poslije": 0.32779017090797424,
+   "delta": 0.0005510449409484863
+  },
+  {
+   "file": "ckpt_2_qat.pt",
+   "steps": 1200,
+   "kd": 0.46096031640966734,
+   "monitor_best": 0.3064515292644501,
+   "why": "patience",
+   "wrapped": 114,
+   "fakequant": 114,
+   "folded_bn": 114,
+   "skip": [
+    "model.23.cv2.0.2",
+    "model.23.cv2.1.2",
+    "model.23.cv2.2.2",
+    "model.23.cv3.0.2",
+    "model.23.cv3.1.2",
+    "model.23.cv3.2.2",
+    "model.23.one2one_cv2.0.2",
+    "model.23.one2one_cv2.1.2",
+    "model.23.one2one_cv2.2.2",
+    "model.23.one2one_cv3.0.2",
+    "model.23.one2one_cv3.1.2",
+    "model.23.one2one_cv3.2.2"
+   ],
+   "metric_name": "mAP",
+   "metric_prije": 0.271253764629364,
+   "metric_poslije": 0.2815159857273102,
+   "delta": 0.010262221097946167
+  }
+ ],
+ "config": {
+  "model_path": "/home/tomi/code/dipl/baseline_models/yolo26n/yolo26n.pt",
+  "dataset_path": "/home/tomi/code/dipl/datasets/mini_set/sub10k_open_images_v7",
+  "code_dirs": null,
+  "phase": "12"
+ },
+ "produced": [
+  "best_quality_model.pt",
+  "best_quality_model_qat.pt",
+  "ckpt_1.pt",
+  "ckpt_1_qat.pt",
+  "ckpt_2.pt",
+  "ckpt_2_qat.pt",
+  "ladder.json",
+  "trajectory.jsonl",
+  "worker.log"
+ ]
+}

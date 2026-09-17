@@ -1,0 +1,9 @@
+### izvoz -> /home/tomislav/Documents/code/dipl/EVAL/SLINN_OPTIM   (4 celija)
+### opset 17   prag FP32 1e-03   prag INT8 2e-01   uzoraka kroz vrata 3
+### bez celije: midas_depth sst2_distilbert yolo26l   (nije sagradjeno — make_optim.py / make_slinn.py)
+  housing_mlp__best_quality_model_qat OK  INT8   16 Q/DQ      0.0 MB   rel 0.00e+00   abs 0.00e+00      2.0s
+  speechcommands_m5__best_quality_model_qat OK  INT8   16 Q/DQ      0.3 MB   rel 8.55e-04   abs 1.22e-02     21.7s
+  voc_deeplabv3__best_quality_model_qat OK  INT8  276 Q/DQ     40.7 MB   rel 2.84e-02   abs 6.00e-01     12.3s
+  yolo26n__best_quality_model_qat    OK  INT8  384 Q/DQ      8.4 MB   rel 7.45e-02   abs 4.82e+01      9.4s
+                                     ^ odstupanje iznad 5e-02: ocekivano za int8 kernele, ali presudjuje metrika koju eval izmjeri, ne ova vrata
+### 4/4 izvezeno

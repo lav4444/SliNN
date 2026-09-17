@@ -1,0 +1,44 @@
+housing_mlp — HousingMLP / California Housing
+=============================================
+
+ZADATAK
+  Tabularna regresija: iz 8 brojcanih znacajki predvidjeti JEDAN kontinuirani broj.
+
+DATASET  (California Housing, popis stanovnistva 1990.)
+  20640 uzoraka; svaki redak = jedan okrug/blok u Kaliforniji.
+  Znacajke (8): MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude.
+  Ulaz je VEKTOR [8] (nema slike, sekvence ni tokena).
+  Podjela 70/15/15 (seed 42): train 14448 / val 3096 / test 3096. Podaci lokalno u ./data/.
+
+LABELA
+  Medijalna cijena kuce okruga u jedinicama $100 000 (raspon 0.15-5.0, gore odrezano na 5.0).
+  KONTINUIRANA (nije klasa/multi-hot/okvir/maska) -> zadatak je REGRESIJA.
+
+MODEL  (HousingMLP)
+  Cisti MLP: 8 -> 256 -> 256 -> 128 -> 64 -> 1, svaki skriveni sloj Linear -> BatchNorm1d -> ReLU,
+  glava = Linear(->1). ~110k parametara. Namjerno bogat da kompresija ima sto rezati.
+
+PROBLEM / POANTA
+  ML: nauciti nelinearno preslikavanje znacajke->cijena (MLP hvata interakcije bolje od linearne regresije).
+  Za nas (arch_agnostic zoo): ovo je CISTI STRUKTURNI KUT - samo Linear, skalarni izlaz, sve rezolucije
+  `flat`. Stresira ono sto CNN/detekcijski modeli ne diraju:
+    - task-detekcija iz kontinuirane labele (bez detektora arhitekture),
+    - probe na VEKTORSKOM ulazu (ne slika),
+    - feature-KD tap NET-FALLBACK (nema conv/fan-out/rezolucije -> fallback put),
+    - detekcija norm/aktivacija na 1D (BatchNorm1d / ReLU).
+  Ako agnosticni pipeline uredno proguta M1, dokaz je da je stvarno model- i task-agnostican.
+
+KD (kasnije, u kompresiji)
+  Teacher = ovaj istrenirani MLP; student = komprimirani. Student oponasa teacherov izlaz (+ znacajku na
+  tapu), BEZ GT labela u petlji. Labela y sluzi samo za trening teachera i za R2/RMSE validaciju.
+
+METRIKE / PRIHVAT
+  Glavna: R2 (test). Sporedne: RMSE, MAE ($100k). Baseline-guard: R2(MLP) - R2(linearna) >= 0.15.
+  Prihvat: R2 >= 0.78, RMSE <= 0.55, MAE <= 0.39, gap >= 0.15.  (v. train_summary.txt / eval_result.txt)
+
+FILES
+  model_mlp.py     definicija HousingMLP (uvozivi modul za eager reload)
+  data.py          uniformni loader; materijalizira i povlaci ./data/california_housing.npz
+  build.py         trening (early-stop patience 7) + spremi model.pt + train_summary.txt
+  eval_baseline.py baseline evaluacija -> eval_result.txt
+  model.pt         istrenirani pun eager modul (gitignore)

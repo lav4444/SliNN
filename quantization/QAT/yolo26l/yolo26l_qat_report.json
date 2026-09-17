@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "model": "yolo26l",
+    "method": "QAT (rucni fake-quant -> QDQ ONNX)",
+    "qat": {
+      "steps": 300,
+      "lr": 1e-05,
+      "wrapped": 142,
+      "skip": [
+        "model.23."
+      ],
+      "fp32_layers": [
+        "model.23"
+      ]
+    },
+    "onnx_verify": {
+      "qdq": {
+        "qdq": 568,
+        "nodes": 1772,
+        "domains": [],
+        "mb": 95.459,
+        "ok": true
+      },
+      "fp32": {
+        "qdq": 0,
+        "nodes": 732,
+        "domains": [],
+        "mb": 94.921,
+        "ok": false
+      },
+      "fp16": {
+        "qdq": 0,
+        "nodes": 732,
+        "domains": [],
+        "mb": 47.524,
+        "ok": false
+      }
+    },
+    "ptq_reference": {
+      "FP32": 0.46687,
+      "INT8-TRT": 0.45605
+    },
+    "lat_full": {
+      "[ORIG] FP32": {
+        "cpu": {
+          "median_ms": 348.51158399760607,
+          "p90_ms": 358.2956110003579,
+          "mean_ms": 350.734967799508,
+          "min_ms": 340.38336199955666,
+          "n": 5
+        },
+        "gpu": {
+          "median_ms": 20.158826000624686,
+          "p90_ms": 22.6477789983619,
+          "mean_ms": 20.654520819880418,
+          "min_ms": 18.009441999311093,
+          "n": 50
+        }
+      },
+      "QAT-FP32": {
+        "cpu": {
+          "median_ms": 329.7425060009118,
+          "p90_ms": 345.1353590025974,
+          "mean_ms": 332.69466679994366,
+          "min_ms": 319.26731199928327,
+          "n": 5
+        },
+        "gpu": {
+          "median_ms": 30.541525502485456,
+          "p90_ms": 35.51871899981052,
+          "mean_ms": 31.621571960058645,
+          "min_ms": 27.485935999720823,
+          "n": 50
+        }
+      },
+      "QAT-FP16": {
+        "cpu": "N/A (CPU fp16 bez HW puta)",
+        "gpu": {
+          "median_ms": 36.89014900010079,
+          "p90_ms": 43.82819300008123,
+          "mean_ms": 38.44863191974582,
+          "min_ms": 33.57940199930454,
+          "n": 50
+        }
+      },
+      "QAT-FP32-OV": {
+        "cpu": {
+          "median_ms": 96.39580449947971,
+          "p90_ms": 108.0438229982974,
+          "mean_ms": 95.47590489994036,
+          "min_ms": 77.5486179991276,
+          "n": 50
+        },
+        "gpu": "N/A (OpenVINO CPU)"
+      },
+      "QAT-INT8-OV": {
+        "cpu": {
+          "median_ms": 64.54922349985281,
+          "p90_ms": 68.3387689969095,
+          "mean_ms": 63.9354907804227,
+          "min_ms": 49.54129200268653,
+          "n": 50
+        },
+        "gpu": "N/A (OpenVINO CPU)"
+      },
+      "QAT-FP16-TRT": {
+        "cpu": "N/A (TRT je GPU-only)",
+        "gpu": {
+          "median_ms": 4.737418499644264,
+          "p90_ms": 5.701693000446539,
+          "mean_ms": 4.797516999824438,
+          "min_ms": 3.795565000473289,
+          "n": 50
+        }
+      },
+      "QAT-INT8-TRT": {
+        "cpu": "N/A (TRT je GPU-only)",
+        "gpu": {
+          "median_ms": 5.187971999475849,
+          "p90_ms": 7.060952997562708,
+          "mean_ms": 5.491452300120727,
+          "min_ms": 4.346330999396741,
+          "n": 50
+        }
+      }
+    },
+    "minutes": 12.14
+  },
+  "rows": [
+    {
+      "format": "[ORIG] FP32",
+      "backend": "PyTorch",
+      "size_mb": 100.9468,
+      "cpu_ms": 348.5116,
+      "gpu_ms": 20.1588,
+      "map": 0.47778,
+      "map50": 0.68281,
+      "map75": 0.51521,
+      "mar100": 0.67485
+    },
+    {
+      "format": "QAT-FP32",
+      "backend": "PyTorch",
+      "size_mb": 100.9468,
+      "cpu_ms": 329.7425,
+      "gpu_ms": 30.5415,
+      "map": 0.4738,
+      "map50": 0.68428,
+      "map75": 0.50992,
+      "mar100": 0.66673
+    },
+    {
+      "format": "QAT-FP16",
+      "backend": "PyTorch",
+      "size_mb": 50.6495,
+      "cpu_ms": "N/A (CPU fp16 bez HW puta)",
+      "gpu_ms": 36.8901,
+      "map": 0.47325,
+      "map50": 0.68422,
+      "map75": 0.50912,
+      "mar100": 0.66719
+    },
+    {
+      "format": "QAT-FP32-OV",
+      "backend": "OpenVINO CPU",
+      "size_mb": "N/A (ONNX = opis grafa)",
+      "cpu_ms": 96.3958,
+      "gpu_ms": "N/A (OpenVINO CPU)",
+      "map": 0.47489,
+      "map50": 0.68453,
+      "map75": 0.51035,
+      "mar100": 0.66916
+    },
+    {
+      "format": "QAT-INT8-OV",
+      "backend": "OpenVINO CPU",
+      "size_mb": "N/A (ONNX = opis grafa)",
+      "cpu_ms": 64.5492,
+      "gpu_ms": "N/A (OpenVINO CPU)",
+      "map": 8e-05,
+      "map50": 0.00028,
+      "map75": 0.0,
+      "mar100": 0.00511
+    },
+    {
+      "format": "QAT-FP16-TRT",
+      "backend": "TensorRT",
+      "size_mb": 51.7687,
+      "cpu_ms": "N/A (TRT je GPU-only)",
+      "gpu_ms": 4.7374,
+      "map": 0.41931,
+      "map50": 0.60457,
+      "map75": 0.45601,
+      "mar100": 0.61744,
+      "precision_layers": {
+        "Half": 344,
+        "Float": 18
+      }
+    },
+    {
+      "format": "QAT-INT8-TRT",
+      "backend": "TensorRT",
+      "size_mb": 29.1457,
+      "cpu_ms": "N/A (TRT je GPU-only)",
+      "gpu_ms": 5.188,
+      "map": 0.36155,
+      "map50": 0.51902,
+      "map75": 0.39319,
+      "mar100": 0.57556,
+      "precision_layers": {
+        "Int8": 200,
+        "Float": 27,
+        "Half": 222
+      }
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+==============================================================================
+izlazi ovog runa: /home/datice/data/slinna/dipl/slinn/runs/sst2_distilbert_20260907_105930
+SliNN · FAZA 1 · sst2_distilbert
+  priprema (model, adapter, task, batchevi, teacher cache, metrika)...
+[detekcija] nema imena razreda: ocekujem `names:` u /home/datice/data/slinna/dipl/baseline_models/sst2_distilbert/data/dataset.yaml (ili data.yaml). Bez njih se ne zna sto koji indeks u oznakama znaci.
+[pipeline] 10 slojeva izbaceno iz prunable — dijele tp-grupu s feature-KD tapom (rez bi pomaknuo sirinu tapa).
+[pipeline] Svi rezivi slojevi bili su spregnuti s feature-KD tapovima (rezidualni tok) -> feature clan iskljucen, KD je sada CISTI LOGIT; vraceno 10 rezivih slojeva
+  batch TRAIN=512 (proba VRAM-a)
+[podaci] batchevi: float32, 132/132 rezidentno na GPU-u (33 MB)
+  teacher-cache: 132 batcheva x 0.0 MB = 0.0 GB (slobodno 1408.9 GB)
+  kes ucitelja: 132/132 batcheva u RAM-u (0 MB / 2048 MB budzeta; strop 2048 MB, slobodno bilo 66121 MB), ostatak s diska
+  task=classification · metrika=f1_macro · tolerancija=95% · batch=512 · epoha=132 batcheva
+  KD NACIN PROMIJENJEN AUTOMATSKI: svi rezivi slojevi bili su spregnuti s feature-KD tapovima (rezidualni tok) -> feature clan iskljucen, KD je sada CISTI LOGIT; vraceno 10 rezivih slojeva
+  baseline f1_macro=0.9104 -> prag 0.8649
+  monitor  f1_macro=0.8897 -> prag 0.8452  (fiksni podskup 25% val skupa)
+  parametri faza (izvor: slinn/settings.py):
+  zajednicko (obje faze):
+    F1_PRUNE_STEP_FRAC=0.015   PHASE2_PRUNE_LAYER_CAP=0.15   PHASE2_MIN_ALIVE=16
+    PHASE2_PRUNE_ROUNDS=4   PHASE2_PRUNE_SLACK=0.02   PRUNE_IMPORTANCE=grad
+    PRUNE_IMP_NORM=none   PHASE2_REINVEST_FRAC=0.15   PHASE2_GROW_DOM=4.0
+    PHASE2_GROW_MAX_LAYERS=3   PHASE2_CHURN_COOLDOWN=2   ALIGN_M=32
+    METRIC_MONITOR_FRAC=0.25   TRAIN_BATCH=8   IMP_BATCHES=3
+    DEV_DATA_SUBSET=None
+  faza 1:
+    F1_MAX_STEPS=200   F1_FT_MAX_EPOCHS=5   F1_FT_PATIENCE=2
+    FT_RECOVERY_FRAC=0.95
+==============================================================================
+
+### FAZA 1 — najmanji model iznad praga
+  granice oporavka: max 5 FT epoha / patience 2 (PO EPIZODI)
+ kor    mod     GFLOPs      params   monitor      puna    rez       KD
+------------------------------------------------------------------------------
+   0   base     5.5594  66,955,010    0.8897    0.9104   0.0%        —
+        ... epoha  26/132 · KD 0.0056
+        ... epoha  52/132 · KD 0.0048
+        ... epoha  78/132 · KD 0.0044
+        ... epoha 104/132 · KD 0.0041
+        ... epoha 130/132 · KD 0.0039
+   1  MORPH     5.4708  65,904,829    0.8758    0.8990   1.6%   0.0039  <- NAJBOLJI
+        rez −0.0886 (106% cilja, 1 krug(a)) · 17 kanala
+        ... epoha  26/132 · KD 0.0079
+        ... epoha  52/132 · KD 0.0069
+        ... epoha  78/132 · KD 0.0065
+        ... epoha 104/132 · KD 0.0064
+        ... epoha 130/132 · KD 0.0064
+   2  MORPH     5.3832  64,858,522    0.8758    0.9012   3.2%   0.0063  <- NAJBOLJI
+        rez −0.0876 (105% cilja, 1 krug(a)) · 13 kanala
+        ... epoha  26/132 · KD 0.0101
+        ... epoha  52/132 · KD 0.0088
+        ... epoha  78/132 · KD 0.0082
+        ... epoha 104/132 · KD 0.0080
+        ... epoha 130/132 · KD 0.0078
+   3  MORPH     5.2948  63,811,504    0.8806    0.9047   4.8%   0.0079  <- NAJBOLJI
+        rez −0.0883 (106% cilja, 1 krug(a)) · 14 kanala
+        ... epoha  26/132 · KD 0.0099
+        ... epoha  52/132 · KD 0.0094
+        ... epoha  78/132 · KD 0.0090
+        ... epoha 104/132 · KD 0.0088
+        ... epoha 130/132 · KD 0.0089
+   4  MORPH     5.2073  62,764,534    0.8666    0.9000   6.3%   0.0089  <- NAJBOLJI
+        rez −0.0875 (105% cilja, 1 krug(a)) · 14 kanala
+        ... epoha  26/132 · KD 0.0109
+        ... epoha  52/132 · KD 0.0108
+        ... epoha  78/132 · KD 0.0101
+        ... epoha 104/132 · KD 0.0101
+        ... epoha 130/132 · KD 0.0100
+   5  MORPH     5.1191  61,718,323    0.8616    0.9001   7.9%   0.0101  <- NAJBOLJI
+        rez −0.0882 (106% cilja, 1 krug(a)) · 13 kanala
+        ... epoha  26/132 · KD 0.0119
+        ... epoha  52/132 · KD 0.0116
+        ... epoha  78/132 · KD 0.0117
+        ... epoha 104/132 · KD 0.0118
+        ... epoha 130/132 · KD 0.0119
+   6  MORPH     5.0316  60,672,835    0.8757    0.9001   9.5%   0.0119  <- NAJBOLJI
+        rez −0.0875 (105% cilja, 1 krug(a)) · 12 kanala
+        ... epoha  26/132 · KD 0.0132
+        ... epoha  52/132 · KD 0.0132
+        ... epoha  78/132 · KD 0.0132
+        ... epoha 104/132 · KD 0.0133
+        ... epoha 130/132 · KD 0.0137
+   7  MORPH     4.9434  59,625,973    0.8756    0.9046  11.1%   0.0137  <- NAJBOLJI
+        rez −0.0882 (106% cilja, 1 krug(a)) · 14 kanala
+        ... epoha  26/132 · KD 0.0157
+        ... epoha  52/132 · KD 0.0155
+        ... epoha  78/132 · KD 0.0149
+        ... epoha 104/132 · KD 0.0149
+        ... epoha 130/132 · KD 0.0154
+   8  MORPH     4.8560  58,580,509    0.8663    0.9034  12.7%   0.0154  <- NAJBOLJI
+        rez −0.0874 (105% cilja, 1 krug(a)) · 12 kanala
+        ... epoha  26/132 · KD 0.0170
+        ... epoha  52/132 · KD 0.0180
+        ... epoha  78/132 · KD 0.0174
+        ... epoha 104/132 · KD 0.0177
+        ... epoha 130/132 · KD 0.0181
+   9  MORPH     4.7679  57,533,056    0.8665    0.9035  14.2%   0.0181  <- NAJBOLJI
+        rez −0.0881 (106% cilja, 1 krug(a)) · 15 kanala
+        ... epoha  26/132 · KD 0.0174
+        ... epoha  52/132 · KD 0.0174
+        ... epoha  78/132 · KD 0.0172
+        ... epoha 104/132 · KD 0.0175
+        ... epoha 130/132 · KD 0.0183
+  10  MORPH     4.6806  56,486,326    0.8618    0.8989  15.8%   0.0184  <- NAJBOLJI
+        rez −0.0874 (105% cilja, 1 krug(a)) · 14 kanala
+        ... epoha  26/132 · KD 0.0207
+        ... epoha  52/132 · KD 0.0203
+        ... epoha  78/132 · KD 0.0198
+        ... epoha 104/132 · KD 0.0199
+        ... epoha 130/132 · KD 0.0206
+  11  MORPH     4.5926  55,440,283    0.8574    0.8909  17.4%   0.0207  <- NAJBOLJI
+        rez −0.0880 (106% cilja, 1 krug(a)) · 13 kanala
+        ... epoha  26/132 · KD 0.0213
+        ... epoha  52/132 · KD 0.0225
+        ... epoha  78/132 · KD 0.0224
+        ... epoha 104/132 · KD 0.0226
+        ... epoha 130/132 · KD 0.0235
+  12  MORPH     4.5053  54,394,264    0.8667    0.8920  19.0%   0.0237  <- NAJBOLJI
+        rez −0.0873 (105% cilja, 1 krug(a)) · 13 kanala
+        ... epoha  26/132 · KD 0.0237
+        ... epoha  52/132 · KD 0.0258
+        ... epoha  78/132 · KD 0.0266
+        ... epoha 104/132 · KD 0.0265
+        ... epoha 130/132 · KD 0.0275
+  13  MORPH     4.4174  53,348,884    0.8392         —  20.5%   0.0278
+        rez −0.0879 (105% cilja, 1 krug(a)) · 12 kanala
+        ... epoha  26/132 · KD 0.0148
+        ... epoha  52/132 · KD 0.0158
+        ... epoha  78/132 · KD 0.0163
+        ... epoha 104/132 · KD 0.0166
+        ... epoha 130/132 · KD 0.0171
+  14     FT     4.4174  53,348,884    0.8437         —  20.5%   0.0174
+        oporavak: 1/5 epoha · bez novog najboljeg 0/2
+        ... epoha  26/132 · KD 0.0124
+        ... epoha  52/132 · KD 0.0133
+        ... epoha  78/132 · KD 0.0138
+        ... epoha 104/132 · KD 0.0162
+        ... epoha 130/132 · KD 0.0220
+  15     FT     4.4174  53,348,884    0.8438         —  20.5%   0.0224
+        oporavak: 2/5 epoha · bez novog najboljeg 0/2
+        ... epoha  26/132 · KD 0.0299
+        ... epoha  52/132 · KD 0.0291
+        ... epoha  78/132 · KD 0.0294
+        ... epoha 104/132 · KD 0.0302
+        ... epoha 130/132 · KD 0.0307
+  16     FT     4.4174  53,348,884    0.8529    0.8874  20.5%   0.0307  <- NAJBOLJI
+        oporavak: 0/5 epoha · bez novog najboljeg 0/2
+        ... epoha  26/132 · KD 0.0303
+        ... epoha  52/132 · KD 0.0275
+        ... epoha  78/132 · KD 0.0271
+        ... epoha 104/132 · KD 0.0265
+        ... epoha 130/132 · KD 0.0263
+  17  MORPH     4.3302  52,302,901    0.8576    0.8990  22.1%   0.0263  <- NAJBOLJI
+        rez −0.0872 (105% cilja, 1 krug(a)) · 13 kanala
+        ... epoha  26/132 · KD 0.0291
+        ... epoha  52/132 · KD 0.0292
+        ... epoha  78/132 · KD 0.0292
+        ... epoha 104/132 · KD 0.0294
+        ... epoha 130/132 · KD 0.0297
+  18  MORPH     4.2424  51,257,533    0.8439         —  23.7%   0.0297
+        rez −0.0878 (105% cilja, 1 krug(a)) · 12 kanala
+        ... epoha  26/132 · KD 0.0163
+        ... epoha  52/132 · KD 0.0172
+        ... epoha  78/132 · KD 0.0178
+        ... epoha 104/132 · KD 0.0186
+        ... epoha 130/132 · KD 0.0215
+  19     FT     4.2424  51,257,533    0.8616    0.8861  23.7%   0.0216  <- NAJBOLJI
+        oporavak: 0/5 epoha · bez novog najboljeg 0/2
+        ... epoha  26/132 · KD 0.0420
+        ... epoha  52/132 · KD 0.0415
+        ... epoha  78/132 · KD 0.0391
+        ... epoha 104/132 · KD 0.0379
+        ... epoha 130/132 · KD 0.0379
+  20  MORPH     4.1552  50,212,165    0.8438         —  25.3%   0.0377
+        rez −0.0872 (105% cilja, 1 krug(a)) · 12 kanala
+        ... epoha  26/132 · KD 0.0214
+        ... epoha  52/132 · KD 0.0211
+        ... epoha  78/132 · KD 0.0207
+        ... epoha 104/132 · KD 0.0201
+        ... epoha 130/132 · KD 0.0208
+  21     FT     4.1552  50,212,165    0.8392         —  25.3%   0.0210
+        oporavak: 1/5 epoha · bez novog najboljeg 1/2
+        ... epoha  26/132 · KD 0.0286
+        ... epoha  52/132 · KD 0.0345
+        ... epoha  78/132 · KD 0.0389
+        ... epoha 104/132 · KD 0.0396
+        ... epoha 130/132 · KD 0.0392
+  22     FT     4.1552  50,212,165    0.8437         —  25.3%   0.0393
+        oporavak: 2/5 epoha · bez novog najboljeg 2/2
+------------------------------------------------------------------------------
+FAZA 1 GOTOVA · razlog: oporavak stagnira (2 FT epohe bez novog najboljeg)
+  isporuceno: korak 19 · GFLOPs 5.5594 -> 4.2424 (23.7% rez)
+  f1_macro = 0.8861 (prag 0.8649) — POTVRDENO na punom val skupu
+  spremljeno: /home/datice/data/slinna/dipl/slinn/runs/sst2_distilbert_20260907_105930/best_quality_model.pt
+
+### KVANTIZACIJA · best_quality_model
+    100/2000 · KD 0.1969
+    200/2000 · KD 0.1579
+    300/2000 · KD 0.1403
+  f1_macro 0.8861 -> 0.8885  (+0.0025) · 300 koraka · kraj: patience
+==============================================================================
+KVANTIZACIJA GOTOVA · 1 verzija · FP32 glave izvan kvantizacije: 3
+  verzija                  moduli korakaf1_macro prije     poslije   razlika
+  best_quality_model_qat.pt     37    300      0.8861      0.8885   +0.0025
+==============================================================================
+izlazi: /home/datice/data/slinna/dipl/slinn/runs/sst2_distilbert_20260907_105930
+   best_quality_model.pt
+   best_quality_model_qat.pt
+   trajectory.jsonl
+   worker.log
+==============================================================================

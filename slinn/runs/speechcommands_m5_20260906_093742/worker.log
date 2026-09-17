@@ -1,0 +1,656 @@
+==============================================================================
+izlazi ovog runa: /home/tomi/code/dipl/slinn/runs/speechcommands_m5_20260906_093742
+SliNN · FAZA 1 + FAZA 2 · model.pt
+  priprema (model, adapter, task, batchevi, teacher cache, metrika)...
+[detekcija] nema imena razreda: ocekujem `names:` u /home/tomi/code/dipl/baseline_models/speechcommands_m5/data/dataset.yaml (ili data.yaml). Bez njih se ne zna sto koji indeks u oznakama znaci.
+[ulaz] duljina 8000 (bilo 48000, izvor: input.json) · frekvencija 8000 Hz (deklarirano)
+[dataset] UPOZORENJE: split 'AUTO' nije nadjen u putanjama pod /home/tomi/code/dipl/baseline_models/speechcommands_m5/data/SpeechCommands/speech_commands_v0.02 -> koristi se CIJELO stablo. Metrika i KD ulazi tada gledaju iste datoteke.
+  batch TRAIN=64 (proba VRAM-a)
+[metrika] classes.json: 36 foldera -> 12 razreda.
+  task=classification · metrika=f1_macro · tolerancija=95% · batch=64 · epoha=1158 batcheva
+  baseline f1_macro=0.7075 -> prag 0.6721
+  monitor  f1_macro=0.7096 -> prag 0.6741  (fiksni podskup 25% val skupa)
+  parametri faza (izvor: slinn/settings.py):
+  zajednicko (obje faze):
+    F1_PRUNE_STEP_FRAC=0.015   F2_PRUNE_STEP_FRAC=0.05   PHASE2_PRUNE_LAYER_CAP=0.15
+    PHASE2_MIN_ALIVE=16   PHASE2_PRUNE_ROUNDS=4   PHASE2_PRUNE_SLACK=0.02
+    PRUNE_IMPORTANCE=grad   PRUNE_IMP_NORM=none   PHASE2_REINVEST_FRAC=0.15
+    PHASE2_GROW_DOM=4.0   PHASE2_GROW_MAX_LAYERS=3   PHASE2_CHURN_COOLDOWN=2
+    ALIGN_M=32   METRIC_MONITOR_FRAC=0.25   TRAIN_BATCH=8
+    IMP_BATCHES=3   DEV_DATA_SUBSET=None
+  faza 1:
+    F1_MAX_STEPS=200   F1_FT_MAX_EPOCHS=5   F1_FT_PATIENCE=2
+    FT_RECOVERY_FRAC=0.95
+  faza 2:
+    F2_CHECKPOINTS=2   F2_FT_MAX_EPOCHS=3   F2_FT_PATIENCE=1
+    F2_MIN_YIELD=0.8   F2_YIELD_FT_EPOCHS=3   F2_MAX_STEPS_PER_RUNG=200
+==============================================================================
+
+### FAZA 1 — najmanji model iznad praga
+  granice oporavka: max 5 FT epoha / patience 2 (PO EPIZODI)
+ kor    mod     GFLOPs      params   monitor      puna    rez       KD
+------------------------------------------------------------------------------
+   0   base     0.0316     560,140    0.7096    0.7075   0.0%        —
+        ... epoha 231/1158 · KD 0.0554
+        ... epoha 462/1158 · KD 0.0300
+        ... epoha 693/1158 · KD 0.0205
+        ... epoha 924/1158 · KD 0.0157
+        ... epoha 1155/1158 · KD 0.0128
+   1  MORPH     0.0310     553,609    0.7096    0.7076   1.8%   0.0127  <- NAJBOLJI
+        rez −0.0006 (123% cilja, 1 krug(a)) · 5 kanala
+        ... epoha 231/1158 · KD 0.0333
+        ... epoha 462/1158 · KD 0.0196
+        ... epoha 693/1158 · KD 0.0145
+        ... epoha 924/1158 · KD 0.0119
+        ... epoha 1155/1158 · KD 0.0102
+   2  MORPH     0.0304     547,102    0.7099    0.7074   3.7%   0.0102  <- NAJBOLJI
+        rez −0.0006 (123% cilja, 1 krug(a)) · 5 kanala
+        ... epoha 231/1158 · KD 0.0102
+        ... epoha 462/1158 · KD 0.0079
+        ... epoha 693/1158 · KD 0.0068
+        ... epoha 924/1158 · KD 0.0063
+        ... epoha 1155/1158 · KD 0.0059
+   3  MORPH     0.0299     520,516    0.7106    0.7081   5.3%   0.0059  <- NAJBOLJI
+        rez −0.0005 (105% cilja, 1 krug(a)) · 14 kanala
+        ... epoha 231/1158 · KD 0.0175
+        ... epoha 462/1158 · KD 0.0141
+        ... epoha 693/1158 · KD 0.0125
+        ... epoha 924/1158 · KD 0.0116
+        ... epoha 1155/1158 · KD 0.0110
+   4  MORPH     0.0294     493,930    0.7097    0.7077   6.8%   0.0110  <- NAJBOLJI
+        rez −0.0005 (105% cilja, 1 krug(a)) · 14 kanala
+        ... epoha 231/1158 · KD 0.0430
+        ... epoha 462/1158 · KD 0.0301
+        ... epoha 693/1158 · KD 0.0248
+        ... epoha 924/1158 · KD 0.0220
+        ... epoha 1155/1158 · KD 0.0201
+   5  MORPH     0.0288     485,896    0.7140    0.7114   8.7%   0.0201  <- NAJBOLJI
+        rez −0.0006 (126% cilja, 1 krug(a)) · 6 kanala
+        ... epoha 231/1158 · KD 0.0434
+        ... epoha 462/1158 · KD 0.0317
+        ... epoha 693/1158 · KD 0.0269
+        ... epoha 924/1158 · KD 0.0244
+        ... epoha 1155/1158 · KD 0.0227
+   6  MORPH     0.0283     479,785    0.7110    0.7089  10.5%   0.0227  <- NAJBOLJI
+        rez −0.0006 (118% cilja, 1 krug(a)) · 5 kanala
+        ... epoha 231/1158 · KD 0.0403
+        ... epoha 462/1158 · KD 0.0312
+        ... epoha 693/1158 · KD 0.0273
+        ... epoha 924/1158 · KD 0.0251
+        ... epoha 1155/1158 · KD 0.0238
+   7  MORPH     0.0278     475,561    0.7068    0.7053  12.2%   0.0237  <- NAJBOLJI
+        rez −0.0005 (111% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.0598
+        ... epoha 462/1158 · KD 0.0444
+        ... epoha 693/1158 · KD 0.0384
+        ... epoha 924/1158 · KD 0.0351
+        ... epoha 1155/1158 · KD 0.0329
+   8  MORPH     0.0272     471,337    0.7079    0.7064  13.8%   0.0329  <- NAJBOLJI
+        rez −0.0005 (111% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.0759
+        ... epoha 462/1158 · KD 0.0569
+        ... epoha 693/1158 · KD 0.0492
+        ... epoha 924/1158 · KD 0.0453
+        ... epoha 1155/1158 · KD 0.0425
+   9  MORPH     0.0267     467,113    0.7103    0.7079  15.5%   0.0425  <- NAJBOLJI
+        rez −0.0005 (111% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1072
+        ... epoha 462/1158 · KD 0.0881
+        ... epoha 693/1158 · KD 0.0753
+        ... epoha 924/1158 · KD 0.0679
+        ... epoha 1155/1158 · KD 0.0634
+  10  MORPH     0.0262     462,889    0.7089    0.7072  17.1%   0.0633  <- NAJBOLJI
+        rez −0.0005 (111% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.0674
+        ... epoha 462/1158 · KD 0.0571
+        ... epoha 693/1158 · KD 0.0522
+        ... epoha 924/1158 · KD 0.0493
+        ... epoha 1155/1158 · KD 0.0471
+  11  MORPH     0.0257     433,657    0.7062    0.7040  18.7%   0.0471  <- NAJBOLJI
+        rez −0.0005 (106% cilja, 1 krug(a)) · 16 kanala
+        ... epoha 231/1158 · KD 0.0805
+        ... epoha 462/1158 · KD 0.0700
+        ... epoha 693/1158 · KD 0.0636
+        ... epoha 924/1158 · KD 0.0600
+        ... epoha 1155/1158 · KD 0.0574
+  12  MORPH     0.0251     405,289    0.7045    0.7021  20.6%   0.0574  <- NAJBOLJI
+        rez −0.0006 (126% cilja, 1 krug(a)) · 16 kanala
+        ... epoha 231/1158 · KD 0.1365
+        ... epoha 462/1158 · KD 0.1096
+        ... epoha 693/1158 · KD 0.0996
+        ... epoha 924/1158 · KD 0.0940
+        ... epoha 1155/1158 · KD 0.0877
+  13  MORPH     0.0245     400,226    0.7138    0.7112  22.4%   0.0877  <- NAJBOLJI
+        rez −0.0006 (117% cilja, 1 krug(a)) · 5 kanala
+        ... epoha 231/1158 · KD 0.0775
+        ... epoha 462/1158 · KD 0.0707
+        ... epoha 693/1158 · KD 0.0671
+        ... epoha 924/1158 · KD 0.0651
+        ... epoha 1155/1158 · KD 0.0635
+  14  MORPH     0.0240     397,005    0.7043    0.7018  24.0%   0.0635  <- NAJBOLJI
+        rez −0.0005 (110% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1049
+        ... epoha 462/1158 · KD 0.0917
+        ... epoha 693/1158 · KD 0.0854
+        ... epoha 924/1158 · KD 0.0818
+        ... epoha 1155/1158 · KD 0.0791
+  15  MORPH     0.0235     368,109    0.7029    0.7011  25.6%   0.0791  <- NAJBOLJI
+        rez −0.0005 (102% cilja, 1 krug(a)) · 16 kanala
+        ... epoha 231/1158 · KD 0.1560
+        ... epoha 462/1158 · KD 0.1292
+        ... epoha 693/1158 · KD 0.1185
+        ... epoha 924/1158 · KD 0.1118
+        ... epoha 1155/1158 · KD 0.1069
+  16  MORPH     0.0230     340,158    0.7049    0.7017  27.4%   0.1069  <- NAJBOLJI
+        rez −0.0006 (121% cilja, 1 krug(a)) · 16 kanala
+        ... epoha 231/1158 · KD 0.2259
+        ... epoha 462/1158 · KD 0.1737
+        ... epoha 693/1158 · KD 0.1513
+        ... epoha 924/1158 · KD 0.1391
+        ... epoha 1155/1158 · KD 0.1310
+  17  MORPH     0.0225     336,714    0.7010    0.6989  28.9%   0.1310  <- NAJBOLJI
+        rez −0.0005 (101% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.2653
+        ... epoha 462/1158 · KD 0.2075
+        ... epoha 693/1158 · KD 0.1812
+        ... epoha 924/1158 · KD 0.1663
+        ... epoha 1155/1158 · KD 0.1562
+  18  MORPH     0.0220     333,270    0.7006    0.6983  30.4%   0.1562  <- NAJBOLJI
+        rez −0.0005 (101% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1356
+        ... epoha 462/1158 · KD 0.1226
+        ... epoha 693/1158 · KD 0.1165
+        ... epoha 924/1158 · KD 0.1131
+        ... epoha 1155/1158 · KD 0.1104
+  19  MORPH     0.0215     329,826    0.7055    0.7028  31.9%   0.1104  <- NAJBOLJI
+        rez −0.0005 (101% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1517
+        ... epoha 462/1158 · KD 0.1358
+        ... epoha 693/1158 · KD 0.1291
+        ... epoha 924/1158 · KD 0.1252
+        ... epoha 1155/1158 · KD 0.1225
+  20  MORPH     0.0210     326,382    0.7045    0.7024  33.4%   0.1225  <- NAJBOLJI
+        rez −0.0005 (101% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1724
+        ... epoha 462/1158 · KD 0.1525
+        ... epoha 693/1158 · KD 0.1433
+        ... epoha 924/1158 · KD 0.1385
+        ... epoha 1155/1158 · KD 0.1349
+  21  MORPH     0.0206     322,938    0.7055    0.7035  34.9%   0.1349  <- NAJBOLJI
+        rez −0.0005 (101% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.2227
+        ... epoha 462/1158 · KD 0.1884
+        ... epoha 693/1158 · KD 0.1733
+        ... epoha 924/1158 · KD 0.1660
+        ... epoha 1155/1158 · KD 0.1600
+  22  MORPH     0.0201     319,494    0.7031    0.7007  36.4%   0.1600  <- NAJBOLJI
+        rez −0.0005 (101% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.2333
+        ... epoha 462/1158 · KD 0.1974
+        ... epoha 693/1158 · KD 0.1825
+        ... epoha 924/1158 · KD 0.1749
+        ... epoha 1155/1158 · KD 0.1689
+  23  MORPH     0.0196     316,645    0.7029    0.7013  37.9%   0.1689  <- NAJBOLJI
+        rez −0.0005 (102% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1350
+        ... epoha 462/1158 · KD 0.1309
+        ... epoha 693/1158 · KD 0.1294
+        ... epoha 924/1158 · KD 0.1288
+        ... epoha 1155/1158 · KD 0.1279
+  24  MORPH     0.0191     314,998    0.6969    0.6962  39.5%   0.1280  <- NAJBOLJI
+        rez −0.0005 (103% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1381
+        ... epoha 462/1158 · KD 0.1340
+        ... epoha 693/1158 · KD 0.1328
+        ... epoha 924/1158 · KD 0.1327
+        ... epoha 1155/1158 · KD 0.1321
+  25  MORPH     0.0186     313,946    0.6997    0.6989  41.0%   0.1322  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1365
+        ... epoha 462/1158 · KD 0.1337
+        ... epoha 693/1158 · KD 0.1330
+        ... epoha 924/1158 · KD 0.1333
+        ... epoha 1155/1158 · KD 0.1332
+  26  MORPH     0.0181     312,894    0.7005    0.6998  42.6%   0.1333  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1260
+        ... epoha 462/1158 · KD 0.1267
+        ... epoha 693/1158 · KD 0.1277
+        ... epoha 924/1158 · KD 0.1288
+        ... epoha 1155/1158 · KD 0.1293
+  27  MORPH     0.0176     311,842    0.6976    0.6962  44.2%   0.1294  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1332
+        ... epoha 462/1158 · KD 0.1330
+        ... epoha 693/1158 · KD 0.1337
+        ... epoha 924/1158 · KD 0.1344
+        ... epoha 1155/1158 · KD 0.1347
+  28  MORPH     0.0172     310,790    0.7006    0.6990  45.7%   0.1348  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1281
+        ... epoha 462/1158 · KD 0.1299
+        ... epoha 693/1158 · KD 0.1316
+        ... epoha 924/1158 · KD 0.1328
+        ... epoha 1155/1158 · KD 0.1335
+  29  MORPH     0.0167     309,738    0.6982    0.6969  47.3%   0.1336  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1414
+        ... epoha 462/1158 · KD 0.1402
+        ... epoha 693/1158 · KD 0.1409
+        ... epoha 924/1158 · KD 0.1414
+        ... epoha 1155/1158 · KD 0.1417
+  30  MORPH     0.0162     308,686    0.6994    0.6985  48.8%   0.1418  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1717
+        ... epoha 462/1158 · KD 0.1647
+        ... epoha 693/1158 · KD 0.1627
+        ... epoha 924/1158 · KD 0.1614
+        ... epoha 1155/1158 · KD 0.1608
+  31  MORPH     0.0157     292,689    0.7005    0.6993  50.4%   0.1609  <- NAJBOLJI
+        rez −0.0005 (100% cilja, 1 krug(a)) · 11 kanala
+        ... epoha 231/1158 · KD 0.2505
+        ... epoha 462/1158 · KD 0.2244
+        ... epoha 693/1158 · KD 0.2144
+        ... epoha 924/1158 · KD 0.2084
+        ... epoha 1155/1158 · KD 0.2043
+  32  MORPH     0.0152     260,028    0.6972    0.6973  51.9%   0.2043  <- NAJBOLJI
+        rez −0.0005 (102% cilja, 1 krug(a)) · 19 kanala
+        ... epoha 231/1158 · KD 0.2126
+        ... epoha 462/1158 · KD 0.2015
+        ... epoha 693/1158 · KD 0.1974
+        ... epoha 924/1158 · KD 0.1951
+        ... epoha 1155/1158 · KD 0.1932
+  33  MORPH     0.0146     252,100    0.6997    0.6988  53.8%   0.1932  <- NAJBOLJI
+        rez −0.0006 (125% cilja, 1 krug(a)) · 8 kanala
+        ... epoha 231/1158 · KD 0.1886
+        ... epoha 462/1158 · KD 0.1843
+        ... epoha 693/1158 · KD 0.1831
+        ... epoha 924/1158 · KD 0.1826
+        ... epoha 1155/1158 · KD 0.1822
+  34  MORPH     0.0141     251,048    0.7009    0.7003  55.3%   0.1823  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1724
+        ... epoha 462/1158 · KD 0.1737
+        ... epoha 693/1158 · KD 0.1753
+        ... epoha 924/1158 · KD 0.1762
+        ... epoha 1155/1158 · KD 0.1768
+  35  MORPH     0.0136     249,996    0.6970    0.6962  56.9%   0.1769  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1814
+        ... epoha 462/1158 · KD 0.1830
+        ... epoha 693/1158 · KD 0.1845
+        ... epoha 924/1158 · KD 0.1851
+        ... epoha 1155/1158 · KD 0.1856
+  36  MORPH     0.0131     248,944    0.6976    0.6967  58.4%   0.1858  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.2400
+        ... epoha 462/1158 · KD 0.2260
+        ... epoha 693/1158 · KD 0.2205
+        ... epoha 924/1158 · KD 0.2174
+        ... epoha 1155/1158 · KD 0.2151
+  37  MORPH     0.0126     247,892    0.6961    0.6948  60.0%   0.2152  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.1852
+        ... epoha 462/1158 · KD 0.1863
+        ... epoha 693/1158 · KD 0.1877
+        ... epoha 924/1158 · KD 0.1883
+        ... epoha 1155/1158 · KD 0.1888
+  38  MORPH     0.0121     246,840    0.6962    0.6949  61.6%   0.1889  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.2090
+        ... epoha 462/1158 · KD 0.2067
+        ... epoha 693/1158 · KD 0.2062
+        ... epoha 924/1158 · KD 0.2060
+        ... epoha 1155/1158 · KD 0.2061
+  39  MORPH     0.0117     245,788    0.6987    0.6981  63.1%   0.2062  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.2222
+        ... epoha 462/1158 · KD 0.2196
+        ... epoha 693/1158 · KD 0.2187
+        ... epoha 924/1158 · KD 0.2183
+        ... epoha 1155/1158 · KD 0.2179
+  40  MORPH     0.0112     244,736    0.7051    0.7043  64.7%   0.2180  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.3649
+        ... epoha 462/1158 · KD 0.3251
+        ... epoha 693/1158 · KD 0.3090
+        ... epoha 924/1158 · KD 0.2996
+        ... epoha 1155/1158 · KD 0.2932
+  41  MORPH     0.0107     212,075    0.6945    0.6941  66.2%   0.2932  <- NAJBOLJI
+        rez −0.0005 (102% cilja, 1 krug(a)) · 19 kanala
+        ... epoha 231/1158 · KD 0.5584
+        ... epoha 462/1158 · KD 0.4826
+        ... epoha 693/1158 · KD 0.4428
+        ... epoha 924/1158 · KD 0.4199
+        ... epoha 1155/1158 · KD 0.4050
+  42  MORPH     0.0101     189,202    0.7028    0.7021  68.0%   0.4049  <- NAJBOLJI
+        rez −0.0006 (122% cilja, 1 krug(a)) · 15 kanala
+        ... epoha 231/1158 · KD 0.3258
+        ... epoha 462/1158 · KD 0.3072
+        ... epoha 693/1158 · KD 0.2972
+        ... epoha 924/1158 · KD 0.2922
+        ... epoha 1155/1158 · KD 0.2891
+  43  MORPH  9.605e-03     188,150    0.7028    0.7011  69.6%   0.2892  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.3724
+        ... epoha 462/1158 · KD 0.3480
+        ... epoha 693/1158 · KD 0.3352
+        ... epoha 924/1158 · KD 0.3268
+        ... epoha 1155/1158 · KD 0.3221
+  44  MORPH  9.086e-03     185,379    0.7007    0.6977  71.2%   0.3222  <- NAJBOLJI
+        rez −0.0005 (109% cilja, 1 krug(a)) · 5 kanala
+        ... epoha 231/1158 · KD 0.3613
+        ... epoha 462/1158 · KD 0.3376
+        ... epoha 693/1158 · KD 0.3265
+        ... epoha 924/1158 · KD 0.3208
+        ... epoha 1155/1158 · KD 0.3165
+  45  MORPH  8.593e-03     184,327    0.7039    0.7013  72.8%   0.3166  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.3473
+        ... epoha 462/1158 · KD 0.3303
+        ... epoha 693/1158 · KD 0.3223
+        ... epoha 924/1158 · KD 0.3186
+        ... epoha 1155/1158 · KD 0.3157
+  46  MORPH  8.100e-03     183,275    0.7098    0.7074  74.4%   0.3158  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.3549
+        ... epoha 462/1158 · KD 0.3368
+        ... epoha 693/1158 · KD 0.3287
+        ... epoha 924/1158 · KD 0.3240
+        ... epoha 1155/1158 · KD 0.3212
+  47  MORPH  7.607e-03     182,223    0.7021    0.7013  75.9%   0.3213  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.4249
+        ... epoha 462/1158 · KD 0.3889
+        ... epoha 693/1158 · KD 0.3774
+        ... epoha 924/1158 · KD 0.3702
+        ... epoha 1155/1158 · KD 0.3642
+  48  MORPH  7.114e-03     181,171    0.6898    0.6888  77.5%   0.3643  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.8167
+        ... epoha 462/1158 · KD 0.6723
+        ... epoha 693/1158 · KD 0.6125
+        ... epoha 924/1158 · KD 0.5765
+        ... epoha 1155/1158 · KD 0.5500
+  49  MORPH  6.621e-03     180,119    0.6984    0.6985  79.0%   0.5498  <- NAJBOLJI
+        rez −0.0005 (104% cilja, 1 krug(a)) · 4 kanala
+        ... epoha 231/1158 · KD 0.5691
+        ... epoha 462/1158 · KD 0.5159
+        ... epoha 693/1158 · KD 0.4897
+        ... epoha 924/1158 · KD 0.4739
+        ... epoha 1155/1158 · KD 0.4630
+  50  MORPH  6.145e-03     164,122    0.6939    0.6940  80.6%   0.4630  <- NAJBOLJI
+        rez −0.0005 (100% cilja, 1 krug(a)) · 11 kanala
+        ... epoha 231/1158 · KD 0.9170
+        ... epoha 462/1158 · KD 0.7569
+        ... epoha 693/1158 · KD 0.6928
+        ... epoha 924/1158 · KD 0.6545
+        ... epoha 1155/1158 · KD 0.6288
+  51  MORPH  5.593e-03     142,968    0.6851    0.6826  82.3%   0.6287  <- NAJBOLJI
+        rez −0.0006 (116% cilja, 1 krug(a)) · 14 kanala
+        ... epoha 231/1158 · KD 0.7427
+        ... epoha 462/1158 · KD 0.6648
+        ... epoha 693/1158 · KD 0.6278
+        ... epoha 924/1158 · KD 0.6052
+        ... epoha 1155/1158 · KD 0.5905
+  52  MORPH  5.067e-03     123,533    0.6962    0.6956  84.0%   0.5905  <- NAJBOLJI
+        rez −0.0005 (111% cilja, 1 krug(a)) · 13 kanala
+        ... epoha 231/1158 · KD 1.2428
+        ... epoha 462/1158 · KD 1.0293
+        ... epoha 693/1158 · KD 0.9270
+        ... epoha 924/1158 · KD 0.8797
+        ... epoha 1155/1158 · KD 0.8415
+  53  MORPH  4.535e-03     107,050    0.6869    0.6858  85.6%   0.8411  <- NAJBOLJI
+        rez −0.0005 (112% cilja, 1 krug(a)) · 13 kanala
+        ... epoha 231/1158 · KD 1.2489
+        ... epoha 462/1158 · KD 1.0608
+        ... epoha 693/1158 · KD 0.9671
+        ... epoha 924/1158 · KD 0.9158
+        ... epoha 1155/1158 · KD 0.8777
+  54  MORPH  3.969e-03      92,575    0.6869    0.6869  87.4%   0.8775  <- NAJBOLJI
+        rez −0.0006 (119% cilja, 1 krug(a)) · 11 kanala
+        ... epoha 231/1158 · KD 1.4039
+        ... epoha 462/1158 · KD 1.1896
+        ... epoha 693/1158 · KD 1.0893
+        ... epoha 924/1158 · KD 1.0245
+        ... epoha 1155/1158 · KD 0.9782
+  55  MORPH  3.453e-03      81,526    0.6790    0.6771  89.1%   0.9781  <- NAJBOLJI
+        rez −0.0005 (109% cilja, 1 krug(a)) · 9 kanala
+        ... epoha 231/1158 · KD 1.6186
+        ... epoha 462/1158 · KD 1.3924
+        ... epoha 693/1158 · KD 1.2786
+        ... epoha 924/1158 · KD 1.2157
+        ... epoha 1155/1158 · KD 1.1656
+  56  MORPH  2.937e-03      70,477    0.6647         —  90.7%   1.1652
+        rez −0.0005 (109% cilja, 1 krug(a)) · 9 kanala
+        ... epoha 231/1158 · KD 0.8864
+        ... epoha 462/1158 · KD 0.8828
+        ... epoha 693/1158 · KD 0.8737
+        ... epoha 924/1158 · KD 0.8765
+        ... epoha 1155/1158 · KD 0.8707
+  57     FT  2.937e-03      70,477    0.6763    0.6746  90.7%   0.8709  <- NAJBOLJI
+        oporavak: 0/5 epoha · bez novog najboljeg 0/2
+        ... epoha 231/1158 · KD 2.1825
+        ... epoha 462/1158 · KD 1.7736
+        ... epoha 693/1158 · KD 1.5937
+        ... epoha 924/1158 · KD 1.4915
+        ... epoha 1155/1158 · KD 1.4122
+  58  MORPH  2.557e-03      60,551    0.6590         —  91.9%   1.4113
+        rez −0.0004 (80% cilja, 1 krug(a)) · 14 kanala
+        ... epoha 231/1158 · KD 1.0193
+        ... epoha 462/1158 · KD 1.0229
+        ... epoha 693/1158 · KD 1.0097
+        ... epoha 924/1158 · KD 1.0125
+        ... epoha 1155/1158 · KD 1.0029
+  59     FT  2.557e-03      60,551    0.6571         —  91.9%   1.0029
+        oporavak: 1/5 epoha · bez novog najboljeg 1/2
+        ... epoha 231/1158 · KD 0.9229
+        ... epoha 462/1158 · KD 0.9351
+        ... epoha 693/1158 · KD 0.9306
+        ... epoha 924/1158 · KD 0.9394
+        ... epoha 1155/1158 · KD 0.9332
+  60     FT  2.557e-03      60,551    0.6674         —  91.9%   0.9332
+        oporavak: 2/5 epoha · bez novog najboljeg 0/2
+        ... epoha 231/1158 · KD 0.8836
+        ... epoha 462/1158 · KD 0.8917
+        ... epoha 693/1158 · KD 0.8878
+        ... epoha 924/1158 · KD 0.8973
+        ... epoha 1155/1158 · KD 0.8944
+  61     FT  2.557e-03      60,551    0.6587         —  91.9%   0.8945
+        oporavak: 3/5 epoha · bez novog najboljeg 1/2
+        ... epoha 231/1158 · KD 0.8480
+        ... epoha 462/1158 · KD 0.8589
+        ... epoha 693/1158 · KD 0.8572
+        ... epoha 924/1158 · KD 0.8685
+        ... epoha 1155/1158 · KD 0.8685
+  62     FT  2.557e-03      60,551    0.6544         —  91.9%   0.8685
+        oporavak: 4/5 epoha · bez novog najboljeg 2/2
+------------------------------------------------------------------------------
+FAZA 1 GOTOVA · razlog: oporavak stagnira (2 FT epohe bez novog najboljeg)
+  isporuceno: korak 57 · GFLOPs 0.0316 -> 2.937e-03 (90.7% rez)
+  f1_macro = 0.6746 (prag 0.6721) — POTVRDENO na punom val skupu
+  spremljeno: /home/tomi/code/dipl/slinn/runs/speechcommands_m5_20260906_093742/best_quality_model.pt
+
+### FAZA 2 — ljestvica do strukturnog minimuma
+  start: izlaz Faze 1 · 2.937e-03 GFLOPs
+  2 verzija · grow 15% (OFF na zadnjoj precki) · FT max 3 / patience 1
+  mjerim strukturni minimum (probni rez svih slojeva na floor)...
+   kor  precka     GFLOPs      params   metrika       cilj       KD
+------------------------------------------------------------------------------
+     0       0  2.937e-03      70,477         —          —        —
+        ... epoha 231/1158 · KD 1.8473
+        ... epoha 462/1158 · KD 1.4656
+        ... epoha 693/1158 · KD 1.2840
+        ... epoha 924/1158 · KD 1.1864
+        ... epoha 1155/1158 · KD 1.1201
+     1       1  2.765e-03      66,794    0.6806  2.347e-03   1.1196
+        rez −0.0002 (117% cilja, 1 krug(a)) · 3 kanala
+        ... epoha 231/1158 · KD 0.8541
+        ... epoha 462/1158 · KD 0.8519
+        ... epoha 693/1158 · KD 0.8403
+        ... epoha 924/1158 · KD 0.8371
+        ... epoha 1155/1158 · KD 0.8287
+   1.2       1  2.765e-03      66,794    0.6809  2.347e-03   0.8288
+        ... epoha 231/1158 · KD 0.7947
+        ... epoha 462/1158 · KD 0.7957
+        ... epoha 693/1158 · KD 0.7912
+        ... epoha 924/1158 · KD 0.7916
+        ... epoha 1155/1158 · KD 0.7869
+   1.3       1  2.765e-03      66,794    0.6807  2.347e-03   0.7870
+        ... epoha 231/1158 · KD 1.6083
+        ... epoha 462/1158 · KD 1.3759
+        ... epoha 693/1158 · KD 1.2688
+        ... epoha 924/1158 · KD 1.2115
+        ... epoha 1155/1158 · KD 1.1633
+     2       1  2.615e-03      59,537    0.6637  2.347e-03   1.1631
+        rez −0.0001 (102% cilja, 1 krug(a)) · 7 kanala
+        ... epoha 231/1158 · KD 0.9233
+        ... epoha 462/1158 · KD 0.9139
+        ... epoha 693/1158 · KD 0.9060
+        ... epoha 924/1158 · KD 0.9098
+        ... epoha 1155/1158 · KD 0.9075
+   2.2       1  2.615e-03      59,537    0.6803  2.347e-03   0.9076
+        ... epoha 231/1158 · KD 0.8530
+        ... epoha 462/1158 · KD 0.8581
+        ... epoha 693/1158 · KD 0.8603
+        ... epoha 924/1158 · KD 0.8663
+        ... epoha 1155/1158 · KD 0.8632
+   2.3       1  2.615e-03      59,537    0.6771  2.347e-03   0.8633
+        ... epoha 231/1158 · KD 1.4249
+        ... epoha 462/1158 · KD 1.2670
+        ... epoha 693/1158 · KD 1.1783
+        ... epoha 924/1158 · KD 1.1364
+        ... epoha 1155/1158 · KD 1.1008
+     3       1  2.469e-03      52,352    0.6865  2.347e-03   1.1005
+        rez −0.0001 (99% cilja, 1 krug(a)) · 7 kanala
+        ... epoha 231/1158 · KD 0.9084
+        ... epoha 462/1158 · KD 0.9129
+        ... epoha 693/1158 · KD 0.9085
+        ... epoha 924/1158 · KD 0.9137
+        ... epoha 1155/1158 · KD 0.9098
+   3.2       1  2.469e-03      52,352    0.6612  2.347e-03   0.9099
+        ... epoha 231/1158 · KD 1.7649
+        ... epoha 462/1158 · KD 1.5492
+        ... epoha 693/1158 · KD 1.4290
+        ... epoha 924/1158 · KD 1.3589
+        ... epoha 1155/1158 · KD 1.3078
+     4       1  2.336e-03      46,811    0.6759  2.347e-03   1.3072
+        rez −0.0001 (109% cilja, 1 krug(a)) · 7 kanala
+        ... epoha 231/1158 · KD 1.0283
+        ... epoha 462/1158 · KD 1.0272
+        ... epoha 693/1158 · KD 1.0206
+        ... epoha 924/1158 · KD 1.0256
+        ... epoha 1155/1158 · KD 1.0248
+   4.2       1  2.336e-03      46,811    0.6699  2.347e-03   1.0247
+  >>> ckpt_1 · 2.336e-03 GFLOPs · f1_macro=0.6686 · cilj 2.347e-03 DOSEGNUT
+        ... epoha 231/1158 · KD 1.9622
+        ... epoha 462/1158 · KD 1.6808
+        ... epoha 693/1158 · KD 1.5507
+        ... epoha 924/1158 · KD 1.4816
+        ... epoha 1155/1158 · KD 1.4294
+     5       2  2.177e-03      41,132    0.6599  1.758e-03   1.4289
+        rez −0.0002 (108% cilja, 1 krug(a)) · 9 kanala
+        ... epoha 231/1158 · KD 1.1565
+        ... epoha 462/1158 · KD 1.1495
+        ... epoha 693/1158 · KD 1.1415
+        ... epoha 924/1158 · KD 1.1410
+        ... epoha 1155/1158 · KD 1.1357
+   5.2       2  2.177e-03      41,132    0.6739  1.758e-03   1.1357
+        ... epoha 231/1158 · KD 1.0868
+        ... epoha 462/1158 · KD 1.0843
+        ... epoha 693/1158 · KD 1.0816
+        ... epoha 924/1158 · KD 1.0873
+        ... epoha 1155/1158 · KD 1.0863
+   5.3       2  2.177e-03      41,132    0.6800  1.758e-03   1.0863
+        ... epoha 231/1158 · KD 2.2510
+        ... epoha 462/1158 · KD 1.8920
+        ... epoha 693/1158 · KD 1.7411
+        ... epoha 924/1158 · KD 1.6549
+        ... epoha 1155/1158 · KD 1.5883
+     6       2  2.046e-03      37,208    0.6535  1.758e-03   1.5874
+        rez −0.0001 (89% cilja, 1 krug(a)) · 8 kanala
+        ... epoha 231/1158 · KD 1.2565
+        ... epoha 462/1158 · KD 1.2495
+        ... epoha 693/1158 · KD 1.2440
+        ... epoha 924/1158 · KD 1.2439
+        ... epoha 1155/1158 · KD 1.2383
+   6.2       2  2.046e-03      37,208    0.6591  1.758e-03   1.2380
+        ... epoha 231/1158 · KD 1.1742
+        ... epoha 462/1158 · KD 1.1738
+        ... epoha 693/1158 · KD 1.1735
+        ... epoha 924/1158 · KD 1.1806
+        ... epoha 1155/1158 · KD 1.1765
+   6.3       2  2.046e-03      37,208    0.6563  1.758e-03   1.1764
+        ... epoha 231/1158 · KD 1.7572
+        ... epoha 462/1158 · KD 1.5464
+        ... epoha 693/1158 · KD 1.4569
+        ... epoha 924/1158 · KD 1.4057
+        ... epoha 1155/1158 · KD 1.3676
+     7       2  1.974e-03      36,713    0.6613  1.758e-03   1.3670
+        rez −0.0001 (49% cilja, 1 krug(a)) · 5 kanala
+        ... epoha 231/1158 · KD 1.1499
+        ... epoha 462/1158 · KD 1.1543
+        ... epoha 693/1158 · KD 1.1560
+        ... epoha 924/1158 · KD 1.1593
+        ... epoha 1155/1158 · KD 1.1566
+   7.2       2  1.974e-03      36,713    0.6604  1.758e-03   1.1563
+        ... epoha 231/1158 · KD 1.1065
+        ... epoha 462/1158 · KD 1.1142
+        ... epoha 693/1158 · KD 1.1162
+        ... epoha 924/1158 · KD 1.1221
+        ... epoha 1155/1158 · KD 1.1223
+   7.3       2  1.974e-03      36,713    0.6610  1.758e-03   1.1221
+  >>> ckpt_2 · 1.974e-03 GFLOPs · f1_macro=0.6587 · cilj 1.758e-03 PROMASEN
+------------------------------------------------------------------------------
+FAZA 2 GOTOVA · 2.937e-03 -> 1.758e-03 GFLOPs (izmjereno dno)
+  PRIJEVREMENI KRAJ: rez oslobodio 49% trazenog (prag 80%) na 0.0020 GFLOPs
+  (zadnji checkpoint je spremljen nakon 3 zavrsnih FT epoha)
+  verzija       GFLOPs  % starta    f1_macro      cilj
+  ckpt_1     2.336e-03     79.5%      0.6686        OK
+  ckpt_2     1.974e-03     67.2%      0.6587  promasen
+  manifest: /home/tomi/code/dipl/slinn/runs/speechcommands_m5_20260906_093742/ladder.json
+
+### KVANTIZACIJA · best_quality_model
+    100/5000 · KD 1.6163
+    200/5000 · KD 1.4330
+    300/5000 · KD 1.3605
+    400/5000 · KD 1.3030
+  f1_macro 0.6746 -> 0.6686  (-0.0061) · 400 koraka · kraj: patience
+
+### KVANTIZACIJA · ckpt_1
+    100/5000 · KD 1.8461
+    200/5000 · KD 1.6715
+    300/5000 · KD 1.5881
+    400/5000 · KD 1.5289
+    500/5000 · KD 1.4734
+    600/5000 · KD 1.4384
+    700/5000 · KD 1.4134
+  f1_macro 0.6686 -> 0.6731  (+0.0045) · 700 koraka · kraj: patience
+
+### KVANTIZACIJA · ckpt_2
+    100/5000 · KD 2.0378
+    200/5000 · KD 1.8559
+    300/5000 · KD 1.7658
+    400/5000 · KD 1.7061
+    500/5000 · KD 1.6625
+    600/5000 · KD 1.6258
+    700/5000 · KD 1.6029
+  f1_macro 0.6587 -> 0.6762  (+0.0175) · 700 koraka · kraj: patience
+==============================================================================
+KVANTIZACIJA GOTOVA · 3 verzija · FP32 glave izvan kvantizacije: 1
+  verzija                  moduli korakaf1_macro prije     poslije   razlika
+  best_quality_model_qat.pt      4    400      0.6746      0.6686   -0.0061
+  ckpt_1_qat.pt                 4    700      0.6686      0.6731   +0.0045
+  ckpt_2_qat.pt                 4    700      0.6587      0.6762   +0.0175
+==============================================================================
+izlazi: /home/tomi/code/dipl/slinn/runs/speechcommands_m5_20260906_093742
+   best_quality_model.pt
+   best_quality_model_qat.pt
+   ckpt_1.pt
+   ckpt_1_qat.pt
+   ckpt_2.pt
+   ckpt_2_qat.pt
+   ladder.json
+   trajectory.jsonl
+   worker.log
+==============================================================================
